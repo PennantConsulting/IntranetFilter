@@ -1,0 +1,29 @@
+<h2>On Demand</h2>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis, velit non bibendum euismod, lectus lacus semper quam, non porta mi tortor a est. Aliquam erat volutpat. Nunc eu vehicula ligula. In ac risus non turpis dictum eleifend a nec sapien. Maecenas ut libero ultrices, scelerisque nibh sit amet, fringilla lacus. </p>
+
+<div class="well">
+  <form class="form-inline" id="mediaFilter">
+    <input class="span7" type="text" id="inputSearch" [(ngModel)]="searchText" name="searchText" placeholder="Topic, Category, Speaker etc." />
+
+    <select>
+      <option selected="selected">Category</option>
+      <option *ngFor="let category of filterMeta?.categories">{{category}}</option>
+    </select>
+
+    <select [(ngModel)]="searchYear" name="searchYear">
+      <option selected="selected">Year</option>
+      <option *ngFor="let year of filterMeta?.years" [ngValue]="year">{{year}}</option>
+    </select>
+  
+  </form>
+</div>
+
+<div class="mediaResults">
+  <section class="span5 module-typeP mediaModule" *ngFor="let item of items | filter : searchText:searchYear">
+    <img [src]="ImgHost + item.image_url" class="center">
+    <h3><a href="{{ImgHost + item.url}}" class="tp-link-policy">{{item.title}}</a></h3>
+    <p class="mediaDesc">{{item.description}}</p>
+    <span class="mediaDate">{{item.month}}, {{item.year}}</span>
+    <p class="morelink"><a href="{{ImgHost + item.url}}" class="tp-link-policy">More</a><span class="icon-angle-right"></span></p>
+  </section>
+</div>
