@@ -9,7 +9,7 @@ import { FilterPipe } from './filter.pipe';
   providers: [ FilterPipe ]
 })
 export class AppComponent {
-  items:Item[];
+  items: Item[];
   hideSpinner;
   itemResults;
   timeout;
@@ -21,7 +21,7 @@ export class AppComponent {
   updateFilter;
   filteredData;
 
-  constructor(private dataService:MediadataService) {}
+  constructor(private dataService: MediadataService) {}
 
   ngOnInit() {
     this.hideSpinner = false;
@@ -80,14 +80,13 @@ export class AppComponent {
         dataHouse.filterKeys.push(key);
       }
 
-      //console.log(dataHouse.items);
       return dataHouse;
-    }
+    };
 
     this.updateFilter = function (formVals) {
       // this is a pass-through to update the filter pipe on submit
       this.filteredData = new FilterPipe().transform(this.dataHouse.items, formVals);
-    }
+    };
 
 
   }
@@ -96,13 +95,13 @@ export class AppComponent {
 }
 
 interface Item {
-  cdc_short_title:string,
-  month:string,
-  year:string,
-  cdc_related_image:string,
-  public_url:string,
-  cdc_session_browsing_categories:object,
-  cdc_session_browsing_lifespan:object,
-  cdc_internal_description:string,
-  cdc_event_start_date:string
+  cdc_short_title: string;
+  month: string;
+  year: string;
+  cdc_related_image: string;
+  public_url: string;
+  cdc_session_browsing_categories: object;
+  cdc_session_browsing_lifespan: object;
+  cdc_internal_description: string;
+  cdc_event_start_date: string;
 }
