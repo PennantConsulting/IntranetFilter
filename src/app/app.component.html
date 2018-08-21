@@ -2,15 +2,21 @@
 <div class="card-body bg-light" id="mediaFilter">
   <form class="" #filtersubmit="ngForm" (ngSubmit)= "updateFilter(filtersubmit.value)" >
 	  <div class="row">
-		  <div class="col mb-3">
+		  <div class="col-8 mb-3">
 			  <label>Search</label>
-			  <input class="form-control form-control-sm" type="text" id="inputSearch" name="inputSearch" aria-controls="searchtext-info"/>
+			  <input [(ngModel)]="searchValue" class="form-control form-control-sm" type="text" id="inputSearch" name="Search" aria-controls="searchtext-info"/>
+		  </div>
+		  <div class="col-4 mb-3">
+			  <label>Sort</label>
+			  <select [(ngModel)]="sortValue" name="Sort" class="form-control form-control-sm">
+				  <option *ngFor="let sortOption of sortOptions"  [ngValue]="sortOption.value" >{{sortOption.label}}</option>
+			  </select>
 		  </div>
 	  </div>
 	  <div class="row">
 		  <div class="col-md-6 mb-3">
 			  <label>Filter by {{dataHouse?.filterKeys[0]}}</label>
-			  <select [(ngModel)]="fltrTopics" name="Topics" class="form-control form-control-sm">
+			  <select [(ngModel)]="topicFilterValue" name="Topics" class="form-control form-control-sm">
 				  <option [selected]="dataHouse?.filterKeys[0]" value="" selected>{{dataHouse?.filterKeys[0]}}</option>
 				  <option class="dropdown-item" *ngFor="let vals of dataHouse?.filters.Topics" value="{{vals}}">
 					  {{vals}}
@@ -20,7 +26,7 @@
 
 		  <div class="col-md-6 mb-3">
 			  <label>Filter by {{dataHouse?.filterKeys[1]}}</label>
-			  <select [(ngModel)]="fltrContentSource" name="ContentSource" class="form-control form-control-sm">
+			  <select [(ngModel)]="contentSourceFilterValue" name="ContentSource" class="form-control form-control-sm">
 				  <option [selected]="dataHouse?.filterKeys[1]" value="" selected>{{dataHouse?.filterKeys[1]}}</option>
 				  <option class="dropdown-item" *ngFor="let vals of dataHouse?.filters['Content Source']"
 						  value="{{vals}}">{{vals}}

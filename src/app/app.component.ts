@@ -2,6 +2,13 @@ import { Component } from '@angular/core';
 import { MediadataService } from './mediadata.service';
 import { FilterPipe } from './filter.pipe';
 
+const SORT_OPTIONS = [
+    { label: 'A - Z', value: 'a-z', field: 'title', order: 'asc' },
+    { label: 'Z - A', value: 'z-a', field: 'title', order: 'desc' },
+    { label: 'Newest - Oldest', value: 'recent-first', field: 'date', order: 'asc' },
+    { label: 'Oldest - Newest', value: 'recent-last', field: 'date', order: 'desc' },
+];
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,6 +27,11 @@ export class AppComponent {
   filterChange;
   updateFilter;
   filteredData;
+  contentSourceFilterValue: String;
+  topicFilterValue: String;
+  searchValue: String;
+  sortValue: String;
+  sortOptions: Array<object> = SORT_OPTIONS;
 
   constructor(private dataService: MediadataService) {}
 
