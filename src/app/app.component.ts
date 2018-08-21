@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 import { MediadataService } from './mediadata.service';
 import { FilterPipe } from './filter.pipe';
-
-const SORT_OPTIONS = [
-    { label: 'A - Z', value: 'a-z', field: 'title', order: 'asc' },
-    { label: 'Z - A', value: 'z-a', field: 'title', order: 'desc' },
-    { label: 'Newest - Oldest', value: 'recent-first', field: 'date', order: 'asc' },
-    { label: 'Oldest - Newest', value: 'recent-last', field: 'date', order: 'desc' },
-];
+import { GlobalsService } from './globals.service';
 
 @Component({
   selector: 'app-root',
@@ -31,15 +25,17 @@ export class AppComponent {
   topicFilterValue: String;
   searchValue: String;
   sortValue: String;
-  sortOptions: Array<object> = SORT_OPTIONS;
+  sortOptions: Array<object>;
 
-  constructor(private dataService: MediadataService) {}
+  constructor(private dataService: MediadataService,
+    private globalsService: GlobalsService) {}
 
   ngOnInit() {
     this.hideSpinner = false;
     this.itemResults = true;
     this.timeout = null;
     this.filteredData;
+    this.sortOptions = this.globalsService.SORT_OPTIONS;
 
     // hide spinner
     setTimeout(() =>{ this.hideSpinner = true; }, 4000)
@@ -97,7 +93,7 @@ export class AppComponent {
 
     this.updateFilter = function (formVals) {
       // this is a pass-through to update the filter pipe on submit
-      this.filteredData = new FilterPipe().transform(this.dataHouse.items, formVals);
+      this.filteredData = new FilterPipe( this.globalsService ).transform(this.dataHouse.items, formVals);
     };
 
 
