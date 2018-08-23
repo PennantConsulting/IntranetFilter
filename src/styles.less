@@ -1,64 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-#mediaFilter {
-  /*input, select {width:100%;}*/
-  select {margin-right:8px;}
-  button {margin-right:8px;}
-
-  &.card-body {padding:0.7rem;}
-
-}
-
-#body .noResults {
-	a {text-decoration: none; color:#333; cursor: default;}
-}
-
-.applayout {
-  text-align:right;
-  clear:both;
-  margin-top: 5px;
-
-  a {
-    text-decoration: none;
-    padding:6px;
-    text-align: center;
-    cursor: pointer;
-    vertical-align: middle;
-    display: inline-block;
-    width: 35px;
-    height: 37px;
-
-    &.selected-layout {background-color:#efefef;}
-  }
-}
-
-.mediaResults {
-	margin-top:4px;
-
-	.mediaModule {
-    border-bottom:1px dashed #ccc;
-    padding:15px 0;
-
-		img.mediaImg {max-height:150px;}
-		h3 {
-      line-height: 18pt;
-      font-size: 16pt;
-      margin:0 0 4px 0;
-			a {text-transform: capitalize !important;}
-		}
-		.mediaDesc {
-			line-height: 20px;
-		}
-
-		.mediaDate {
-			font-size:9pt;
-      margin:-5px 0 5px 0;
-      color:#666;
-    }
-    .mediaModulePad {padding-left:15px;}
-
-	}
-}
-
 
 .ngx-pagination {
   margin-left: 0;
@@ -103,9 +43,9 @@
     &:hover {background: transparent;}
   }
   .ellipsis::after {
-    content: '…';
-    padding: 0.1875rem 0.625rem;
-    color: #0a0a0a;
+    //content: '…';
+    //padding: 0.1875rem 0.625rem;
+    //color: #0a0a0a;
   }
   a, button {
     cursor: pointer;
@@ -134,21 +74,3 @@
   }
 }
 
-@media screen and (max-width: 767px) {
-	.mediaResults {
-		.mediaModule {
-			.mediaDesc {padding:0 15px;}
-			img.mediaImg {
-				width:100%;
-				height:auto;
-				max-height:inherit;
-			}
-		}
-	}
-
-	#wrapper .mediaModule [class*="module"]>figure.pull-left {width:50%;}
-}
-
-@media screen and (max-width: 469px) {
-	#wrapper .mediaModule [class*="module"]>figure.pull-left {width:100%;}
-}

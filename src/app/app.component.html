@@ -1,5 +1,6 @@
 
-<div class="card-body bg-light" id="mediaFilter">
+<div class="card mb-3 bg-gray-l3">
+<div class="card-body">
   <form class="" #filtersubmit="ngForm" (ngSubmit)= "updateFilter(filtersubmit.value)" >
 	  <div class="row">
 		  <div class="col-8 mb-3">
@@ -46,84 +47,32 @@
 
   </form>
 </div>
-
-<div class="applayout">
-  <a [class.selected-layout]="appLayout==='list'" (click)="$event.stopPropagation(); appLayout='list';">
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <title>view_headline</title>
-      <path d="M3.984 5.016h16.031v1.969h-16.031v-1.969zM3.984 11.016v-2.016h16.031v2.016h-16.031zM3.984 18.984v-1.969h16.031v1.969h-16.031zM3.984 15v-2.016h16.031v2.016h-16.031z"></path>
-    </svg>
-  </a>
-  <a [class.selected-layout]="appLayout==='thumb'" (click)="$event.stopPropagation(); appLayout='thumb';">
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <title>view_list</title>
-      <path d="M9 5.016h12v3.984h-12v-3.984zM9 18.984v-3.984h12v3.984h-12zM9 14.016v-4.031h12v4.031h-12zM3.984 9v-3.984h4.031v3.984h-4.031zM3.984 18.984v-3.984h4.031v3.984h-4.031zM3.984 14.016v-4.031h4.031v4.031h-4.031z"></path>
-    </svg>
-  </a>
 </div>
 
-
-<!-- <div *ngIf="!(items | filter:searchText:searchYear:searchCat:searchSort)?.length" class="noResults">
-  <a href="#" id="media_0">No Grand Rounds sessions meet the selected criteria. Please adjust the filter options above.</a>
-</div> -->
-
-
-
-<div class="mediaResults">
-  <!-- <div class="span12 mediaModule" aria-atomic="true"
-    *ngFor="let item of items | filter : searchText:searchYear:searchCat:searchSort; let i = index; let odd = odd"> -->
-
-  <div *ngIf="appLayout==='list'">
-    <div class="mediaModule" aria-atomic="true" *ngFor="let item of filteredData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index; let odd = odd">
-        <h3><a href="{{item[urlField]}}">{{item[titleField]}}</a></h3>
-
-        <div [innerHTML]="" class="mediaDesc">
-          <p>{{item[descriptionField]}}</p>
-        </div>
-
-        <div class="mediaDate gray4-color">
-          {{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
-			<span *ngFor="let filter of filterFields"> {{filter}}:
-			  <span *ngFor="let cats of item[filter] | slice:0:10; let last = last">
-				{{cats}}<span *ngIf="!last">, </span>
-			  </span>
-				<br/>
-			</span>
-        </div>
-    </div><!-- mediaModule -->
-
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
-  </div>
-
-  <!-- THUMBNAIL LAYOUT -->
-  <div *ngIf="appLayout==='thumb'">
-    <div class="mediaModule" aria-atomic="true" *ngFor="let item of filteredData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index; let odd = odd">
+<div>
+    <div class="card mb-3 border-0 bg-gray-l3" aria-atomic="true" *ngFor="let item of filteredData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index; let odd = odd">
+		<div class="card-body">
       <div class="row">
-        <div class="col-3"><img src="{{item[imageField]}}" alt="{{item[titleField]}}" /></div>
+        <div class="col-md-3"><img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/></div>
 
-        <div class="col-9">
-          <div class="mediaModulePad">
-            <h3><a href="{{item[urlField]}}">{{item[titleField]}}</a></h3>
-
-            <div [innerHTML]="" class="mediaDesc">
-              <p>{{item[descriptionField]}}</p>
-            </div>
-
-			  <div class="mediaDate gray4-color">
-				  {{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
-				  <span *ngFor="let filter of filterFields"> {{filter}}:
-			  		<span *ngFor="let cats of item[filter] | slice:0:10; let last = last">
-						{{cats}}<span *ngIf="!last">, </span>
-			  		</span>
-					<br/>
-				  </span>
-			  </div>
-          </div><!-- mediaModulePad -->
+        <div class="col-md-9">
+			<div class="card-title h4 text-left"><a href="{{item[urlField]}}">{{item[titleField]}}</a></div>
+			<!--
+			<p>{{item[descriptionField]}}<br/>
+			{{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
+			<span *ngFor="let filter of filterFields"> {{filter}}:
+				<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span><br/>
+			</span>
+			-->
+			<p>{{item[descriptionField]}}</p>
+			<p>{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
+			<p *ngFor="let filter of filterFields"> {{filter}}:
+				<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span>
+			</p>
         </div><!-- col -->
       </div><!-- row -->
+	</div><!-- card-body -->
 
-    </div><!-- mediaModule -->
+    </div><!-- card -->
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
-  </div>
-
 </div>

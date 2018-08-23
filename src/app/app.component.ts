@@ -13,9 +13,15 @@ export class AppComponent {
   dataHouse;
   filteredData;
 
+  // Configuration options read from data attributes
   appSrctype: string; // flat, api
-  appLayout: string; // list, thumb
   dataPath: string;
+  displayTitle: boolean;
+  displayDesc: boolean;
+  displayImage: boolean;
+  displayDate: boolean;
+  displayFilters: boolean;
+  displayComments: boolean;
   titleField: string;
   imageField: string;
   descriptionField: string;
@@ -41,7 +47,7 @@ export class AppComponent {
     // Read data attributes from app-root
     const appInjectDiv = document.getElementsByTagName('app-root')[0];
     this.appSrctype = appInjectDiv.getAttribute('data-srctype') || 'flat';
-    this.appLayout = appInjectDiv.getAttribute('data-layout') || 'list';
+    //this.appLayout = appInjectDiv.getAttribute('data-layout') || 'list';
       this.dataPath = appInjectDiv.getAttribute('data-datasource');
       this.titleField = appInjectDiv.getAttribute('data-titlefield');
       this.descriptionField = appInjectDiv.getAttribute('data-descfield');
