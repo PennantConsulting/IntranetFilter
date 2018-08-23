@@ -10,75 +10,69 @@ import { GlobalsService } from './globals.service';
   providers: [ FilterPipe ]
 })
 export class AppComponent {
-  items: Item[];
-  hideSpinner;
-  itemResults;
-  timeout;
-  getParameterByName;
   dataHouse;
-  appSrctype; // flat, api
-  appLayout; // list, thumb
-  filterChange;
-  updateFilter;
   filteredData;
-  contentSourceFilterValue: String;
-  topicFilterValue: String;
-  searchValue: String;
-  sortValue: String;
+
+  appSrctype: string; // flat, api
+  appLayout: string; // list, thumb
+  dataPath: string;
+  titleField: string;
+  imageField: string;
+  descriptionField: string;
+  dateField: string;
+  urlField: string;
+  filterFields: string[]; // TODO: Read this from the data file???
+
+  updateFilter;
+
+  // Modals, do not delete, need to figure this out but will break if these don't exist
+  contentSourceFilterValue: string;
+  topicFilterValue: string;
+  searchValue: string;
+  sortValue: string;
   sortOptions: Array<object>;
 
   constructor(private dataService: MediadataService,
     private globalsService: GlobalsService) {}
 
   ngOnInit() {
-    this.hideSpinner = false;
-    this.itemResults = true;
-    this.timeout = null;
-    this.filteredData;
     this.sortOptions = this.globalsService.SORT_OPTIONS;
 
-    // hide spinner
-    setTimeout(() =>{ this.hideSpinner = true; }, 4000)
+    // Read data attributes from app-root
+    const appInjectDiv = document.getElementsByTagName('app-root')[0];
+    this.appSrctype = appInjectDiv.getAttribute('data-srctype') || 'flat';
+    this.appLayout = appInjectDiv.getAttribute('data-layout') || 'list';
+      this.dataPath = appInjectDiv.getAttribute('data-datasource');
+      this.titleField = appInjectDiv.getAttribute('data-titlefield');
+      this.descriptionField = appInjectDiv.getAttribute('data-descfield');
+      this.imageField = appInjectDiv.getAttribute('data-imagefield');
+      this.dateField = appInjectDiv.getAttribute('data-datefield');
+      this.urlField = appInjectDiv.getAttribute('data-urlfield');
 
-    this.dataService.getPosts().subscribe((response) => {
-      var appInjectDiv = document.getElementsByTagName("app-root")[0];
+    this.dataService.getPosts( this.dataPath ).subscribe((response) => {
 
       this.dataHouse = {};
-      this.appSrctype = appInjectDiv.getAttribute("data-srctype") || 'flat';
-      this.appLayout = appInjectDiv.getAttribute("data-layout") || 'list';
       this.dataHouse = organizeData(response, this.dataHouse);
 
       // Default Filtered Data to all items
       this.filteredData = this.dataHouse.items;
 
-
-      // GREP stuff for reference
-      // this.filterMeta = items.filters;
-      // this.sortItems = items.sort;
-
-      // // default sort order
-      // this.searchSort = 'Newest – Oldest';
-
-      // this.getParameterByName = function (name, url) {
-      //   if (!url) url = window.location.href;
-      //   name = name.replace(/[\[\]]/g, "\\$&");
-      //   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-      //     results = regex.exec(url);
-      //   if (!results) return null;
-      //   if (!results[2]) return '';
-      //   return decodeURIComponent(results[2].replace(/\+/g, " "));
-      // };
-
-      // var c = this.getParameterByName('category');
-      // // if category url param is set, update model
-      // if (c) {this.searchCat = c;}
-
+      // TODO: Talk to TP folks about this?
       // remove spinner
       document.getElementById('mediaSpinner').remove();
+
+
+      this.filterFields = [];
+      for (var key in this.dataHouse.filters) {
+        if (Object.prototype.hasOwnProperty.call(this.dataHouse.filters, key)) {
+            this.filterFields.push(key);
+        }
+      }
 
     });
 
     var organizeData = function (data, dataHouse) {
+        // TODO: Build strongly typed classes for filter and item
       dataHouse.filters = data.filters;
       dataHouse.items = data.items;
       dataHouse.filterKeys = [];

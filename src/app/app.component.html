@@ -44,37 +44,6 @@
 	  </div>
 
 
-      <!-- GREP STUFF FOR REFERENCE -->
-      <!-- <div class="span7" style="margin-right:15px;">
-          <label for="inputSearch">Search</label>
-          <input type="text" id="inputSearch" [(ngModel)]="searchText" name="searchText" placeholder="Topic, Category, etc." aria-controls="searchtext-info" (input)="focusFirstItem()" />
-      </div>
-
-      <div class="span4">
-        <label for="searchCat">Filter by <span class="tp-sr-only">category</span></label>
-        <select [(ngModel)]="searchCat" name="searchCat" id="searchCat" aria-controls="category-info" (change)="focusFirstItem()">
-          <option [selected]="searchCat === ''" value="" selected>Select Category</option>
-          <option *ngFor="let category of filterMeta?.cdc_session_browsing_categories" [ngValue]="category">{{category}}</option>
-        </select>
-      </div>
-
-      <div class="span4">
-        <label for="searchYear">Filter by <span class="tp-sr-only">lifespan</span></label>
-        <select [(ngModel)]="searchYear" name="searchYear" aria-controls="lifespan-info" id="searchYear" (change)="focusFirstItem()">
-          <option [selected]="searchYear === ''" value="" selected>Select Lifespan</option>
-          <option *ngFor="let year of filterMeta?.cdc_session_browsing_lifespan" [ngValue]="year">{{year}}</option>
-        </select>
-      </div>
-
-      <div class="span4 pull-right">
-        <label for="searchSort">Sort by <span class="tp-sr-only">category</span></label>
-        <select [(ngModel)]="searchSort" name="searchSort" id="searchSort" (change)="focusFirstItem()" aria-controls="sort-info">
-          <option [ngValue]="sortItems?.cdc_short_title.asc">{{sortItems?.cdc_short_title.asc}}</option>
-          <option [ngValue]="sortItems?.cdc_short_title.desc">{{sortItems?.cdc_short_title.desc}}</option>
-          <option [ngValue]="sortItems?.cdc_event_start_date.asc">{{sortItems?.cdc_event_start_date.asc}}</option>
-          <option [ngValue]="sortItems?.cdc_event_start_date.desc">{{sortItems?.cdc_event_start_date.desc}}</option>
-        </select>
-      </div> -->
   </form>
 </div>
 
@@ -106,17 +75,20 @@
 
   <div *ngIf="appLayout==='list'">
     <div class="mediaModule" aria-atomic="true" *ngFor="let item of filteredData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index; let odd = odd">
-        <h3><a href="#" id="media_{{i}}">{{item['Post Title']}}</a></h3>
+        <h3><a href="{{item[urlField]}}">{{item[titleField]}}</a></h3>
 
         <div [innerHTML]="" class="mediaDesc">
-          <p>Lorem ipsum dolor sit amet consectetur, quasi ipsum perspiciatis cumque, eos magni odit quos. Obcaecati, architecto quae.</p>
+          <p>{{item[descriptionField]}}</p>
         </div>
 
         <div class="mediaDate gray4-color">
-          Last Reviewed: {{item['Last Reviewed'] | date:'MMMM y'}} -
-          <span *ngFor="let cats of item.Topics | slice:0:10; let last = last">
-            {{cats}}<span *ngIf="!last">, </span>
-          </span>
+          {{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
+			<span *ngFor="let filter of filterFields"> {{filter}} -
+			  <span *ngFor="let cats of item[filter] | slice:0:10; let last = last">
+				{{cats}}<span *ngIf="!last">, </span>
+			  </span>
+				<br/>
+			</span>
         </div>
     </div><!-- mediaModule -->
 
@@ -127,22 +99,25 @@
   <div *ngIf="appLayout==='thumb'">
     <div class="mediaModule" aria-atomic="true" *ngFor="let item of filteredData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index; let odd = odd">
       <div class="row">
-        <div class="col-3"><img src="//placeimg.com/220/125/animals/any?i={{i}}" alt="{{item['Post Title']}} image" /></div>
+        <div class="col-3"><img src="{{item[imageField]}}" alt="{{item[titleField]}}" /></div>
 
         <div class="col-9">
           <div class="mediaModulePad">
-            <h3><a href="#" id="media_{{i}}">{{item['Post Title']}}</a></h3>
+            <h3><a href="{{item[urlField]}}">{{item[titleField]}}</a></h3>
 
             <div [innerHTML]="" class="mediaDesc">
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum corrupti amet sapiente dolorum nemo, asperiores eaque enim voluptas, aperiam quasi ipsum perspiciatis cumque, eos magni odit quos. Obcaecati, architecto quae.</p>
+              <p>{{item[descriptionField]}}</p>
             </div>
 
-            <div class="mediaDate gray4-color">
-              Last Reviewed: {{item['Last Reviewed'] | date:'MMMM y'}} -
-              <span *ngFor="let cats of item.Topics | slice:0:10; let last = last">
-                {{cats}}<span *ngIf="!last">, </span>
-              </span>
-            </div>
+			  <div class="mediaDate gray4-color">
+				  {{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
+				  <span *ngFor="let filter of filterFields"> {{filter}} -
+			  		<span *ngFor="let cats of item[filter] | slice:0:10; let last = last">
+						{{cats}}<span *ngIf="!last">, </span>
+			  		</span>
+					<br/>
+				  </span>
+			  </div>
           </div><!-- mediaModulePad -->
         </div><!-- col -->
       </div><!-- row -->
