@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
 @Injectable()
 export class MediadataService {
 
-  constructor(public http: HttpClient) {
-    // console.log('data service connected');
-  }
+    constructor(public http: HttpClient) {
+        // console.log('data service connected');
+    }
 
-  getPosts( datapath: string ) {
-    return this.http.get(datapath).pipe(
-        tap( _ => console.log( 'Loaded data from ' + datapath ) ),
-        catchError(this.handleError<object>('Load Data') )
-    );
-  }
+    getPosts(datapath: string) {
+        return this.http.get(datapath).pipe(
+            tap(_ => console.log('Loaded data from ' + datapath)),
+            catchError(this.handleError<object>('Load Data'))
+        );
+    }
 
     /**
      * Handle Http operation that failed.

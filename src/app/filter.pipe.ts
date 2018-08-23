@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import { GlobalsService } from './globals.service';
+import {GlobalsService} from './globals.service';
 
 @Pipe({
     name: 'filter'
@@ -7,44 +7,45 @@ import { GlobalsService } from './globals.service';
 
 export class FilterPipe implements PipeTransform {
 
-    constructor( private globalsService: GlobalsService ) {}
+    constructor(private globalsService: GlobalsService) {
+    }
 
     transform(items: any[], formVals: any[]): any[] {
 
         // Defaults if none are filtered
         if (!items) {
-          return [];
+            return [];
         }
 
         // Sorting
-        if ( formVals['Sort'] ) {
+        if (formVals['Sort']) {
             let sortBy = formVals['Sort'];
-            for ( let i = 0; i < this.globalsService.SORT_OPTIONS.length; i++ ) {
+            for (let i = 0; i < this.globalsService.SORT_OPTIONS.length; i++) {
                 let sortOption = this.globalsService.SORT_OPTIONS[i];
-                if ( sortOption.value === sortBy ) {
+                if (sortOption.value === sortBy) {
                     let sortField = sortOption.field;
                     let sortDirection = sortOption.dir;
-                    items.sort( ( a, b ): number => {
-                        if ( 'date' === sortField ) {
+                    items.sort((a, b): number => {
+                        if ('date' === sortField) {
 
                         } else {
-                            let foo = a[ sortField ];
-                            let bar =  b[ sortField ];
-                            let aVal = a[ sortField ].toLowerCase();
-                            let bVal = b[ sortField ].toLowerCase();
-                            if ( aVal === bVal ) {
+                            let foo = a[sortField];
+                            let bar = b[sortField];
+                            let aVal = a[sortField].toLowerCase();
+                            let bVal = b[sortField].toLowerCase();
+                            if (aVal === bVal) {
                                 return 0;
-                            } else if ( 'asc' === sortDirection && aVal < bVal ) {
+                            } else if ('asc' === sortDirection && aVal < bVal) {
                                 return -1;
-                            } else if ( 'asc' === sortDirection && aVal > bVal ) {
+                            } else if ('asc' === sortDirection && aVal > bVal) {
                                 return 1;
-                            } else if ( 'desc' === sortDirection && aVal > bVal ) {
+                            } else if ('desc' === sortDirection && aVal > bVal) {
                                 return -1;
-                            } else if ( 'desc' === sortDirection && aVal < bVal ) {
+                            } else if ('desc' === sortDirection && aVal < bVal) {
                                 return 1;
                             }
                         }
-                    } );
+                    });
                 }
 
             }
@@ -89,9 +90,9 @@ export class FilterPipe implements PipeTransform {
                 return false;
             }
             */
-            if ( formVals['Search'] ) {
+            if (formVals['Search']) {
                 const searchText = formVals['Search'];
-                if ( item['Post Title'].toLowerCase().includes( searchText.toLowerCase() ) ) {
+                if (item['Post Title'].toLowerCase().includes(searchText.toLowerCase())) {
                     retVal = true;
                 }
             }

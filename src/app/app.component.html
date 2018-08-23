@@ -1,78 +1,86 @@
-
 <div class="card mb-3 bg-gray-l3">
-<div class="card-body">
-  <form class="" #filtersubmit="ngForm" (ngSubmit)= "updateFilter(filtersubmit.value)" >
-	  <div class="row">
-		  <div class="col-8 mb-3">
-			  <label>Search</label>
-			  <input [(ngModel)]="searchValue" class="form-control form-control-sm" type="text" id="inputSearch" name="Search" aria-controls="searchtext-info"/>
-		  </div>
-		  <div class="col-4 mb-3">
-			  <label>Sort</label>
-			  <select [(ngModel)]="sortValue" name="Sort" class="form-control form-control-sm">
-				  <option *ngFor="let sortOption of sortOptions"  [ngValue]="sortOption.value" >{{sortOption.label}}</option>
-			  </select>
-		  </div>
-	  </div>
-	  <div class="row">
-		  <div class="col-md-6 mb-3">
-			  <label>Filter by {{dataHouse?.filterKeys[0]}}</label>
-			  <select [(ngModel)]="topicFilterValue" name="Topics" class="form-control form-control-sm">
-				  <option [selected]="dataHouse?.filterKeys[0]" value="" selected>{{dataHouse?.filterKeys[0]}}</option>
-				  <option class="dropdown-item" *ngFor="let vals of dataHouse?.filters.Topics" value="{{vals}}">
-					  {{vals}}
-				  </option>
-			  </select>
-		  </div>
+	<div class="card-body">
+		<form class="" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
+			<div class="row">
+				<div class="col-8 mb-3">
+					<label>Search</label>
+					<input [(ngModel)]="searchValue" class="form-control form-control-sm" type="text" id="inputSearch"
+						   name="Search" aria-controls="searchtext-info"/>
+				</div>
+				<div class="col-4 mb-3">
+					<label>Sort</label>
+					<select [(ngModel)]="sortValue" name="Sort" class="form-control form-control-sm">
+						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
+							{{sortOption.label}}
+						</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<label>Filter by {{dataHouse?.filterKeys[0]}}</label>
+					<select [(ngModel)]="topicFilterValue" name="Topics" class="form-control form-control-sm">
+						<option [selected]="dataHouse?.filterKeys[0]" value="" selected>{{dataHouse?.filterKeys[0]}}
+						</option>
+						<option class="dropdown-item" *ngFor="let vals of dataHouse?.filters.Topics" value="{{vals}}">
+							{{vals}}
+						</option>
+					</select>
+				</div>
 
-		  <div class="col-md-6 mb-3">
-			  <label>Filter by {{dataHouse?.filterKeys[1]}}</label>
-			  <select [(ngModel)]="contentSourceFilterValue" name="ContentSource" class="form-control form-control-sm">
-				  <option [selected]="dataHouse?.filterKeys[1]" value="" selected>{{dataHouse?.filterKeys[1]}}</option>
-				  <option class="dropdown-item" *ngFor="let vals of dataHouse?.filters['Content Source']"
-						  value="{{vals}}">{{vals}}
-				  </option>
-			  </select>
-		  </div>
-	  </div>
+				<div class="col-md-6 mb-3">
+					<label>Filter by {{dataHouse?.filterKeys[1]}}</label>
+					<select [(ngModel)]="contentSourceFilterValue" name="ContentSource"
+							class="form-control form-control-sm">
+						<option [selected]="dataHouse?.filterKeys[1]" value="" selected>{{dataHouse?.filterKeys[1]}}
+						</option>
+						<option class="dropdown-item" *ngFor="let vals of dataHouse?.filters['Content Source']"
+								value="{{vals}}">{{vals}}
+						</option>
+					</select>
+				</div>
+			</div>
 
-	  <div class="row">
-		  <!-- Submit / Reset Buttons -->
-		  <div class="col-4">
-			  <button type="reset" class="btn btn-sm btn-white" (ngClick)="filtersubmit.reset()">Reset</button>
-			  <button type="submit" class="btn btn-sm btn-primary">Submit</button>
-		  </div>
-	  </div>
+			<div class="row">
+				<!-- Submit / Reset Buttons -->
+				<div class="col-4">
+					<button type="reset" class="btn btn-sm btn-white" (ngClick)="filtersubmit.reset()">Reset</button>
+					<button type="submit" class="btn btn-sm btn-primary">Submit</button>
+				</div>
+			</div>
 
 
-  </form>
-</div>
+		</form>
+	</div>
 </div>
 
 <div>
-    <div class="card mb-3 border-0 bg-gray-l3" aria-atomic="true" *ngFor="let item of filteredData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index; let odd = odd">
+	<div class="card mb-3 border-0 bg-gray-l3" aria-atomic="true"
+		 *ngFor="let item of filteredData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index; let odd = odd">
 		<div class="card-body">
-      <div class="row">
-        <div class="col-md-3"><img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/></div>
+			<div class="row">
+				<div class="col-md-3"><img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/>
+				</div>
 
-        <div class="col-md-9">
-			<div class="card-title h4 text-left"><a href="{{item[urlField]}}">{{item[titleField]}}</a></div>
-			<!--
-			<p>{{item[descriptionField]}}<br/>
-			{{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
-			<span *ngFor="let filter of filterFields"> {{filter}}:
-				<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span><br/>
-			</span>
-			-->
-			<p>{{item[descriptionField]}}</p>
-			<p>{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
-			<p *ngFor="let filter of filterFields"> {{filter}}:
-				<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span>
-			</p>
-        </div><!-- col -->
-      </div><!-- row -->
-	</div><!-- card-body -->
+				<div class="col-md-9">
+					<div class="card-title h4 text-left"><a href="{{item[urlField]}}">{{item[titleField]}}</a></div>
+					<!--
+					<p>{{item[descriptionField]}}<br/>
+					{{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
+					<span *ngFor="let filter of filterFields"> {{filter}}:
+						<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span><br/>
+					</span>
+					-->
+					<p *ngIf="item[descriptionField]">{{item[descriptionField]}}</p>
+					<p>{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
+					<p *ngFor="let filter of filterFields"> {{filter}}:
+						<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a
+								href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span>
+					</p>
+				</div><!-- col -->
+			</div><!-- row -->
+		</div><!-- card-body -->
 
-    </div><!-- card -->
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+	</div><!-- card -->
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>
