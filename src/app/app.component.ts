@@ -25,7 +25,7 @@ export class AppComponent {
 
   updateFilter;
 
-  // Modals, do not delete, need to figure this out but will break if these don't exist
+  // Models, do not delete, need to figure this out but will break if these don't exist
   contentSourceFilterValue: string;
   topicFilterValue: string;
   searchValue: string;

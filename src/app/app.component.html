@@ -83,7 +83,7 @@
 
         <div class="mediaDate gray4-color">
           {{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
-			<span *ngFor="let filter of filterFields"> {{filter}} -
+			<span *ngFor="let filter of filterFields"> {{filter}}:
 			  <span *ngFor="let cats of item[filter] | slice:0:10; let last = last">
 				{{cats}}<span *ngIf="!last">, </span>
 			  </span>
@@ -111,7 +111,7 @@
 
 			  <div class="mediaDate gray4-color">
 				  {{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
-				  <span *ngFor="let filter of filterFields"> {{filter}} -
+				  <span *ngFor="let filter of filterFields"> {{filter}}:
 			  		<span *ngFor="let cats of item[filter] | slice:0:10; let last = last">
 						{{cats}}<span *ngIf="!last">, </span>
 			  		</span>
