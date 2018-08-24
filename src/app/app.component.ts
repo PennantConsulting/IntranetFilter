@@ -28,12 +28,11 @@ export class AppComponent {
     itemsPerPage: string;
     bgColor: string;
     defaultSort: string;
+    defaultFilter: object[];
 
     cardTextWidth: string;
 
     searchFields: string[];
-
-    //updateFilter;
 
     // Models
     searchValue: string;
@@ -64,12 +63,30 @@ export class AppComponent {
         this.imagePosition = appInjectDiv.getAttribute('data-imageposition');
         this.itemsPerPage = appInjectDiv.getAttribute('data-itemsperpage');
         this.bgColor = appInjectDiv.getAttribute('data-bgcolor');
+
         this.defaultSort = appInjectDiv.getAttribute('data-sortorder');
         if ( ! this.defaultSort ) {
             this.defaultSort = 'a-z';
         }
+        this.sortValue = this.defaultSort;
 
-        //Setup search fields array
+        this.filterFields = [];
+        this.filterModel = [];
+        this.defaultFilter = [];
+
+        let defaultFilterParam = appInjectDiv.getAttribute('data-defaultfilter');
+        if ( defaultFilterParam ) {
+            let defaultFilterFields = defaultFilterParam.split( ',' );
+            for ( let i = 0; i < defaultFilterFields.length; i++ ) {
+                let filterFieldAry = defaultFilterFields[i].split( '=' );
+                if ( filterFieldAry.length === 2 ) {
+                    this.defaultFilter['filter-' + filterFieldAry[0]] = filterFieldAry[1];
+                    this.filterModel[filterFieldAry[0]] = filterFieldAry[1];
+                }
+            }
+        }
+
+        // Setup search fields array
         this.searchFields = [];
         this.searchFields.push( this.titleField );
         this.searchFields.push( this.descriptionField );
@@ -80,26 +97,29 @@ export class AppComponent {
             this.cardTextWidth = 'col';
         }
 
-        this.filterModel = [];
+
+
 
         this.dataService.getPosts(this.dataPath).subscribe((response) => {
 
             this.dataHouse = {};
             this.dataHouse = this.organizeData(response, this.dataHouse);
 
-            // Default Filtered Data to all items
-            // this.filteredData = this.dataHouse.items;
             // Initialize default sorting and filtering
             let mockFormVals = [];
-            mockFormVals['Sort'] = this.defaultSort;
+            if ( this.defaultSort ) {
+                mockFormVals['Sort'] = this.defaultSort;
+            }
+            if ( this.defaultFilter ) {
+                mockFormVals = Object.assign({}, mockFormVals, this.defaultFilter );
+            }
             this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
                 mockFormVals, this.searchFields, this.dateField, this.titleField);
 
             // remove spinner
             document.getElementById('mediaSpinner').remove();
 
-            this.filterFields = [];
-            this.filterModel = [];
+            //Setup filter drop downs based on data file
             for (var key in this.dataHouse.filters) {
                 if (Object.prototype.hasOwnProperty.call(this.dataHouse.filters, key)) {
                     this.filterFields.push(key);
@@ -107,9 +127,6 @@ export class AppComponent {
             }
 
         });
-
-
-
     }
 
     organizeData(data, dataHouse) {
@@ -138,6 +155,16 @@ export class AppComponent {
         mockFormVals['filter-' + filterField] = filterValue;
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             mockFormVals, this.searchFields, this.dateField, this.titleField);
+    }
+
+    getURLParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
 }

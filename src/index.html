@@ -445,6 +445,7 @@
 				bg = class(es) to add to background for color.  Should call cdc_get_color_classes from
 				ex: bg-{color}-{p|s|t} or bg-primary (for main site color), or bg-white, or bg-gray-l1
 				sortorder = a-z | z-a | recent-first | recent-last
+				defaultfilter = {Filter 1 field name}={value},{Filter 2 field name}={value}..... - optional field
 
 				<app-root
 						data-datasource="assets/museum-pages.json"
@@ -459,6 +460,7 @@
 						data-bgcolor="bg-cyan-p"
 						data-itemsperpage="10"
 						data-sortorder="a-z"
+						data-defaultfilter="Topics=Flu,Content Source=Centers for Disease Control and Prevention"
 						data-imageposition="left">
 				</app-root>
 				-->
