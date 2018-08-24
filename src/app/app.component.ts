@@ -27,6 +27,7 @@ export class AppComponent {
     imagePosition: string; // top | left | right
     itemsPerPage: string;
     bgColor: string;
+    defaultSort: string;
 
     cardTextWidth: string;
 
@@ -60,7 +61,11 @@ export class AppComponent {
         this.displayComments = 'true' === appInjectDiv.getAttribute('data-displaycomments');
         this.imagePosition = appInjectDiv.getAttribute('data-imageposition');
         this.itemsPerPage = appInjectDiv.getAttribute('data-itemsperpage');
-        this.bgColor = appInjectDiv.getAttribute('data-bgColor');
+        this.bgColor = appInjectDiv.getAttribute('data-bgcolor');
+        this.defaultSort = appInjectDiv.getAttribute('data-sortorder');
+        if ( ! this.defaultSort ) {
+            this.defaultSort = 'a-z';
+        }
 
         // Setup width of text column
         this.cardTextWidth = 'col-md-9';
@@ -76,7 +81,12 @@ export class AppComponent {
             this.dataHouse = organizeData(response, this.dataHouse);
 
             // Default Filtered Data to all items
-            this.filteredData = this.dataHouse.items;
+            // this.filteredData = this.dataHouse.items;
+            // Initialize default sorting and filtering
+            let mockFormVals = {
+                'Sort': this.defaultSort
+            };
+            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items, mockFormVals );
 
             // remove spinner
             document.getElementById('mediaSpinner').remove();
