@@ -30,7 +30,7 @@ export class AppComponent {
 
     cardTextWidth: string;
 
-    updateFilter: Array;
+    updateFilter;
 
     // Models
     searchValue: string;

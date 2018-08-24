@@ -29,8 +29,6 @@ export class FilterPipe implements PipeTransform {
                         if ('date' === sortField) {
 
                         } else {
-                            let foo = a[sortField];
-                            let bar = b[sortField];
                             let aVal = a[sortField].toLowerCase();
                             let bVal = b[sortField].toLowerCase();
                             if (aVal === bVal) {
@@ -51,55 +49,64 @@ export class FilterPipe implements PipeTransform {
             }
         }
 
-        // Nothing selected for filtering
-        // TODO: Need to look at dynamic list of filters here
-        if (!formVals['Topics'] &&
-            !formVals['ContentSource'] &&
-            !formVals['Search']) {
+        // If nothing selected for filtering don't filter
+        if ( ! this.needToFilterData( formVals ) ) {
             return items;
         }
 
+        // Determine the filter fields in the form
+        let formFilters = [];
+        for ( let key in formVals ) {
+            if ( key.startsWith( 'filter-' ) ) {
+                let parts = key.split( '-' );
+                if ( parts.length > 1 ) {
+                    if ( formVals[ key ] ) { // If form value is undefined or empty, do not filter on it
+                        formFilters[parts[1]] = formVals[key];
+                    }
+                }
+            }
+        }
+
         return items.filter(function (item) {
-            // if (searchYear && item.cdc_session_browsing_lifespan.indexOf(searchYear) === -1) {
-            // 	return false;
-            // }
+            let retVal = true;
 
-            let retVal = false;
-
-            if (formVals['Topics']) {
-                for (let i = 0; i < item.Topics.length; i++) {
-                    if (item.Topics[i] === formVals['Topics']) {
-                        retVal = true;
+            for ( let filterField in formFilters ) {
+                let itemHasFilterVal = false;
+                for (let i = 0; i < item[filterField].length; i++) {
+                    if (item[filterField][i] === formFilters[filterField] ) {
+                        itemHasFilterVal = true;
+                        break;
                     }
+                }
+                if ( ! itemHasFilterVal ) {
+                    retVal = false;
+                    break;
                 }
             }
 
-            if (formVals['ContentSource']) {
-                for (let i = 0; i < item['Content Source'].length; i++) {
-                    if (item['Content Source'][i] === formVals['ContentSource']) {
-                        retVal = true;
-                    }
-                }
-            }
-
-            /*
-            if (item.cdc_short_title.toLowerCase().includes(searchText.toLowerCase()) ||
-                item.cdc_internal_description.toLowerCase().includes(searchText.toLowerCase())) {
-                return true;
-            } else {
-                return false;
-            }
-            */
-            if (formVals['Search']) {
+            if ( retVal && formVals['Search'] ) {
                 const searchText = formVals['Search'];
-                if (item['Post Title'].toLowerCase().includes(searchText.toLowerCase())) {
-                    retVal = true;
+                if ( searchText && searchText.length >= 3 ) {
+                    if (! item['Post Title'].toLowerCase().includes(searchText.toLowerCase())) {
+                        retVal = false;
+                    }
                 }
             }
 
             return retVal;
         });
 
+    }
+
+    needToFilterData( formVals: object ) {
+        let retVal = false;
+        for ( let key in formVals ) {
+            if ( key.startsWith( 'filter-' ) || 'Search' === key ) {
+                retVal = true;
+            }
+        }
+
+        return retVal;
     }
 
 }
