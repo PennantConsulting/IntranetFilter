@@ -98,7 +98,7 @@ export class FilterPipe implements PipeTransform {
 
     }
 
-    needToFilterData( formVals: object ) {
+    needToFilterData( formVals: object ): boolean {
         let retVal = false;
         for ( let key in formVals ) {
             if ( key.startsWith( 'filter-' ) || 'Search' === key ) {

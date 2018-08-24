@@ -83,9 +83,8 @@ export class AppComponent {
             // Default Filtered Data to all items
             // this.filteredData = this.dataHouse.items;
             // Initialize default sorting and filtering
-            let mockFormVals = {
-                'Sort': this.defaultSort
-            };
+            let mockFormVals = [];
+            mockFormVals['Sort'] = this.defaultSort;
             this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items, mockFormVals );
 
             // remove spinner
