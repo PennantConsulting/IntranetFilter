@@ -17,26 +17,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label>Filter by {{dataHouse?.filterKeys[0]}}</label>
-					<!--<select [(ngModel)]="topicFilterValue" name="Topics" class="form-control form-control-sm">-->
-					<select [(ngModel)]="filterModel['Topics']" name="Topics" class="form-control form-control-sm">
-						<option [selected]="dataHouse?.filterKeys[0]" value="" selected>{{dataHouse?.filterKeys[0]}}
+				<div *ngFor="let filter of filterFields" class="col-md-6 mb-3">
+					<label>Filter by {{filter}}</label>
+					<select [(ngModel)]="filterModel[filter]" name="{{filter}}" class="form-control form-control-sm">
+						<option [selected]="filter" value="" selected>{{filter}}
 						</option>
-						<option class="dropdown-item" *ngFor="let vals of dataHouse?.filters.Topics" value="{{vals}}">
+						<option class="dropdown-item" *ngFor="let vals of dataHouse.filters[filter]" value="{{vals}}">
 							{{vals}}
-						</option>
-					</select>
-				</div>
-
-				<div class="col-md-6 mb-3">
-					<label>Filter by {{dataHouse?.filterKeys[1]}}</label>
-					<!--<select [(ngModel)]="contentSourceFilterValue" name="ContentSource" class="form-control form-control-sm">-->
-					<select [(ngModel)]="filterModel['Content Source']" name="ContentSource" class="form-control form-control-sm">
-						<option [selected]="dataHouse?.filterKeys[1]" value="" selected>{{dataHouse?.filterKeys[1]}}
-						</option>
-						<option class="dropdown-item" *ngFor="let vals of dataHouse?.filters['Content Source']"
-								value="{{vals}}">{{vals}}
 						</option>
 					</select>
 				</div>

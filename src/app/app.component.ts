@@ -30,15 +30,14 @@ export class AppComponent {
 
     cardTextWidth: string;
 
-    updateFilter;
+    updateFilter: Array;
 
     // Models
-    //contentSourceFilterValue: string;
-    //topicFilterValue: string;
     searchValue: string;
     sortValue: string;
-    sortOptions: Array<object>;
     filterModel;
+
+    sortOptions: Array<object>;
 
     constructor(private dataService: MediadataService,
                 private globalsService: GlobalsService) {
