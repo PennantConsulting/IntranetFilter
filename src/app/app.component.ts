@@ -74,17 +74,7 @@ export class AppComponent {
         this.filterModel = [];
         this.defaultFilter = [];
 
-        let defaultFilterParam = appInjectDiv.getAttribute('data-defaultfilter');
-        if ( defaultFilterParam ) {
-            let defaultFilterFields = defaultFilterParam.split( ',' );
-            for ( let i = 0; i < defaultFilterFields.length; i++ ) {
-                let filterFieldAry = defaultFilterFields[i].split( '=' );
-                if ( filterFieldAry.length === 2 ) {
-                    this.defaultFilter['filter-' + filterFieldAry[0]] = filterFieldAry[1];
-                    this.filterModel[filterFieldAry[0]] = filterFieldAry[1];
-                }
-            }
-        }
+        this.setDefaultFilters( appInjectDiv.getAttribute('data-defaultfilter') );
 
         // Setup search fields array
         this.searchFields = [];
@@ -96,9 +86,6 @@ export class AppComponent {
         if ( ! this.imageField ) {
             this.cardTextWidth = 'col';
         }
-
-
-
 
         this.dataService.getPosts(this.dataPath).subscribe((response) => {
 
@@ -165,6 +152,20 @@ export class AppComponent {
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    setDefaultFilters( defaultFilterParam: string ) {
+        if ( defaultFilterParam ) {
+            let defaultFilterFields = defaultFilterParam.split( ',' );
+            for ( let i = 0; i < defaultFilterFields.length; i++ ) {
+                let filterFieldAry = defaultFilterFields[i].split( '=' );
+                if ( filterFieldAry.length === 2 ) {
+                    this.defaultFilter['filter-' + filterFieldAry[0]] = filterFieldAry[1];
+                    this.filterModel[filterFieldAry[0]] = filterFieldAry[1];
+                }
+            }
+        }
+
     }
 
 }
