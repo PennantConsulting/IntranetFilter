@@ -33,7 +33,7 @@ export class AppComponent {
 
     searchFields: string[];
 
-    updateFilter;
+    //updateFilter;
 
     // Models
     searchValue: string;
@@ -85,7 +85,7 @@ export class AppComponent {
         this.dataService.getPosts(this.dataPath).subscribe((response) => {
 
             this.dataHouse = {};
-            this.dataHouse = organizeData(response, this.dataHouse);
+            this.dataHouse = this.organizeData(response, this.dataHouse);
 
             // Default Filtered Data to all items
             // this.filteredData = this.dataHouse.items;
@@ -108,29 +108,37 @@ export class AppComponent {
 
         });
 
-        var organizeData = function (data, dataHouse) {
-            // TODO: Build strongly typed classes for filter and item
-            dataHouse.filters = data.filters;
-            dataHouse.items = data.items;
-            dataHouse.filterKeys = [];
-
-            // Save filter Keys for easier access
-            for (let key in (dataHouse.filters)) {
-                dataHouse.filterKeys.push(key);
-            }
-
-            return dataHouse;
-        };
-
-        this.updateFilter = function (formVals) {
-            // this is a pass-through to update the filter pipe on submit
-            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-                formVals, this.searchFields, this.dateField, this.titleField);
-        };
 
 
     }
 
+    organizeData(data, dataHouse) {
+        // TODO: Build strongly typed classes for filter and item
+        dataHouse.filters = data.filters;
+        dataHouse.items = data.items;
+        dataHouse.filterKeys = [];
+
+        // Save filter Keys for easier access
+        for (let key in (dataHouse.filters)) {
+            dataHouse.filterKeys.push(key);
+        }
+
+        return dataHouse;
+    }
+
+    updateFilter(formVals) {
+        // this is a pass-through to update the filter pipe on submit
+        this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
+            formVals, this.searchFields, this.dateField, this.titleField);
+    }
+
+    doFilter(filterField, filterValue) {
+        let mockFormVals = [];
+        this.filterModel[filterField] = filterValue;
+        mockFormVals['filter-' + filterField] = filterValue;
+        this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
+            mockFormVals, this.searchFields, this.dateField, this.titleField);
+    }
 
 }
 

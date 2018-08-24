@@ -72,8 +72,11 @@
 						<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
 						<ng-container *ngIf="displayFilterVals">
 							<p *ngFor="let filter of filterFields"> {{filter}}:
-								<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a
-										href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span>
+								<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
+									<!--<a href=""><span (click)="doFilter(filter, filterVal)">{{filterVal}}</span></a>-->
+									<button class="btn btn-link p-0" (click)="doFilter(filter, filterVal)">{{filterVal}}</button>
+									<span *ngIf="!last">, </span>
+								</span>
 							</p>
 						</ng-container>
 					</div><!-- col -->
@@ -100,8 +103,9 @@
 								<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"> {{filter}}:
-										<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a
-												href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span>
+										<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a href=""
+												(click)="doFilter(filter, filterVal)">{{filterVal}}</a><span *ngIf="!last">, </span>
+										</span>
 									</p>
 								</ng-container>
 							</div>
