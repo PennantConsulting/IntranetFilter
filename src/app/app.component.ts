@@ -31,6 +31,8 @@ export class AppComponent {
 
     cardTextWidth: string;
 
+    searchFields: string[];
+
     updateFilter;
 
     // Models
@@ -67,6 +69,11 @@ export class AppComponent {
             this.defaultSort = 'a-z';
         }
 
+        //Setup search fields array
+        this.searchFields = [];
+        this.searchFields.push( this.titleField );
+        this.searchFields.push( this.descriptionField );
+
         // Setup width of text column
         this.cardTextWidth = 'col-md-9';
         if ( ! this.imageField ) {
@@ -85,7 +92,7 @@ export class AppComponent {
             // Initialize default sorting and filtering
             let mockFormVals = [];
             mockFormVals['Sort'] = this.defaultSort;
-            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items, mockFormVals );
+            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items, mockFormVals, this.searchFields);
 
             // remove spinner
             document.getElementById('mediaSpinner').remove();
@@ -116,7 +123,7 @@ export class AppComponent {
 
         this.updateFilter = function (formVals) {
             // this is a pass-through to update the filter pipe on submit
-            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items, formVals);
+            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items, formVals, this.searchFields);
         };
 
 

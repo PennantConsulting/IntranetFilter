@@ -10,7 +10,7 @@ export class FilterPipe implements PipeTransform {
     constructor(private globalsService: GlobalsService) {
     }
 
-    transform(items: any[], formVals: any[]): any[] {
+    transform(items: any[], formVals: any[], searchFields: string[]): any[] {
 
         // Defaults if none are filtered
         if (!items) {
@@ -87,7 +87,15 @@ export class FilterPipe implements PipeTransform {
             if ( retVal && formVals['Search'] ) {
                 const searchText = formVals['Search'];
                 if ( searchText && searchText.length >= 3 ) {
-                    if (! item['Post Title'].toLowerCase().includes(searchText.toLowerCase())) {
+                    let foundSearchTerm = false;
+                    for ( let i = 0; i < searchFields.length; i++ ) {
+                        let searchField = searchFields[i];
+                        if (item[searchField].toLowerCase().includes(searchText.toLowerCase())) {
+                            foundSearchTerm = true;
+                            break;
+                        }
+                    }
+                    if ( ! foundSearchTerm ) {
                         retVal = false;
                     }
                 }
