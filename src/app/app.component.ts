@@ -16,24 +16,29 @@ export class AppComponent {
     // Configuration options read from data attributes
     appSrctype: string; // flat, api
     dataPath: string;
-
     titleField: string;
     imageField: string;
     descriptionField: string;
     dateField: string;
     urlField: string;
-    displayFilters: boolean;
+    displayFilterVals: boolean;
     displayComments: boolean;
     filterFields: string[]; // TODO: Read this from the data file???
+    imagePosition: string; // top | left | right
+    itemsPerPage: string;
+    bgColor: string;
+
+    cardTextWidth: string;
 
     updateFilter;
 
-    // Models, do not delete, need to figure this out but will break if these don't exist
-    contentSourceFilterValue: string;
-    topicFilterValue: string;
+    // Models
+    //contentSourceFilterValue: string;
+    //topicFilterValue: string;
     searchValue: string;
     sortValue: string;
     sortOptions: Array<object>;
+    filterModel;
 
     constructor(private dataService: MediadataService,
                 private globalsService: GlobalsService) {
@@ -52,6 +57,19 @@ export class AppComponent {
         this.imageField = appInjectDiv.getAttribute('data-imagefield');
         this.dateField = appInjectDiv.getAttribute('data-datefield');
         this.urlField = appInjectDiv.getAttribute('data-urlfield');
+        this.displayFilterVals = 'true' === appInjectDiv.getAttribute('data-displayfiltervals');
+        this.displayComments = 'true' === appInjectDiv.getAttribute('data-displaycomments');
+        this.imagePosition = appInjectDiv.getAttribute('data-imageposition');
+        this.itemsPerPage = appInjectDiv.getAttribute('data-itemsperpage');
+        this.bgColor = appInjectDiv.getAttribute('data-bgColor');
+
+        // Setup width of text column
+        this.cardTextWidth = 'col-md-9';
+        if ( ! this.imageField ) {
+            this.cardTextWidth = 'col';
+        }
+
+        this.filterModel = [];
 
         this.dataService.getPosts(this.dataPath).subscribe((response) => {
 
@@ -61,12 +79,11 @@ export class AppComponent {
             // Default Filtered Data to all items
             this.filteredData = this.dataHouse.items;
 
-            // TODO: Talk to TP folks about this?
             // remove spinner
             document.getElementById('mediaSpinner').remove();
 
-
             this.filterFields = [];
+            this.filterModel = [];
             for (var key in this.dataHouse.filters) {
                 if (Object.prototype.hasOwnProperty.call(this.dataHouse.filters, key)) {
                     this.filterFields.push(key);

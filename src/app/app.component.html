@@ -19,7 +19,8 @@
 			<div class="row">
 				<div class="col-md-6 mb-3">
 					<label>Filter by {{dataHouse?.filterKeys[0]}}</label>
-					<select [(ngModel)]="topicFilterValue" name="Topics" class="form-control form-control-sm">
+					<!--<select [(ngModel)]="topicFilterValue" name="Topics" class="form-control form-control-sm">-->
+					<select [(ngModel)]="filterModel['Topics']" name="Topics" class="form-control form-control-sm">
 						<option [selected]="dataHouse?.filterKeys[0]" value="" selected>{{dataHouse?.filterKeys[0]}}
 						</option>
 						<option class="dropdown-item" *ngFor="let vals of dataHouse?.filters.Topics" value="{{vals}}">
@@ -30,8 +31,8 @@
 
 				<div class="col-md-6 mb-3">
 					<label>Filter by {{dataHouse?.filterKeys[1]}}</label>
-					<select [(ngModel)]="contentSourceFilterValue" name="ContentSource"
-							class="form-control form-control-sm">
+					<!--<select [(ngModel)]="contentSourceFilterValue" name="ContentSource" class="form-control form-control-sm">-->
+					<select [(ngModel)]="filterModel['Content Source']" name="ContentSource" class="form-control form-control-sm">
 						<option [selected]="dataHouse?.filterKeys[1]" value="" selected>{{dataHouse?.filterKeys[1]}}
 						</option>
 						<option class="dropdown-item" *ngFor="let vals of dataHouse?.filters['Content Source']"
@@ -55,32 +56,67 @@
 </div>
 
 <div>
-	<div class="card mb-3 border-0 bg-gray-l3" aria-atomic="true"
-		 *ngFor="let item of filteredData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index; let odd = odd">
-		<div class="card-body">
-			<div class="row">
-				<div class="col-md-3"><img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/>
+	<ng-container *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
+		<div class="card mb-3 {{bgColor}}"
+			 *ngFor="let item of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index; let odd = odd">
+			<div class="card-body">
+				<div class="row">
+					<ng-container *ngIf="'left' === imagePosition">
+						<div *ngIf="item[imageField]" class="col-md-3">
+							<img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/>
+						</div>
+					</ng-container>
+					<div class="{{cardTextWidth}}">
+						<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}">{{item[titleField]}}</a></div>
+						<!-- Leave this in until we have a chance to demo the display
+						<p>{{item[descriptionField]}}<br/>
+						{{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
+						<span *ngFor="let filter of filterFields"> {{filter}}:
+							<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span><br/>
+						</span>
+						-->
+						<p *ngIf="item[descriptionField]">{{item[descriptionField]}}</p>
+						<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
+						<ng-container *ngIf="displayFilterVals">
+							<p *ngFor="let filter of filterFields"> {{filter}}:
+								<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a
+										href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span>
+							</p>
+						</ng-container>
+					</div><!-- col -->
+					<ng-container *ngIf="'right' === imagePosition">
+						<div *ngIf="item[imageField]" class="col-md-3">
+							<img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/>
+						</div>
+					</ng-container>
+				</div><!-- row -->
+			</div><!-- card-body -->
+
+		</div><!-- card -->
+	</ng-container>
+	<ng-container *ngIf="'top' === imagePosition">
+		<div class="row">
+			<div class="col-md-4"  *ngFor="let item of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index; let odd = odd">
+				<div class="card mb-3 {{bgColor}}">
+					<div class="card-body">
+						<div class="card">
+							<img *ngIf="item[imageField]" src="{{item[imageField]}}" alt="{{item[titleField]}}" class="card-img-top p-0"/>
+							<div class="card-body pr-0 pl-0">
+								<div *ngIf="item[titleField]" class="card-title h4 text-left">{{item[titleField]}}</div>
+								<p *ngIf="item[descriptionField]">{{item[descriptionField]}}</p>
+								<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
+								<ng-container *ngIf="displayFilterVals">
+									<p *ngFor="let filter of filterFields"> {{filter}}:
+										<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a
+												href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span>
+									</p>
+								</ng-container>
+							</div>
+						</div>
+					</div>
 				</div>
-
-				<div class="col-md-9">
-					<div class="card-title h4 text-left"><a href="{{item[urlField]}}">{{item[titleField]}}</a></div>
-					<!--
-					<p>{{item[descriptionField]}}<br/>
-					{{dateField}}: {{item[dateField] | date:'MMMM y'}} <br/>
-					<span *ngFor="let filter of filterFields"> {{filter}}:
-						<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span><br/>
-					</span>
-					-->
-					<p *ngIf="item[descriptionField]">{{item[descriptionField]}}</p>
-					<p>{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
-					<p *ngFor="let filter of filterFields"> {{filter}}:
-						<span *ngFor="let filterVal of item[filter] | slice:0:10; let last = last"><a
-								href="?{{filter}}={{filterVal}}">{{filterVal}}</a><span *ngIf="!last">, </span></span>
-					</p>
-				</div><!-- col -->
-			</div><!-- row -->
-		</div><!-- card-body -->
-
-	</div><!-- card -->
+			</div>
+		</div>
+	</ng-container>
 	<pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>

@@ -440,6 +440,11 @@
 																		style="font-size:50px; color:#666; vertical-align:middle;"></span>
 					loading...
 				</div>
+				<!-- Full app with all options
+				imageposition = left | right | top
+				bg = class(es) to add to background for color.  Should call cdc_get_color_classes from
+				ex: bg-{color}-{p|s|t} or bg-primary (for main site color), or bg-white, or bg-gray-l1
+
 				<app-root
 						data-datasource="assets/museum-pages.json"
 						data-srctype="flat"
@@ -448,7 +453,25 @@
 						data-imagefield="Iconic Image"
 						data-datefield="Last Reviewed"
 						data-urlfield="Public URL"
-						data-layout="list">
+						data-displayfiltervals="true"
+						data-displaycomments="true"
+						data-bgcolor="bg-cyan-p"
+						data-imageposition="left">
+				</app-root>
+				-->
+				<app-root
+						data-datasource="assets/museum-pages.json"
+						data-srctype="flat"
+						data-titlefield="Post Title"
+						data-descfield="Internal-Only Description"
+						data-imagefield="Iconic Image"
+						data-datefield="Last Reviewed"
+						data-urlfield="Public URL"
+						data-displayfiltervals="true"
+						data-displaycomments="true"
+						data-itemsperpage="10"
+						data-bgcolor="bg-primary"
+						data-imageposition="top">
 				</app-root>
 
 
