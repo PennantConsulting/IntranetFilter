@@ -10,7 +10,7 @@ export class FilterPipe implements PipeTransform {
     constructor(private globalsService: GlobalsService) {
     }
 
-    transform(items: any[], formVals: any[], searchFields: string[]): any[] {
+    transform(items: any[], formVals: any[], searchFields: string[], dateField: string, titleField: string): any[] {
 
         // Defaults if none are filtered
         if (!items) {
@@ -23,7 +23,14 @@ export class FilterPipe implements PipeTransform {
             for (let i = 0; i < this.globalsService.SORT_OPTIONS.length; i++) {
                 let sortOption = this.globalsService.SORT_OPTIONS[i];
                 if (sortOption.value === sortBy) {
+
                     let sortField = sortOption.field;
+                    if ( 'date' === sortField ) {
+                        sortField = dateField;
+                    } else if ( 'title' === sortField ) {
+                        sortField = titleField;
+                    }
+
                     let sortDirection = sortOption.dir;
                     items.sort((a, b): number => {
                         if ('date' === sortField) {

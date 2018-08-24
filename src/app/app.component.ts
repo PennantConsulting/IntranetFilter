@@ -92,7 +92,8 @@ export class AppComponent {
             // Initialize default sorting and filtering
             let mockFormVals = [];
             mockFormVals['Sort'] = this.defaultSort;
-            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items, mockFormVals, this.searchFields);
+            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
+                mockFormVals, this.searchFields, this.dateField, this.titleField);
 
             // remove spinner
             document.getElementById('mediaSpinner').remove();
@@ -123,7 +124,8 @@ export class AppComponent {
 
         this.updateFilter = function (formVals) {
             // this is a pass-through to update the filter pipe on submit
-            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items, formVals, this.searchFields);
+            this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
+                formVals, this.searchFields, this.dateField, this.titleField);
         };
 
 
