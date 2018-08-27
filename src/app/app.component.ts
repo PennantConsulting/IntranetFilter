@@ -28,6 +28,8 @@ export class AppComponent {
     filterFields: string[]; // TODO: Read this from the data file???
     imagePosition: string; // top | left | right
     itemsPerPage: string;
+    boundaryLinks: boolean;
+    directionLinks: boolean;
     bgColor: string;
     defaultSort: string;
     defaultFilter: object[];
@@ -68,6 +70,8 @@ export class AppComponent {
         this.displayComments = 'true' === appInjectDiv.getAttribute('data-displaycomments');
         this.imagePosition = appInjectDiv.getAttribute('data-imageposition');
         this.itemsPerPage = appInjectDiv.getAttribute('data-itemsperpage');
+        this.boundaryLinks = 'true' === appInjectDiv.getAttribute('data-pageboundarylinks');
+        this.directionLinks = 'true' === appInjectDiv.getAttribute('data-pagedirectionlinks');
         this.bgColor = appInjectDiv.getAttribute('data-bgcolor');
 
         this.defaultSort = appInjectDiv.getAttribute('data-sortorder');
