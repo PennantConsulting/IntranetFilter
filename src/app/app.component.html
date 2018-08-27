@@ -3,18 +3,18 @@
 		<form class="" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
 			<div class="row">
 				<div class="col-8 mb-3">
-					<label>Search</label>
+					<label for="Search" class="forms-label h5 open">Search</label>
 					<!--
-					<input [(ngModel)]="searchValue" (keyup)="updateFilter(filtersubmit.value)" class="form-control form-control-sm" type="text" id="inputSearch"
+					<input [(ngModel)]="searchValue" (keyup)="updateFilter(filtersubmit.value)" class="form-control" type="text" id="inputSearch"
 						   name="Search" aria-controls="searchtext-info"/>
 						   -->
-					<input [(ngModel)]="searchValue" class="form-control form-control-sm" type="text" id="inputSearch"
+					<input [(ngModel)]="searchValue" class="form-control" type="text" id="Search"
 						   name="Search" aria-controls="searchtext-info"/>
 				</div>
 				<div class="col-4 mb-3">
-					<label>Sort</label>
-					<!--<select [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" class="form-control form-control-sm">-->
-					<select [(ngModel)]="sortValue" name="Sort" class="form-control form-control-sm">
+					<label for="Sort" class="forms-label h5 open">Sort</label>
+					<!--<select [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" class="form-control">-->
+					<select [(ngModel)]="sortValue" name="Sort" id="Sort" class="form-control">
 						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
 							{{sortOption.label}}
 						</option>
@@ -23,9 +23,9 @@
 			</div>
 			<div class="row">
 				<div *ngFor="let filter of filterFields" class="col-md-6 mb-3">
-					<label>Filter by {{filter}}</label>
-					<!--<select [(ngModel)]="filterModel[filter]" (change)="updateFilter(filtersubmit.value)" name="{{filter}}" class="form-control form-control-sm">-->
-					<select [(ngModel)]="filterModel[filter]" name="filter-{{filter}}" class="form-control form-control-sm">
+					<label for="filter-{{filter}}" class="forms-label h5 open">Filter by {{filter}}</label>
+					<!--<select [(ngModel)]="filterModel[filter]" (change)="updateFilter(filtersubmit.value)" name="{{filter}}" class="form-control">-->
+					<select [(ngModel)]="filterModel[filter]" name="filter-{{filter}}" id="filter-{{filter}}" class="form-control">
 						<option [selected]="filter" value="" selected>{{filter}}
 						</option>
 						<option class="dropdown-item" *ngFor="let vals of dataHouse.filters[filter]" value="{{vals}}">
@@ -38,7 +38,7 @@
 			<div class="row">
 				<!-- Submit / Reset Buttons -->
 				<div class="col-4">
-					<button type="reset" class="btn btn-sm btn-white" (ngClick)="filtersubmit.reset(); updateFilter(filtersubmit.value);">Reset</button>
+					<button type="reset" class="btn btn-sm btn-white mr-3" (ngClick)="filtersubmit.reset(); updateFilter(filtersubmit.value);">Reset</button>
 					<button type="submit" class="btn btn-sm btn-primary">Submit</button>
 				</div>
 			</div>
