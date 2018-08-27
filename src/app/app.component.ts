@@ -11,7 +11,9 @@ import {GlobalsService} from './globals.service';
 })
 export class AppComponent {
     dataHouse;
-    filteredData;
+    filteredData: any[];
+    currentPageData: any[];
+    filteredDataLength: number;
 
     // Configuration options read from data attributes
     appSrctype: string; // flat, api
@@ -38,6 +40,9 @@ export class AppComponent {
     searchValue: string;
     sortValue: string;
     filterModel;
+
+    // Pagination
+    currentPage: number;
 
     sortOptions: Array<object>;
 
@@ -82,6 +87,9 @@ export class AppComponent {
         this.searchFields.push( this.titleField );
         this.searchFields.push( this.descriptionField );
 
+        // Setup pagination
+        this.currentPage = 1;
+
         // Setup width of text column
         this.cardTextWidth = 'col-md-9';
         if ( ! this.imageField ) {
@@ -103,9 +111,10 @@ export class AppComponent {
             }
             this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
                 mockFormVals, this.searchFields, this.dateField, this.titleField);
+            this.filteredDataLength = this.filteredData.length;
 
-            // remove spinner
-            document.getElementById('mediaSpinner').remove();
+            // Initial pagination
+            this.setupCurrentPage();
 
             //Setup filter drop downs based on data file
             for (var key in this.dataHouse.filters) {
@@ -114,6 +123,8 @@ export class AppComponent {
                 }
             }
 
+            // remove spinner
+            document.getElementById('mediaSpinner').remove();
         });
     }
 
@@ -135,6 +146,8 @@ export class AppComponent {
         // this is a pass-through to update the filter pipe on submit
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             formVals, this.searchFields, this.dateField, this.titleField);
+        this.filteredDataLength = this.filteredData.length;
+        this.setupCurrentPage();
     }
 
     doFilter(filterField, filterValue) {
@@ -143,6 +156,8 @@ export class AppComponent {
         mockFormVals['filter-' + filterField] = filterValue;
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             mockFormVals, this.searchFields, this.dateField, this.titleField);
+        this.filteredDataLength = this.filteredData.length;
+        this.setupCurrentPage();
     }
 
     getURLParameterByName(name, url) {
@@ -176,6 +191,13 @@ export class AppComponent {
         return queryString;
     }
 
+    setupCurrentPage(): void {
+        // Trim down dataset to limit to current page
+        const end = +this.currentPage * +this.itemsPerPage;
+        const start = +end - +this.itemsPerPage;
+        this.currentPageData = this.filteredData.slice(start, end);
+    }
+
     setDefaultFilters( defaultFilterParam: string ) {
         // First set app defaults
         if ( defaultFilterParam ) {
@@ -197,6 +219,12 @@ export class AppComponent {
                 this.filterModel[param] = qs_params[param];
             }
         }
+    }
+
+    changeCurrentPage( pageNumber: number ): void {
+        console.log( "Switching to page number: " + pageNumber );
+        this.currentPage = pageNumber;
+        this.setupCurrentPage();
     }
 
 }

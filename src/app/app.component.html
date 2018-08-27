@@ -50,8 +50,9 @@
 
 <div>
 	<ng-container *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
-		<div class="card mb-3 {{bgColor}}"
-			 *ngFor="let item of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index; let odd = odd">
+		<!--<div class="card mb-3 {{bgColor}}"
+			 *ngFor="let item of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index; let odd = odd">-->
+		<div class="card mb-3 {{bgColor}}" *ngFor="let item of currentPageData; let i = index; let odd = odd">
 			<div class="card-body">
 				<div class="row">
 					<ng-container *ngIf="'left' === imagePosition">
@@ -92,7 +93,8 @@
 	</ng-container>
 	<ng-container *ngIf="'top' === imagePosition">
 		<div class="row">
-			<div class="col-md-4"  *ngFor="let item of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index; let odd = odd">
+			<!--<div class="col-md-4"  *ngFor="let item of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index; let odd = odd">-->
+			<div class="col-md-4"  *ngFor="let item of currentPageData; let i = index; let odd = odd">
 				<div class="card mb-3 {{bgColor}}">
 					<div class="card-body">
 						<div class="card">
@@ -115,5 +117,15 @@
 			</div>
 		</div>
 	</ng-container>
-	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+	<!--<pagination-controls (pageChange)="p = $event"></pagination-controls>-->
+	<ngb-pagination
+		class="d-flex justify-content-center"
+		(pageChange)="changeCurrentPage($event)"
+		[(collectionSize)]="filteredDataLength"
+		[(page)]="currentPage"
+		[maxSize]="3"
+		[rotate]="true"
+		[ellipses]="true"
+		[(pageSize)]="itemsPerPage">
+	</ngb-pagination>
 </div>
