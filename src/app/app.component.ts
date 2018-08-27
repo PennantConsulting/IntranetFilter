@@ -48,6 +48,7 @@ export class AppComponent {
     ngOnInit() {
         this.sortOptions = this.globalsService.SORT_OPTIONS;
 
+
         // Read data attributes from app-root
         const appInjectDiv = document.getElementsByTagName('app-root')[0];
         this.appSrctype = appInjectDiv.getAttribute('data-srctype') || 'flat';
@@ -145,20 +146,42 @@ export class AppComponent {
     }
 
     getURLParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, '\\$&');
+        const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
             results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
+        if (!results) {
+            return null;
+        }
+        if (!results[2]) {
+            return '';
+        }
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    getAllQueryStringParams(): object[] {
+        const uri = window.location.search;
+        var queryString = [];
+        uri.replace(
+            new RegExp('([^?=&]+)(=([^&]*))?', 'g'),
+            function($0, $1, $2, $3) {
+                let qsKey = decodeURIComponent( $1 );
+                let qsVal = decodeURIComponent( $3 );
+                queryString[qsKey] = qsVal;
+                return '';
+            }
+        );
+        return queryString;
     }
 
     setDefaultFilters( defaultFilterParam: string ) {
+        // First set app defaults
         if ( defaultFilterParam ) {
-            let defaultFilterFields = defaultFilterParam.split( ',' );
+            const defaultFilterFields = defaultFilterParam.split( ',' );
             for ( let i = 0; i < defaultFilterFields.length; i++ ) {
-                let filterFieldAry = defaultFilterFields[i].split( '=' );
+                const filterFieldAry = defaultFilterFields[i].split( '=' );
                 if ( filterFieldAry.length === 2 ) {
                     this.defaultFilter['filter-' + filterFieldAry[0]] = filterFieldAry[1];
                     this.filterModel[filterFieldAry[0]] = filterFieldAry[1];
@@ -166,6 +189,14 @@ export class AppComponent {
             }
         }
 
+        // Now override with query string specifics
+        const qs_params = this.getAllQueryStringParams();
+        if ( qs_params ) {
+            for ( const param in qs_params ) {
+                this.defaultFilter['filter-' + param] = qs_params[param];
+                this.filterModel[param] = qs_params[param];
+            }
+        }
     }
 
 }
