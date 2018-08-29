@@ -31,6 +31,11 @@ export class AppComponent {
     boundaryLinks: boolean;
     directionLinks: boolean;
     bgColor: string;
+    formBgColor: string;
+    resetButtonColor: string;
+    submitButtonColor: string;
+    submitButton: boolean;
+    colWidth: string;
     defaultSort: string;
     defaultFilter: object[];
 
@@ -59,7 +64,6 @@ export class AppComponent {
         // Read data attributes from app-root
         const appInjectDiv = document.getElementsByTagName('app-root')[0];
         this.appSrctype = appInjectDiv.getAttribute('data-srctype') || 'flat';
-        //this.appLayout = appInjectDiv.getAttribute('data-layout') || 'list';
         this.dataPath = appInjectDiv.getAttribute('data-datasource');
         this.titleField = appInjectDiv.getAttribute('data-titlefield');
         this.descriptionField = appInjectDiv.getAttribute('data-descfield');
@@ -67,13 +71,29 @@ export class AppComponent {
         this.dateField = appInjectDiv.getAttribute('data-datefield');
         this.urlField = appInjectDiv.getAttribute('data-urlfield');
         this.displayFilterVals = 'true' === appInjectDiv.getAttribute('data-displayfiltervals');
+        this.colWidth = appInjectDiv.getAttribute('data-colwidth');
+        this.submitButton = 'true' === appInjectDiv.getAttribute('data-submitbutton');
         this.displayComments = 'true' === appInjectDiv.getAttribute('data-displaycomments');
         this.imagePosition = appInjectDiv.getAttribute('data-imageposition');
         this.itemsPerPage = appInjectDiv.getAttribute('data-itemsperpage');
         this.boundaryLinks = 'true' === appInjectDiv.getAttribute('data-pageboundarylinks');
         this.directionLinks = 'true' === appInjectDiv.getAttribute('data-pagedirectionlinks');
         this.bgColor = appInjectDiv.getAttribute('data-bgcolor');
-
+        if ( ! this.bgColor ) {
+            this.bgColor = 'bg-white';
+        }
+        this.formBgColor = appInjectDiv.getAttribute('data-formbgcolor');
+        if ( ! this.formBgColor ) {
+            this.formBgColor = 'bg-white';
+        }
+        this.resetButtonColor = appInjectDiv.getAttribute('data-resetbuttoncolor');
+        if ( ! this.resetButtonColor ) {
+            this.resetButtonColor = 'btn-white';
+        }
+        this.submitButtonColor = appInjectDiv.getAttribute('data-submitbuttoncolor');
+        if ( ! this.submitButtonColor ) {
+            this.submitButtonColor = 'btn-primary';
+        }
         this.defaultSort = appInjectDiv.getAttribute('data-sortorder');
         if ( ! this.defaultSort ) {
             this.defaultSort = 'a-z';
@@ -120,8 +140,8 @@ export class AppComponent {
             // Initial pagination
             this.setupCurrentPage();
 
-            //Setup filter drop downs based on data file
-            for (var key in this.dataHouse.filters) {
+            // Setup filter drop downs based on data file
+            for (const key in this.dataHouse.filters) {
                 if (Object.prototype.hasOwnProperty.call(this.dataHouse.filters, key)) {
                     this.filterFields.push(key);
                 }
@@ -133,17 +153,39 @@ export class AppComponent {
     }
 
     organizeData(data, dataHouse) {
-        // TODO: Build strongly typed classes for filter and item
         dataHouse.filters = data.filters;
         dataHouse.items = data.items;
         dataHouse.filterKeys = [];
 
         // Save filter Keys for easier access
-        for (let key in (dataHouse.filters)) {
-            dataHouse.filterKeys.push(key);
+        for (const key in (dataHouse.filters)) {
+            if ( dataHouse.filters.hasOwnProperty( key ) ) {
+                dataHouse.filterKeys.push(key);
+            }
         }
 
         return dataHouse;
+    }
+
+    clearFilter() {
+        // Reset models and form
+        this.sortValue = '';
+        this.searchValue = '';
+        for ( const property in this.filterModel ) {
+            if ( this.filterModel.hasOwnProperty( property ) ) {
+                this.filterModel[property] = '';
+            }
+        }
+
+        // Reset items in list
+        const mockFormVals = [];
+        mockFormVals['Sort'] = this.defaultSort;
+        this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
+            mockFormVals, this.searchFields, this.dateField, this.titleField);
+        this.filteredDataLength = this.filteredData.length;
+
+        // Initial pagination
+        this.setupCurrentPage();
     }
 
     updateFilter(formVals) {
@@ -162,6 +204,7 @@ export class AppComponent {
             mockFormVals, this.searchFields, this.dateField, this.titleField);
         this.filteredDataLength = this.filteredData.length;
         this.setupCurrentPage();
+        return false; // Needed to stop refresh on click
     }
 
     getURLParameterByName(name, url) {
@@ -219,14 +262,15 @@ export class AppComponent {
         const qs_params = this.getAllQueryStringParams();
         if ( qs_params ) {
             for ( const param in qs_params ) {
-                this.defaultFilter['filter-' + param] = qs_params[param];
-                this.filterModel[param] = qs_params[param];
+                if ( qs_params.hasOwnProperty( param ) ) {
+                    this.defaultFilter['filter-' + param] = qs_params[param];
+                    this.filterModel[param] = qs_params[param];
+                }
             }
         }
     }
 
     changeCurrentPage( pageNumber: number ): void {
-        console.log( "Switching to page number: " + pageNumber );
         this.currentPage = pageNumber;
         this.setupCurrentPage();
     }
