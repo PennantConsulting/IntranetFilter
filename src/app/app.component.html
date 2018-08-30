@@ -102,7 +102,7 @@
 						<div class="card">
 							<img *ngIf="item[imageField]" src="{{item[imageField]}}" alt="{{item[titleField]}}" class="card-img-top p-0"/>
 							<div class="card-body pr-0 pl-0">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left">{{item[titleField]}}</div>
+								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}">{{item[titleField]}}</a></div>
 								<p *ngIf="item[descriptionField]">{{item[descriptionField]}}</p>
 								<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
 								<ng-container *ngIf="displayFilterVals">
