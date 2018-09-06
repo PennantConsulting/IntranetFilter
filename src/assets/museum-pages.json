@@ -19,7 +19,20 @@
       "OFFICE OF THE DIRECTOR-2"
     ]
   },
-  "sort": [],
+  "sort": {
+    "Post Title": {
+      "asc": "Title A - Z",
+      "desc": "Title Z - A"
+    },
+    "Topics": {
+      "asc": "Topics A-Z",
+      "desc": "Topics Z-A"
+    },
+    "Last Reviewed": {
+      "asc": "Oldest First",
+      "desc": "Newest First"
+    }
+  },
   "items": [
     {
       "Public URL": "\/museum\/history\/redspots.html",

@@ -10,7 +10,7 @@ export class FilterPipe implements PipeTransform {
     constructor(private globalsService: GlobalsService) {
     }
 
-    transform(items: any[], formVals: any[], searchFields: string[], dateField: string, titleField: string): any[] {
+    transform(items: any[], formVals: any[], searchFields: string[], sortFields: string[]): any[] {
 
         // Defaults if none are filtered
         if (!items) {
@@ -19,40 +19,27 @@ export class FilterPipe implements PipeTransform {
 
         // Sorting
         if (formVals['Sort']) {
-            let sortBy = formVals['Sort'];
-            for (let i = 0; i < this.globalsService.SORT_OPTIONS.length; i++) {
-                let sortOption = this.globalsService.SORT_OPTIONS[i];
-                if (sortOption.value === sortBy) {
-
-                    let sortField = sortOption.field;
-                    if ( 'date' === sortField ) {
-                        sortField = dateField;
-                    } else if ( 'title' === sortField ) {
-                        sortField = titleField;
+            const sortByFormVal = formVals['Sort'];
+            // sortBy will be {field name}->{order} so something like Post Title->asc where order is asc or desc
+            const sortByParts = sortByFormVal.split('::');
+            if ( sortByParts.length === 2 ) {
+                const sortField = sortByParts[0];
+                const sortDirection = sortByParts[1];
+                items.sort((a, b): number => {
+                    const aVal = a[sortField].toLowerCase();
+                    const bVal = b[sortField].toLowerCase();
+                    if (aVal === bVal) {
+                        return 0;
+                    } else if ('asc' === sortDirection && aVal < bVal) {
+                        return -1;
+                    } else if ('asc' === sortDirection && aVal > bVal) {
+                        return 1;
+                    } else if ('desc' === sortDirection && aVal > bVal) {
+                        return -1;
+                    } else if ('desc' === sortDirection && aVal < bVal) {
+                        return 1;
                     }
-
-                    let sortDirection = sortOption.dir;
-                    items.sort((a, b): number => {
-                        if ('date' === sortField) {
-
-                        } else {
-                            let aVal = a[sortField].toLowerCase();
-                            let bVal = b[sortField].toLowerCase();
-                            if (aVal === bVal) {
-                                return 0;
-                            } else if ('asc' === sortDirection && aVal < bVal) {
-                                return -1;
-                            } else if ('asc' === sortDirection && aVal > bVal) {
-                                return 1;
-                            } else if ('desc' === sortDirection && aVal > bVal) {
-                                return -1;
-                            } else if ('desc' === sortDirection && aVal < bVal) {
-                                return 1;
-                            }
-                        }
-                    });
-                }
-
+                });
             }
         }
 
@@ -62,10 +49,10 @@ export class FilterPipe implements PipeTransform {
         }
 
         // Determine the filter fields in the form
-        let formFilters = [];
-        for ( let key in formVals ) {
+        const formFilters = [];
+        for ( const key in formVals ) {
             if ( key.startsWith( 'filter-' ) ) {
-                let parts = key.split( '-' );
+                const parts = key.split( '-' );
                 if ( parts.length > 1 ) {
                     if ( formVals[ key ] ) { // If form value is undefined or empty, do not filter on it
                         formFilters[parts[1]] = formVals[key];
@@ -77,7 +64,7 @@ export class FilterPipe implements PipeTransform {
         return items.filter(function (item) {
             let retVal = true;
 
-            for ( let filterField in formFilters ) {
+            for ( const filterField in formFilters ) {
                 let itemHasFilterVal = false;
                 for (let i = 0; i < item[filterField].length; i++) {
                     if (item[filterField][i] === formFilters[filterField] ) {
@@ -96,7 +83,7 @@ export class FilterPipe implements PipeTransform {
                 if ( searchText && searchText.length >= 3 ) {
                     let foundSearchTerm = false;
                     for ( let i = 0; i < searchFields.length; i++ ) {
-                        let searchField = searchFields[i];
+                        const searchField = searchFields[i];
                         if (item[searchField].toLowerCase().includes(searchText.toLowerCase())) {
                             foundSearchTerm = true;
                             break;
@@ -115,7 +102,7 @@ export class FilterPipe implements PipeTransform {
 
     needToFilterData( formVals: object ): boolean {
         let retVal = false;
-        for ( let key in formVals ) {
+        for ( const key in formVals ) {
             if ( key.startsWith( 'filter-' ) || 'Search' === key ) {
                 retVal = true;
             }

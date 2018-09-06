@@ -58,7 +58,7 @@ export class AppComponent {
     }
 
     ngOnInit() {
-        this.sortOptions = this.globalsService.SORT_OPTIONS;
+        // this.sortOptions = this.globalsService.SORT_OPTIONS;
 
 
         // Read data attributes from app-root
@@ -95,8 +95,9 @@ export class AppComponent {
             this.submitButtonColor = 'btn-primary';
         }
         this.defaultSort = appInjectDiv.getAttribute('data-sortorder');
+        //TODO: Need to look at what values we are setting from WCMS for sort order here
         if ( ! this.defaultSort ) {
-            this.defaultSort = 'a-z';
+            this.defaultSort = this.titleField + '->asc';
         }
         this.sortValue = this.defaultSort;
 
@@ -134,7 +135,7 @@ export class AppComponent {
                 mockFormVals = Object.assign({}, mockFormVals, this.defaultFilter );
             }
             this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-                mockFormVals, this.searchFields, this.dateField, this.titleField);
+                mockFormVals, this.searchFields, this.dataHouse.sorts);
             this.filteredDataLength = this.filteredData.length;
 
             // Initial pagination
@@ -147,6 +148,25 @@ export class AppComponent {
                 }
             }
 
+            // Setup sort drop down based on data file
+            this.sortOptions = [];
+            for ( const sortField in this.dataHouse.sorts ) {
+                if ( Object.prototype.hasOwnProperty.call(this.dataHouse.sorts, sortField)) {
+                    const ascLabel = this.dataHouse.sorts[sortField]['asc'];
+                    const sortOptionAsc = [];
+                    sortOptionAsc['label'] = ascLabel;
+                    sortOptionAsc['value'] = sortField + '::' + 'asc';
+                    this.sortOptions.push( sortOptionAsc );
+
+                    const descLabel = this.dataHouse.sorts[sortField]['desc'];
+                    const sortOptionDesc = [];
+                    sortOptionDesc['label'] = descLabel;
+                    sortOptionDesc['value'] = sortField + '::' + 'desc';
+                    this.sortOptions.push( sortOptionDesc );
+                }
+
+            }
+
             // remove spinner
             document.getElementById('mediaSpinner').remove();
         });
@@ -154,6 +174,7 @@ export class AppComponent {
 
     organizeData(data, dataHouse) {
         dataHouse.filters = data.filters;
+        dataHouse.sorts = data.sort;
         dataHouse.items = data.items;
         dataHouse.filterKeys = [];
 
@@ -181,7 +202,7 @@ export class AppComponent {
         const mockFormVals = [];
         mockFormVals['Sort'] = this.defaultSort;
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-            mockFormVals, this.searchFields, this.dateField, this.titleField);
+            mockFormVals, this.searchFields, this.dataHouse.sorts);
         this.filteredDataLength = this.filteredData.length;
 
         // Initial pagination
@@ -191,17 +212,17 @@ export class AppComponent {
     updateFilter(formVals) {
         // this is a pass-through to update the filter pipe on submit
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-            formVals, this.searchFields, this.dateField, this.titleField);
+            formVals, this.searchFields, this.dataHouse.sorts);
         this.filteredDataLength = this.filteredData.length;
         this.setupCurrentPage();
     }
 
     doFilter(filterField, filterValue) {
-        let mockFormVals = [];
+        const mockFormVals = [];
         this.filterModel[filterField] = filterValue;
         mockFormVals['filter-' + filterField] = filterValue;
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-            mockFormVals, this.searchFields, this.dateField, this.titleField);
+            mockFormVals, this.searchFields, this.dataHouse.sorts);
         this.filteredDataLength = this.filteredData.length;
         this.setupCurrentPage();
         return false; // Needed to stop refresh on click
@@ -225,12 +246,12 @@ export class AppComponent {
 
     getAllQueryStringParams(): object[] {
         const uri = window.location.search;
-        var queryString = [];
+        const queryString = [];
         uri.replace(
             new RegExp('([^?=&]+)(=([^&]*))?', 'g'),
             function($0, $1, $2, $3) {
-                let qsKey = decodeURIComponent( $1 );
-                let qsVal = decodeURIComponent( $3 );
+                const qsKey = decodeURIComponent( $1 );
+                const qsVal = decodeURIComponent( $3 );
                 queryString[qsKey] = qsVal;
                 return '';
             }
