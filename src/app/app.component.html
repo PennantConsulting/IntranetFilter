@@ -2,7 +2,7 @@
 	<div class="card-body">
 		<form class="" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
 			<div class="row">
-				<div class="col-8 mb-3">
+				<div class="col-md-6 mb-3">
 					<label for="Search" class="forms-label h5 open">Search</label>
 					<input *ngIf="! submitButton" [(ngModel)]="searchValue" (keyup)="updateFilter(filtersubmit.value)"
 						   class="form-control nobutton" type="text" id="Search"
@@ -10,21 +10,6 @@
 					<input *ngIf="submitButton" [(ngModel)]="searchValue" class="form-control button" type="text" id="Search"
 						   name="Search"/>
 				</div>
-				<div class="col-4 mb-3">
-					<label for="Sort" class="forms-label h5 open">Sort</label>
-					<select *ngIf="! submitButton" [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
-					<select *ngIf="submitButton" [(ngModel)]="sortValue" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
-				</div>
-			</div>
-			<div class="row">
 				<div *ngFor="let filter of filterFields" class="col-md-6 mb-3">
 					<label for="filter-{{filter}}" class="forms-label h5 open">Filter by {{filter}}</label>
 					<select *ngIf="! submitButton" [(ngModel)]="filterModel[filter]" (change)="updateFilter(filtersubmit.value)"
@@ -44,12 +29,24 @@
 					</select>
 				</div>
 			</div>
-
 			<div class="row">
 				<!-- Submit / Reset Buttons -->
-				<div class="col-4">
+				<div class="col-md-6 mt-md-4 order-2 order-md-1">
 					<button type="reset" class="btn btn-sm {{resetButtonColor}} mr-3" (click)="clearFilter()">Reset</button>
 					<button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
+				</div>
+				<div class="col-md-6 mb-3 order-1 order-md-2">
+					<label for="Sort" class="forms-label h5 open">Sort</label>
+					<select *ngIf="! submitButton" [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" id="Sort" class="form-control">
+						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
+							{{sortOption.label}}
+						</option>
+					</select>
+					<select *ngIf="submitButton" [(ngModel)]="sortValue" name="Sort" id="Sort" class="form-control">
+						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
+							{{sortOption.label}}
+						</option>
+					</select>
 				</div>
 			</div>
 
