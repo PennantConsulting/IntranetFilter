@@ -14,6 +14,8 @@ export class GlobalsService {
 
     SORT_VAL_DELIMITER = '::';
 
+    COMMENT_ANCHOR = 'cdc_comments';
+
     constructor() {
     }
 }

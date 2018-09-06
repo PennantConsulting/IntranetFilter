@@ -25,7 +25,7 @@ export class AppComponent {
     urlField: string;
     displayFilterVals: boolean;
     displayComments: boolean;
-    filterFields: string[]; // TODO: Read this from the data file???
+    filterFields: string[];
     imagePosition: string; // top | left | right
     itemsPerPage: string;
     boundaryLinks: boolean;
@@ -169,6 +169,10 @@ export class AppComponent {
             const loadingElement = document.getElementById('mediaSpinner');
             loadingElement.parentNode.removeChild(loadingElement);
         });
+    }
+
+    getCommentAnchor() {
+        return this.globalsService.COMMENT_ANCHOR;
     }
 
     organizeData(data, dataHouse) {
