@@ -95,9 +95,8 @@ export class AppComponent {
             this.submitButtonColor = 'btn-primary';
         }
         this.defaultSort = appInjectDiv.getAttribute('data-sortorder');
-        //TODO: Need to look at what values we are setting from WCMS for sort order here
         if ( ! this.defaultSort ) {
-            this.defaultSort = this.titleField + '->asc';
+            this.defaultSort = this.titleField + this.globalsService.SORT_VAL_DELIMITER + 'asc';
         }
         this.sortValue = this.defaultSort;
 
@@ -155,20 +154,20 @@ export class AppComponent {
                     const ascLabel = this.dataHouse.sorts[sortField]['asc'];
                     const sortOptionAsc = [];
                     sortOptionAsc['label'] = ascLabel;
-                    sortOptionAsc['value'] = sortField + '::' + 'asc';
+                    sortOptionAsc['value'] = sortField + this.globalsService.SORT_VAL_DELIMITER + 'asc';
                     this.sortOptions.push( sortOptionAsc );
 
                     const descLabel = this.dataHouse.sorts[sortField]['desc'];
                     const sortOptionDesc = [];
                     sortOptionDesc['label'] = descLabel;
-                    sortOptionDesc['value'] = sortField + '::' + 'desc';
+                    sortOptionDesc['value'] = sortField + this.globalsService.SORT_VAL_DELIMITER + 'desc';
                     this.sortOptions.push( sortOptionDesc );
                 }
-
             }
 
             // remove spinner
-            document.getElementById('mediaSpinner').remove();
+            const loadingElement = document.getElementById('mediaSpinner');
+            loadingElement.parentNode.removeChild(loadingElement);
         });
     }
 

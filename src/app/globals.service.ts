@@ -12,6 +12,8 @@ export class GlobalsService {
         {label: 'Oldest - Newest', value: 'recent-last', field: 'date', dir: 'asc'},
     ];
 
+    SORT_VAL_DELIMITER = '::';
+
     constructor() {
     }
 }

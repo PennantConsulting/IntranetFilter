@@ -21,7 +21,7 @@ export class FilterPipe implements PipeTransform {
         if (formVals['Sort']) {
             const sortByFormVal = formVals['Sort'];
             // sortBy will be {field name}->{order} so something like Post Title->asc where order is asc or desc
-            const sortByParts = sortByFormVal.split('::');
+            const sortByParts = sortByFormVal.split(this.globalsService.SORT_VAL_DELIMITER);
             if ( sortByParts.length === 2 ) {
                 const sortField = sortByParts[0];
                 const sortDirection = sortByParts[1];
