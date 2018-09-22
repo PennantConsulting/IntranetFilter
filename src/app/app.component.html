@@ -64,7 +64,7 @@
 						<div class="row">
 							<ng-container *ngIf="'left' === imagePosition">
 								<div *ngIf="item[imageField]" class="col-md-3">
-									<img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/>
+									<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
 								</div>
 							</ng-container>
 							<div class="{{cardTextWidth}}">
