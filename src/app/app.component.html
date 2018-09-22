@@ -68,8 +68,8 @@
 								</div>
 							</ng-container>
 							<div class="{{cardTextWidth}}">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}">{{item[titleField]}}</a></div>
-								<p *ngIf="item[descriptionField]">{{item[descriptionField]}}</p>
+								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
+								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"> {{filter}}:
@@ -98,10 +98,10 @@
 				<div class="card mb-3 {{bgColor}}">
 					<div class="card-body">
 						<div class="card">
-							<img *ngIf="item[imageField]" src="{{item[imageField]}}" alt="{{item[titleField]}}" class="card-img-top p-0"/>
+							<img *ngIf="item[imageField]" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
 							<div class="card-body pr-0 pl-0">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}">{{item[titleField]}}</a></div>
-								<p *ngIf="item[descriptionField]">{{item[descriptionField]}}</p>
+								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
+								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:'MMMM y'}} </p>
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"> {{filter}}:
