@@ -2,12 +2,13 @@ import {Component} from '@angular/core';
 import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
+import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF} from '@angular/common';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['../styles.css'],
-    providers: [FilterPipe]
+    providers: [FilterPipe, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, {provide: APP_BASE_HREF, useValue: '/'}]
 })
 export class AppComponent {
     dataHouse;
@@ -57,8 +58,12 @@ export class AppComponent {
 
     sortOptions: Array<object>;
 
+    location: Location;
+
     constructor(private dataService: MediadataService,
-                private globalsService: GlobalsService) {
+                private globalsService: GlobalsService,
+                location: Location) {
+        this.location = location;
     }
 
     ngOnInit() {
@@ -229,6 +234,24 @@ export class AppComponent {
             formVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
         this.setupCurrentPage();
+
+        let qs = '';
+        for ( const key in formVals ) {
+            if ( key.startsWith( 'filter-' ) ) {
+                const parts = key.split( '-' );
+                if ( parts.length > 1 ) {
+                    if ( formVals[ key ] ) { // If form value is undefined or empty, do not filter on it
+                        if ( qs === '' ) {
+                            qs = '?';
+                        } else {
+                            qs += '&';
+                        }
+                        qs += parts[1] + '=' + formVals[key];
+                    }
+                }
+            }
+        }
+        this.updatePathForFilters( qs );
     }
 
     doFilter(filterField, filterValue) {
@@ -239,7 +262,17 @@ export class AppComponent {
             mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
         this.setupCurrentPage();
+
+        this.updatePathForFilters( '?' + filterField + '=' + filterValue );
+
         return false; // Needed to stop refresh on click
+    }
+
+    updatePathForFilters( qs ) {
+        let currentPath = this.location.path();
+        currentPath = currentPath.substr( 0, currentPath.indexOf( '?' ) );
+
+        this.location.go( currentPath, qs );
     }
 
     getURLParameterByName(name, url) {
