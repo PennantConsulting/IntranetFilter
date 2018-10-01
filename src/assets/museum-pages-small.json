@@ -1,7 +1,10 @@
 {
   "filters": {
     "Topics": [
+      "Level 1",
+      "Level 1 -> Level 2",
       "Level 1 -> Level 2 -> History of CDC",
+      "Level 1 -> Level 2 -> Another Topic",
       "Level 1 -> Museum, CDC"
     ],
     "Content Source": [
@@ -30,7 +33,8 @@
       "Post Title": "Red Spots among Flight Attendants",
       "Last Reviewed": "2015-01-09T00:00:00-04:00",
       "Topics": [
-        "Level 1 -> Level 2 -> History of CDC"
+        "Level 1 -> Level 2 -> History of CDC",
+        "Level 1 -> Level 2 -> Another Topic"
       ],
       "Content Source": [
         "Centers for Disease Control and Prevention"
@@ -69,7 +73,8 @@
       "Post Title": "A Lens on CDC: The Photographs of Jim Gathany",
       "Last Reviewed": "2011-10-11T00:00:00-04:00",
       "Topics": [
-        "Level 1 -> Museum, CDC"
+        "Level 1 -> Museum, CDC",
+        "Level 1 -> Level 2"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -95,7 +100,8 @@
       "Post Title": "About the David J. Sencer CDC Museum",
       "Last Reviewed": "2012-10-22T00:00:00-04:00",
       "Topics": [
-        "Level 1 -> Museum, CDC"
+        "Level 1 -> Museum, CDC",
+        "Level 1 -> Level 2 -> Another Topic"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2",
@@ -109,7 +115,8 @@
       "Post Title": "About the David J. Sencer CDC: In Association with the Smithsonian Institution",
       "Last Reviewed": "2011-08-17T00:00:00-04:00",
       "Topics": [
-        "Level 1 -> Museum, CDC"
+        "Level 1 -> Museum, CDC",
+        "Level 1 -> Level 2"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -135,7 +142,8 @@
       "Post Title": "Art in Science: Selections from Emerging Infectious Diseases\u00ae",
       "Last Reviewed": "2013-11-19T00:00:00-04:00",
       "Topics": [
-        "Level 1 -> Museum, CDC"
+        "Level 1 -> Museum, CDC",
+        "Level 1 -> Level 2 -> Another Topic"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -188,7 +196,7 @@
       "Post Title": "Camp Gallery",
       "Last Reviewed": "2010-10-15T00:00:00-04:00",
       "Topics": [
-        "Level 1 -> Museum, CDC"
+        "Level 1 -> Level 2"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"

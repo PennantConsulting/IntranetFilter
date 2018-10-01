@@ -10,7 +10,7 @@ export class FilterPipe implements PipeTransform {
     constructor(private globalsService: GlobalsService) {
     }
 
-    transform(items: any[], formVals: any[], searchFields: string[], sortFields: string[]): any[] {
+    transform(items: any[], formVals: any[], searchFields: string[], sortFields: string[], showSubs: boolean): any[] {
 
         // Defaults if none are filtered
         if (!items) {
@@ -68,6 +68,9 @@ export class FilterPipe implements PipeTransform {
                 let itemHasFilterVal = false;
                 for (let i = 0; i < item[filterField].length; i++) {
                     if (item[filterField][i] === formFilters[filterField] ) {
+                        itemHasFilterVal = true;
+                        break;
+                    } else if ( showSubs && item[filterField][i].startsWith( formFilters[filterField] ) ) {
                         itemHasFilterVal = true;
                         break;
                     }

@@ -41,6 +41,7 @@ export class AppComponent {
     filtersAreHierarchical: boolean;
     showItemFilterHerarchy: boolean;
     filterHierarchyDelimiter: string;
+    filterIncludeSubs: boolean;
 
     cardTextWidth: string;
 
@@ -83,6 +84,7 @@ export class AppComponent {
         this.directionLinks = 'true' === appInjectDiv.getAttribute('data-pagedirectionlinks');
         this.filtersAreHierarchical = 'true' === appInjectDiv.getAttribute('data-filtersarehierarchical');
         this.showItemFilterHerarchy = 'true' === appInjectDiv.getAttribute('data-showitemfilterhierarchy');
+        this.filterIncludeSubs = 'true' === appInjectDiv.getAttribute('data-filterincludesubs');
         this.filterHierarchyDelimiter = appInjectDiv.getAttribute('data-filterhierarchydelimiter');
         if ( ! this.filterHierarchyDelimiter ) {
             this.filterHierarchyDelimiter = '>';
@@ -143,7 +145,7 @@ export class AppComponent {
                 mockFormVals = Object.assign({}, mockFormVals, this.defaultFilter );
             }
             this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-                mockFormVals, this.searchFields, this.dataHouse.sorts);
+                mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
             this.filteredDataLength = this.filteredData.length;
 
             // Initial pagination
@@ -214,7 +216,7 @@ export class AppComponent {
         const mockFormVals = [];
         mockFormVals['Sort'] = this.defaultSort;
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-            mockFormVals, this.searchFields, this.dataHouse.sorts);
+            mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
 
         // Initial pagination
@@ -224,7 +226,7 @@ export class AppComponent {
     updateFilter(formVals) {
         // this is a pass-through to update the filter pipe on submit
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-            formVals, this.searchFields, this.dataHouse.sorts);
+            formVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
         this.setupCurrentPage();
     }
@@ -234,7 +236,7 @@ export class AppComponent {
         this.filterModel[filterField] = filterValue;
         mockFormVals['filter-' + filterField] = filterValue;
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
-            mockFormVals, this.searchFields, this.dataHouse.sorts);
+            mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
         this.setupCurrentPage();
         return false; // Needed to stop refresh on click
