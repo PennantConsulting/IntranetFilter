@@ -38,6 +38,9 @@ export class AppComponent {
     colWidth: string;
     defaultSort: string;
     defaultFilter: object[];
+    filtersAreHierarchical: boolean;
+    showItemFilterHerarchy: boolean;
+    filterHierarchyDelimiter: string;
 
     cardTextWidth: string;
 
@@ -78,6 +81,12 @@ export class AppComponent {
         this.itemsPerPage = appInjectDiv.getAttribute('data-itemsperpage');
         this.boundaryLinks = 'true' === appInjectDiv.getAttribute('data-pageboundarylinks');
         this.directionLinks = 'true' === appInjectDiv.getAttribute('data-pagedirectionlinks');
+        this.filtersAreHierarchical = 'true' === appInjectDiv.getAttribute('data-filtersarehierarchical');
+        this.showItemFilterHerarchy = 'true' === appInjectDiv.getAttribute('data-showitemfilterhierarchy');
+        this.filterHierarchyDelimiter = appInjectDiv.getAttribute('data-filterhierarchydelimiter');
+        if ( ! this.filterHierarchyDelimiter ) {
+            this.filterHierarchyDelimiter = '>';
+        }
         this.bgColor = appInjectDiv.getAttribute('data-bgcolor');
         if ( ! this.bgColor ) {
             this.bgColor = 'bg-white';
@@ -297,6 +306,19 @@ export class AppComponent {
     changeCurrentPage( pageNumber: number ): void {
         this.currentPage = pageNumber;
         this.setupCurrentPage();
+    }
+
+    formatFilterVal( val: string ): string {
+        if ( this.filtersAreHierarchical && ! this.showItemFilterHerarchy ) {
+            const valParts = val.split( this.filterHierarchyDelimiter );
+            if ( valParts.length > 0 ) {
+                return valParts[ valParts.length - 1 ];
+            } else {
+                return val;
+            }
+        } else {
+            return val;
+        }
     }
 
 }

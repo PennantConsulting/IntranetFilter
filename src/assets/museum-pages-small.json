@@ -1,17 +1,8 @@
 {
   "filters": {
     "Topics": [
-      "Avian Influenza",
-      "CDC Speakers Bureau",
-      "Flu",
-      "H1N1 Flu",
-      "History of CDC",
-      "Influenza Surveillance Data",
-      "Influenza Vaccination",
-      "Museum, CDC",
-      "Pandemic Flu",
-      "Seasonal Flu",
-      "Swine Influenza"
+      "Level 1 -> Level 2 -> History of CDC",
+      "Level 1 -> Museum, CDC"
     ],
     "Content Source": [
       false,
@@ -39,8 +30,7 @@
       "Post Title": "Red Spots among Flight Attendants",
       "Last Reviewed": "2015-01-09T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC",
-        "History of CDC"
+        "Level 1 -> Level 2 -> History of CDC"
       ],
       "Content Source": [
         "Centers for Disease Control and Prevention"
@@ -53,8 +43,7 @@
       "Post Title": "2016 Teacher Workshop Application Form",
       "Last Reviewed": "2016-03-04T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC",
-        "History of CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "Centers for Disease Control and Prevention"
@@ -67,8 +56,7 @@
       "Post Title": "2017 Atlanta Science Festival",
       "Last Reviewed": "2016-03-02T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC",
-        "History of CDC"
+        "Level 1 -> Level 2 -> History of CDC"
       ],
       "Content Source": [
         "Centers for Disease Control and Prevention"
@@ -81,7 +69,7 @@
       "Post Title": "A Lens on CDC: The Photographs of Jim Gathany",
       "Last Reviewed": "2011-10-11T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -94,7 +82,7 @@
       "Post Title": "About the CDC Disease Detective Camp",
       "Last Reviewed": "2011-05-23T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -107,7 +95,7 @@
       "Post Title": "About the David J. Sencer CDC Museum",
       "Last Reviewed": "2012-10-22T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2",
@@ -121,7 +109,7 @@
       "Post Title": "About the David J. Sencer CDC: In Association with the Smithsonian Institution",
       "Last Reviewed": "2011-08-17T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -134,7 +122,7 @@
       "Post Title": "Adult Group Tour",
       "Last Reviewed": "2016-04-11T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -147,7 +135,7 @@
       "Post Title": "Art in Science: Selections from Emerging Infectious Diseases\u00ae",
       "Last Reviewed": "2013-11-19T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -160,7 +148,7 @@
       "Post Title": "Art Meets Science",
       "Last Reviewed": "2012-06-25T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -173,7 +161,7 @@
       "Post Title": "Art Meets Science",
       "Last Reviewed": "2012-06-11T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -186,8 +174,8 @@
       "Post Title": "Box Options",
       "Last Reviewed": "2018-08-01T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC",
-        "History of CDC"
+        "Level 1 -> Museum, CDC",
+        "Level 1 -> Level 2 -> History of CDC"
       ],
       "Content Source": [
         "Centers for Disease Control and Prevention"
@@ -200,7 +188,7 @@
       "Post Title": "Camp Gallery",
       "Last Reviewed": "2010-10-15T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -213,7 +201,7 @@
       "Post Title": "Cancer: Survivors in Focus",
       "Last Reviewed": "2013-05-29T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC"
+        "Level 1 -> Museum, CDC"
       ],
       "Content Source": [
         "OFFICE OF THE DIRECTOR-2"
@@ -226,8 +214,8 @@
       "Post Title": "CDC 70th Anniversary: 7 Decades of Firsts",
       "Last Reviewed": "2016-07-01T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC",
-        "History of CDC"
+        "Level 1 -> Museum, CDC",
+        "Level 1 -> Level 2 -> History of CDC"
       ],
       "Content Source": [
         "Centers for Disease Control and Prevention"
@@ -240,8 +228,7 @@
       "Post Title": "CDC 70th Anniversary: 7 Decades of Firsts",
       "Last Reviewed": "2016-12-12T00:00:00-04:00",
       "Topics": [
-        "Museum, CDC",
-        "History of CDC"
+        "Level 1 -> Level 2 -> History of CDC"
       ],
       "Content Source": [
         "Centers for Disease Control and Prevention"
