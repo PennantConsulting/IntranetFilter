@@ -12,6 +12,8 @@ export class FilterPipe implements PipeTransform {
 
     transform(items: any[], formVals: any[], searchFields: string[], sortFields: string[], showSubs: boolean): any[] {
 
+        const filterPipe = this;
+
         // Defaults if none are filtered
         if (!items) {
             return [];
@@ -26,8 +28,8 @@ export class FilterPipe implements PipeTransform {
                 const sortField = sortByParts[0];
                 const sortDirection = sortByParts[1];
                 items.sort((a, b): number => {
-                    const aVal = a[sortField].toLowerCase();
-                    const bVal = b[sortField].toLowerCase();
+                    const aVal = this.formatFieldValForFiltering( a[sortField] );
+                    const bVal = this.formatFieldValForFiltering( b[sortField] );
                     if (aVal === bVal) {
                         return 0;
                     } else if ('asc' === sortDirection && aVal < bVal) {
@@ -87,7 +89,9 @@ export class FilterPipe implements PipeTransform {
                     let foundSearchTerm = false;
                     for ( let i = 0; i < searchFields.length; i++ ) {
                         const searchField = searchFields[i];
-                        if (item[searchField].toLowerCase().includes(searchText.toLowerCase())) {
+                        let itemFieldVal = item[searchField];
+                        itemFieldVal = filterPipe.formatFieldValForSearch( itemFieldVal );
+                        if (itemFieldVal.includes(searchText.toLowerCase())) {
                             foundSearchTerm = true;
                             break;
                         }
@@ -109,6 +113,36 @@ export class FilterPipe implements PipeTransform {
             if ( key.startsWith( 'filter-' ) || 'Search' === key ) {
                 retVal = true;
             }
+        }
+
+        return retVal;
+    }
+
+    formatFieldValForFiltering( val ) {
+        let retVal = val;
+        if ( 'string' === typeof val ) {
+            retVal = val.toLowerCase();
+        } else if ( 'object' === typeof val ) {
+            retVal = JSON.stringify( val );
+        } else if ( null === val ) {
+            retVal = '';
+        }
+
+        return retVal;
+    }
+
+    formatFieldValForSearch( val ) {
+        let retVal = val;
+        if ( 'string' === typeof val ) {
+            retVal = val.toLowerCase();
+        } else if ( 'object' === typeof val ) {
+            retVal = JSON.stringify(val).toLowerCase();
+        } else if ( 'number' === typeof val ) {
+            retVal = val.toString();
+        } else if ( 'boolean' === typeof val ) {
+            retVal = val ? 'true' : 'false';
+        } else if ( null === val || undefined === val ) {
+            retVal = '';
         }
 
         return retVal;

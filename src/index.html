@@ -446,6 +446,8 @@
 				ex: bg-{color}-{p|s|t} or bg-primary (for main site color), or bg-white, or bg-gray-l1
 				sortorder = a-z | z-a | recent-first | recent-last
 				defaultfilter = {Filter 1 field name}={value},{Filter 2 field name}={value}..... - optional field
+				dateformat = date format from angular DatePipe documentation
+				dateincludetime = true/false
 
 				<app-root
 						data-datasource="assets/museum-pages.json"
@@ -482,13 +484,14 @@
 						data-resetbuttoncolor="btn-tertiary"
 						data-submitbuttoncolor="btn-primary"
 						data-sortorder="Post Title::asc"
-						data-itemsperpage="5"
+						data-itemsperpage="20"
 						data-pageboundarylinks="false"
 						data-pagedirectionlinks="true"
 						data-filtersarehierarchical="true"
 						data-filterincludesubs="false"
 						data-showitemfilterhierarchy="false"
 						data-filterhierarchydelimiter=" -> "
+						data-dateformat="longDate"
 						data-imageposition="top">
 				</app-root>
 

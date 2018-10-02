@@ -2,13 +2,13 @@ import {Component} from '@angular/core';
 import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
-import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF} from '@angular/common';
+import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['../styles.css'],
-    providers: [FilterPipe, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, {provide: APP_BASE_HREF, useValue: '/'}]
+    providers: [DatePipe, FilterPipe, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, {provide: APP_BASE_HREF, useValue: '/'}]
 })
 export class AppComponent {
     dataHouse;
@@ -43,6 +43,7 @@ export class AppComponent {
     showItemFilterHerarchy: boolean;
     filterHierarchyDelimiter: string;
     filterIncludeSubs: boolean;
+    dateFormat: string;
 
     cardTextWidth: string;
 
@@ -90,6 +91,10 @@ export class AppComponent {
         this.filtersAreHierarchical = 'true' === appInjectDiv.getAttribute('data-filtersarehierarchical');
         this.showItemFilterHerarchy = 'true' === appInjectDiv.getAttribute('data-showitemfilterhierarchy');
         this.filterIncludeSubs = 'true' === appInjectDiv.getAttribute('data-filterincludesubs');
+        this.dateFormat = appInjectDiv.getAttribute( 'data-dateformat' );
+        if ( ! this.dateFormat ) {
+            this.dateFormat = 'mediumDate';
+        }
         this.filterHierarchyDelimiter = appInjectDiv.getAttribute('data-filterhierarchydelimiter');
         if ( ! this.filterHierarchyDelimiter ) {
             this.filterHierarchyDelimiter = '>';
@@ -124,8 +129,10 @@ export class AppComponent {
 
         // Setup search fields array
         this.searchFields = [];
+        this.searchFields.push( 'foo' );
         this.searchFields.push( this.titleField );
         this.searchFields.push( this.descriptionField );
+        this.searchFields.push( this.globalsService.DATE_FORMATTED );
 
         // Setup pagination
         this.currentPage = 1;
@@ -197,10 +204,21 @@ export class AppComponent {
         dataHouse.items = data.items;
         dataHouse.filterKeys = [];
 
-        // Save filter Keys for easier access
+        // Store formatted date with each item for search
+        if ( this.dateField ) {
+            for ( let i = 0; i < dataHouse.items.length; i++ ) {
+                const utcDate = dataHouse.items[i][this.dateField];
+                let datePipe = new DatePipe('en-US');
+                let formattedDate = datePipe.transform( utcDate, this.dateFormat );
+                dataHouse.items[i][this.globalsService.DATE_FORMATTED] = formattedDate;
+            }
+        }
+
+        // Save filter Keys for easier access and add key to fields to search on
         for (const key in (dataHouse.filters)) {
             if ( dataHouse.filters.hasOwnProperty( key ) ) {
                 dataHouse.filterKeys.push(key);
+                this.searchFields.push( key );
             }
         }
 

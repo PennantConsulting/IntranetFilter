@@ -16,6 +16,8 @@ export class GlobalsService {
 
     COMMENT_ANCHOR = 'cdc_comments';
 
+    DATE_FORMATTED = 'date_formatted';
+
     constructor() {
     }
 }
