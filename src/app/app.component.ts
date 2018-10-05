@@ -170,6 +170,10 @@ export class AppComponent {
                 if (Object.prototype.hasOwnProperty.call(this.dataHouse.filters, key)) {
                     this.filterFields.push(key);
                 }
+
+                if ( ! this.filterModel.hasOwnProperty( key ) ) {
+                    this.filterModel[ key ] = '';
+                }
             }
 
             // Setup sort drop down based on data file

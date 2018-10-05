@@ -6,22 +6,22 @@
 					<label for="Search" class="forms-label h5 open">Search</label>
 					<input *ngIf="! submitButton" [(ngModel)]="searchValue" (keyup)="updateFilter(filtersubmit.value)"
 						   class="form-control nobutton" type="text" id="Search"
-						   name="Search"/>
+						   name="Search" placeholder="Enter keywords"/>
 					<input *ngIf="submitButton" [(ngModel)]="searchValue" class="form-control button" type="text" id="Search"
-						   name="Search"/>
+						   name="Search" placeholder="Enter keywords"/>
 				</div>
 				<div *ngFor="let filter of filterFields" class="col-md-6 mb-3">
 					<label for="filter-{{filter}}" class="forms-label h5 open">Filter by {{filter}}</label>
 					<select *ngIf="! submitButton" [(ngModel)]="filterModel[filter]" (change)="updateFilter(filtersubmit.value)"
-							id="filter-{{filter}}" name="filter-{{filter}}" class="form-control">
-						<option [selected]="filter" value="" selected>{{filter}}
+							id="filter-{{filter}}" name="filter-{{filter}}" class="form-control" placeholder="Filter by...">
+						<option [selected]="filter" value="" selected>Select {{filter}}
 						</option>
 						<option class="dropdown-item" *ngFor="let vals of dataHouse.filters[filter]" value="{{vals}}">
 							{{vals}}
 						</option>
 					</select>
 					<select *ngIf="submitButton" [(ngModel)]="filterModel[filter]" name="filter-{{filter}}" id="filter-{{filter}}" class="form-control">
-						<option [selected]="filter" value="" selected>{{filter}}
+						<option [selected]="filter" value="" selected>Select {{filter}}
 						</option>
 						<option class="dropdown-item" *ngFor="let vals of dataHouse.filters[filter]" value="{{vals}}">
 							{{vals}}
