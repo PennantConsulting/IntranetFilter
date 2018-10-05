@@ -290,7 +290,12 @@ export class AppComponent {
 
     updatePathForFilters( qs ) {
         let currentPath = this.location.path();
-        currentPath = currentPath.substr( 0, currentPath.indexOf( '?' ) );
+
+        // If path contains query string, strip it off
+        const queryStringStartIndex = currentPath.indexOf( '?' );
+        if ( queryStringStartIndex >= 0 ) {
+            currentPath = currentPath.substr( 0, currentPath.indexOf( '?' ) );
+        }
 
         this.location.go( currentPath, qs );
     }
