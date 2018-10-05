@@ -44,6 +44,7 @@ export class AppComponent {
     filterHierarchyDelimiter: string;
     filterIncludeSubs: boolean;
     dateFormat: string;
+    makeImagesLinks: boolean;
 
     cardTextWidth: string;
 
@@ -91,6 +92,7 @@ export class AppComponent {
         this.filtersAreHierarchical = 'true' === appInjectDiv.getAttribute('data-filtersarehierarchical');
         this.showItemFilterHerarchy = 'true' === appInjectDiv.getAttribute('data-showitemfilterhierarchy');
         this.filterIncludeSubs = 'true' === appInjectDiv.getAttribute('data-filterincludesubs');
+        this.makeImagesLinks = 'true' === appInjectDiv.getAttribute('data-makeimageslinks');
         this.dateFormat = appInjectDiv.getAttribute( 'data-dateformat' );
         if ( ! this.dateFormat ) {
             this.dateFormat = 'mediumDate';
