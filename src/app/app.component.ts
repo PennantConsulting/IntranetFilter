@@ -244,6 +244,9 @@ export class AppComponent {
             mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
 
+        // Clear query string params
+        this.updatePathForFilters( '' );
+
         // Initial pagination
         this.setupCurrentPage();
     }
