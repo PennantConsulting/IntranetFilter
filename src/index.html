@@ -460,17 +460,20 @@
 						data-displayfiltervals="true"
 						data-displaycomments="true"
 						data-bgcolor="bg-cyan-p"
+						data-imagecolwidth="col-md-6"
+						data-textcolwidth="col-md-6"
 						data-formbgcolor="bg-gray-l3"
 						data-itemsperpage="10"
 						data-sortorder="a-z"
 						data-defaultfilter="Topics=Flu,Content Source=Centers for Disease Control and Prevention"
 						data-defaultfilter="Topics=Flu"
+						data-defaultfilter="Level 1 -> Level 2"
 						data-makeimageslinks="true"
 						data-imageposition="left">
 				</app-root>
 				-->
-				<app-root
-						data-datasource="assets/museum-pages-1-filter.json"
+				<sort-filter-root
+						data-datasource="assets/museum-pages-large.json"
 						data-srctype="flat"
 						data-titlefield="Post Title"
 						data-descfield="Internal-Only Description"
@@ -479,11 +482,11 @@
 						data-urlfield="Public URL"
 						data-displayfiltervals="true"
 						data-displaycomments="true"
-						data-submitbutton="false"
+						data-submitbutton="true"
 						data-colwidth="col-12"
 						data-bgcolor="bg-tertiary"
 						data-formbgcolor="bg-white"
-						data-resetbuttoncolor="btn-tertiary"
+						data-resetbuttoncolor="btn-secondary"
 						data-submitbuttoncolor="btn-primary"
 						data-sortorder="Post Title::asc"
 						data-itemsperpage="20"
@@ -496,7 +499,7 @@
 						data-dateformat="longDate"
 						data-makeimageslinks="true"
 						data-imageposition="left">
-				</app-root>
+				</sort-filter-root>
 
 
 			</div>

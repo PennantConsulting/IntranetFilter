@@ -1,4 +1,8 @@
-<div class="card mb-3 {{formBgColor}}">
+<div class="sr-only" id="sort-filter-desc">
+	This filtering area contains options for sorting data dynamically for easy discovery.
+	Filtering options include search by text, dropdowns for filtering based on various fields, and various sorting.
+</div>
+<div class="card mb-3 {{formBgColor}}" aria-describedby="sort-filter-desc">
 	<div class="card-body">
 		<form class="" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
 			<div class="row">
@@ -28,6 +32,20 @@
 						</option>
 					</select>
 				</div>
+				<div *ngIf="0 === filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
+					<label for="Sort" class="forms-label h5 open">Sort</label>
+					<select *ngIf="! submitButton" [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" id="Sort" class="form-control">
+						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
+							{{sortOption.label}}
+						</option>
+					</select>
+					<select *ngIf="submitButton" [(ngModel)]="sortValue" name="Sort" id="Sort" class="form-control">
+						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
+							{{sortOption.label}}
+						</option>
+					</select>
+				</div>
+
 			</div>
 			<div class="row">
 				<!-- Submit / Reset Buttons -->
@@ -35,7 +53,7 @@
 					<button type="reset" class="btn btn-sm {{resetButtonColor}} mr-3" (click)="clearFilter()">Reset</button>
 					<button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
 				</div>
-				<div class="col-md-6 mb-3 order-1 order-md-2">
+				<div *ngIf="0 !== filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
 					<label for="Sort" class="forms-label h5 open">Sort</label>
 					<select *ngIf="! submitButton" [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" id="Sort" class="form-control">
 						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
@@ -49,12 +67,13 @@
 					</select>
 				</div>
 			</div>
-
-
 		</form>
 	</div>
 </div>
-
+<div>
+	<p role="alert" *ngIf="filteredDataLength <= 0">No results available for the selected criteria.  Please adjust the filter options above.</p>
+	<p role="alert" *ngIf="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length">Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.</p>
+</div>
 <div>
 	<ng-container *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
 		<div class="row">
@@ -63,14 +82,14 @@
 					<div class="card-body">
 						<div class="row">
 							<ng-container *ngIf="'left' === imagePosition">
-								<div *ngIf="item[imageField]" class="col-md-3">
+								<div *ngIf="item[imageField]" class="{{imageColWidth}}">
 									<img *ngIf="!makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
 									<a *ngIf="makeImagesLinks" href="{{item[urlField]}}">
 										<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
 									</a>
 								</div>
 							</ng-container>
-							<div class="{{cardTextWidth}}">
+							<div class="{{textColWidth}}">
 								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:dateFormat}} </p>
@@ -84,7 +103,7 @@
 								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#chat_02" xlink:href="#chat_02"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
 							</div><!-- col -->
 							<ng-container *ngIf="'right' === imagePosition">
-								<div *ngIf="item[imageField]" class="col-md-3">
+								<div *ngIf="item[imageField]" class="{{imageColWidth}}">
 									<img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/>
 								</div>
 							</ng-container>

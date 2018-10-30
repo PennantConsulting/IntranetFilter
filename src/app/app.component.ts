@@ -5,7 +5,7 @@ import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
 
 @Component({
-    selector: 'app-root',
+    selector: 'sort-filter-root',
     templateUrl: './app.component.html',
     styleUrls: ['../styles.css'],
     providers: [DatePipe, FilterPipe, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, {provide: APP_BASE_HREF, useValue: '/'}]
@@ -46,8 +46,6 @@ export class AppComponent {
     dateFormat: string;
     makeImagesLinks: boolean;
 
-    cardTextWidth: string;
-
     searchFields: string[];
 
     // Models
@@ -57,6 +55,10 @@ export class AppComponent {
 
     // Pagination
     currentPage: number;
+
+    // Image and text width, for horizontal layout
+    imageColWidth: string;
+    textColWidth: string;
 
     sortOptions: Array<object>;
 
@@ -73,7 +75,7 @@ export class AppComponent {
 
 
         // Read data attributes from app-root
-        const appInjectDiv = document.getElementsByTagName('app-root')[0];
+        const appInjectDiv = document.getElementsByTagName('sort-filter-root')[0];
         this.appSrctype = appInjectDiv.getAttribute('data-srctype') || 'flat';
         this.dataPath = appInjectDiv.getAttribute('data-datasource');
         this.titleField = appInjectDiv.getAttribute('data-titlefield');
@@ -83,6 +85,17 @@ export class AppComponent {
         this.urlField = appInjectDiv.getAttribute('data-urlfield');
         this.displayFilterVals = 'true' === appInjectDiv.getAttribute('data-displayfiltervals');
         this.colWidth = appInjectDiv.getAttribute('data-colwidth');
+        if ( ! this.colWidth ) {
+            this.colWidth = 'col-12';
+        }
+        this.imageColWidth = appInjectDiv.getAttribute('data-imagecolwidth');
+        if ( ! this.imageColWidth ) {
+            this.imageColWidth = 'col-md-4';
+        }
+        this.textColWidth = appInjectDiv.getAttribute('data-textcolwidth');
+        if ( ! this.textColWidth ) {
+            this.textColWidth = 'col-md-8';
+        }
         this.submitButton = 'true' === appInjectDiv.getAttribute('data-submitbutton');
         this.displayComments = 'true' === appInjectDiv.getAttribute('data-displaycomments');
         this.imagePosition = appInjectDiv.getAttribute('data-imageposition');
@@ -111,7 +124,7 @@ export class AppComponent {
         }
         this.resetButtonColor = appInjectDiv.getAttribute('data-resetbuttoncolor');
         if ( ! this.resetButtonColor ) {
-            this.resetButtonColor = 'btn-white';
+            this.resetButtonColor = 'btn-tertiary';
         }
         this.submitButtonColor = appInjectDiv.getAttribute('data-submitbuttoncolor');
         if ( ! this.submitButtonColor ) {
@@ -139,10 +152,9 @@ export class AppComponent {
         // Setup pagination
         this.currentPage = 1;
 
-        // Setup width of text column
-        this.cardTextWidth = 'col-md-9';
+        // Setup width of text column to full if no image present
         if ( ! this.imageField ) {
-            this.cardTextWidth = 'col';
+            this.textColWidth = 'col-12';
         }
 
         this.dataService.getPosts(this.dataPath).subscribe((response) => {
@@ -376,7 +388,7 @@ export class AppComponent {
     }
 
     formatFilterVal( val: string ): string {
-        if ( this.filtersAreHierarchical && ! this.showItemFilterHerarchy ) {
+        if ( val && this.filtersAreHierarchical && ! this.showItemFilterHerarchy ) {
             const valParts = val.split( this.filterHierarchyDelimiter );
             if ( valParts.length > 0 ) {
                 return valParts[ valParts.length - 1 ];
