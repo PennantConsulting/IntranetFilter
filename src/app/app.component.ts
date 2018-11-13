@@ -45,6 +45,8 @@ export class AppComponent {
     filterIncludeSubs: boolean;
     dateFormat: string;
     makeImagesLinks: boolean;
+    altFormats: string;
+    altLanguages: string;
 
     searchFields: string[];
 
@@ -106,6 +108,8 @@ export class AppComponent {
         this.showItemFilterHerarchy = 'true' === appInjectDiv.getAttribute('data-showitemfilterhierarchy');
         this.filterIncludeSubs = 'true' === appInjectDiv.getAttribute('data-filterincludesubs');
         this.makeImagesLinks = 'true' === appInjectDiv.getAttribute('data-makeimageslinks');
+        this.altFormats = appInjectDiv.getAttribute('data-altformats');
+        this.altLanguages = appInjectDiv.getAttribute('data-altlanguages');
         this.dateFormat = appInjectDiv.getAttribute( 'data-dateformat' );
         if ( ! this.dateFormat ) {
             this.dateFormat = 'mediumDate';
