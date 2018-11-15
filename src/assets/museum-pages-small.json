@@ -173,7 +173,9 @@
           "Alternative Language": "/tp4/pages/spanish-page.html",
           "Link Text (optional)": "Espanol"
         }
-      ]
+      ],
+      "Keywords": "Bananas",
+      "Hidden": "Strawberries"
     },
     {
       "Public URL": "\/museum\/about.htm",
@@ -204,7 +206,8 @@
           "Alternative Language": "/tp4/pages/spanish-page.html",
           "Link Text (optional)": "Espanol"
         }
-      ]
+      ],
+      "Hidden": "Strawberries"
     },
     {
       "Public URL": "\/museum\/tours\/about.htm",
