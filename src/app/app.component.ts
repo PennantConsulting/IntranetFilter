@@ -48,7 +48,7 @@ export class AppComponent {
     makeImagesLinks: boolean;
     altFormats: string;
     altLanguages: string;
-    filterHiddenSearch: string;
+    hiddenSearch: string;
 
     searchFields: string[];
 
@@ -112,7 +112,7 @@ export class AppComponent {
         this.makeImagesLinks = 'true' === appInjectDiv.getAttribute('data-makeimageslinks');
         this.altFormats = appInjectDiv.getAttribute('data-altformats');
         this.altLanguages = appInjectDiv.getAttribute('data-altlanguages');
-        this.filterHiddenSearch = appInjectDiv.getAttribute('data-filterhiddensearch');
+        this.hiddenSearch = appInjectDiv.getAttribute('data-hiddensearch');
         this.dateFormat = appInjectDiv.getAttribute('data-dateformat');
         if (!this.dateFormat) {
             this.dateFormat = 'mediumDate';
@@ -154,9 +154,12 @@ export class AppComponent {
         this.searchFields.push(this.titleField);
         this.searchFields.push(this.descriptionField);
         this.searchFields.push(this.globalsService.DATE_FORMATTED);
-        const hiddenFields = this.filterHiddenSearch.split(',');
-        for (let i = 0; i < hiddenFields.length; i++) {
-            this.searchFields.push(hiddenFields[i]);
+
+        if(this.hiddenSearch){
+            const hiddenFields = this.hiddenSearch.split(',');
+            for (let i = 0; i < hiddenFields.length; i++) {
+                this.searchFields.push(hiddenFields[i]);
+            }
         }
 
         // Setup pagination
@@ -189,7 +192,7 @@ export class AppComponent {
 
             // Setup filter drop downs based on data file
             for (const key in this.dataHouse.filters) {
-                if (Object.prototype.hasOwnProperty.call(this.dataHouse.filters, key) && this.filterHiddenSearch.indexOf(key) === -1) {
+                if (Object.prototype.hasOwnProperty.call(this.dataHouse.filters, key)) {
                     this.filterFields.push(key);
                 }
 
