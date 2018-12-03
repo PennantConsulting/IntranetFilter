@@ -75,7 +75,7 @@
 	<p role="alert" *ngIf="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length">Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.</p>
 </div>
 <div>
-	<ng-container *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
+	<div *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
 		<div class="row">
 			<div class="{{colWidth}}" *ngFor="let item of currentPageData; let i = index; let odd = odd">
 				<div class="card mb-3 {{bgColor}}">
@@ -100,6 +100,22 @@
 										</ng-container>
 									</p>
 								</ng-container>
+								<div *ngIf="item[altFormats]" class="mb-10">
+									<span>{{altFormats}}: </span>
+									<ul class="d-inline list-inline">
+										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
+											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}</a>
+										</li>
+									</ul>
+								</div>
+								<div *ngIf="item[altLanguages]" class="mb-10">
+									<span>{{altLanguages}}: </span>
+									<ul class="d-inline list-inline">
+										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]">
+											<a href="{{alt['Alternative Language']}}">{{alt['Link Text (optional)']}}</a>
+										</li>
+									</ul>
+								</div>
 								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#chat_02" xlink:href="#chat_02"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
 							</div><!-- col -->
 							<ng-container *ngIf="'right' === imagePosition">
@@ -113,7 +129,7 @@
 				</div><!-- card -->
 			</div><!-- column -->
 		</div><!-- row -->
-	</ng-container>
+	</div>
 	<ng-container *ngIf="'top' === imagePosition">
 		<div class="row">
 			<div class="{{colWidth}}"  *ngFor="let item of currentPageData; let i = index; let odd = odd">

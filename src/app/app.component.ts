@@ -3,6 +3,7 @@ import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'sort-filter-root',
@@ -45,6 +46,9 @@ export class AppComponent {
     filterIncludeSubs: boolean;
     dateFormat: string;
     makeImagesLinks: boolean;
+    altFormats: string;
+    altLanguages: string;
+    hiddenSearch: string;
 
     searchFields: string[];
 
@@ -85,15 +89,15 @@ export class AppComponent {
         this.urlField = appInjectDiv.getAttribute('data-urlfield');
         this.displayFilterVals = 'true' === appInjectDiv.getAttribute('data-displayfiltervals');
         this.colWidth = appInjectDiv.getAttribute('data-colwidth');
-        if ( ! this.colWidth ) {
+        if (!this.colWidth) {
             this.colWidth = 'col-12';
         }
         this.imageColWidth = appInjectDiv.getAttribute('data-imagecolwidth');
-        if ( ! this.imageColWidth ) {
+        if (!this.imageColWidth) {
             this.imageColWidth = 'col-md-4';
         }
         this.textColWidth = appInjectDiv.getAttribute('data-textcolwidth');
-        if ( ! this.textColWidth ) {
+        if (!this.textColWidth) {
             this.textColWidth = 'col-md-8';
         }
         this.submitButton = 'true' === appInjectDiv.getAttribute('data-submitbutton');
@@ -106,32 +110,35 @@ export class AppComponent {
         this.showItemFilterHerarchy = 'true' === appInjectDiv.getAttribute('data-showitemfilterhierarchy');
         this.filterIncludeSubs = 'true' === appInjectDiv.getAttribute('data-filterincludesubs');
         this.makeImagesLinks = 'true' === appInjectDiv.getAttribute('data-makeimageslinks');
-        this.dateFormat = appInjectDiv.getAttribute( 'data-dateformat' );
-        if ( ! this.dateFormat ) {
+        this.altFormats = appInjectDiv.getAttribute('data-altformats');
+        this.altLanguages = appInjectDiv.getAttribute('data-altlanguages');
+        this.hiddenSearch = appInjectDiv.getAttribute('data-hiddensearch');
+        this.dateFormat = appInjectDiv.getAttribute('data-dateformat');
+        if (!this.dateFormat) {
             this.dateFormat = 'mediumDate';
         }
         this.filterHierarchyDelimiter = appInjectDiv.getAttribute('data-filterhierarchydelimiter');
-        if ( ! this.filterHierarchyDelimiter ) {
+        if (!this.filterHierarchyDelimiter) {
             this.filterHierarchyDelimiter = '>';
         }
         this.bgColor = appInjectDiv.getAttribute('data-bgcolor');
-        if ( ! this.bgColor ) {
+        if (!this.bgColor) {
             this.bgColor = 'bg-white';
         }
         this.formBgColor = appInjectDiv.getAttribute('data-formbgcolor');
-        if ( ! this.formBgColor ) {
+        if (!this.formBgColor) {
             this.formBgColor = 'bg-white';
         }
         this.resetButtonColor = appInjectDiv.getAttribute('data-resetbuttoncolor');
-        if ( ! this.resetButtonColor ) {
+        if (!this.resetButtonColor) {
             this.resetButtonColor = 'btn-tertiary';
         }
         this.submitButtonColor = appInjectDiv.getAttribute('data-submitbuttoncolor');
-        if ( ! this.submitButtonColor ) {
+        if (!this.submitButtonColor) {
             this.submitButtonColor = 'btn-primary';
         }
         this.defaultSort = appInjectDiv.getAttribute('data-sortorder');
-        if ( ! this.defaultSort ) {
+        if (!this.defaultSort) {
             this.defaultSort = this.titleField + this.globalsService.SORT_VAL_DELIMITER + 'asc';
         }
         this.sortValue = this.defaultSort;
@@ -140,20 +147,26 @@ export class AppComponent {
         this.filterModel = [];
         this.defaultFilter = [];
 
-        this.setDefaultFilters( appInjectDiv.getAttribute('data-defaultfilter') );
+        this.setDefaultFilters(appInjectDiv.getAttribute('data-defaultfilter'));
 
         // Setup search fields array
         this.searchFields = [];
-        this.searchFields.push( 'foo' );
-        this.searchFields.push( this.titleField );
-        this.searchFields.push( this.descriptionField );
-        this.searchFields.push( this.globalsService.DATE_FORMATTED );
+        this.searchFields.push(this.titleField);
+        this.searchFields.push(this.descriptionField);
+        this.searchFields.push(this.globalsService.DATE_FORMATTED);
+
+        if(this.hiddenSearch){
+            const hiddenFields = this.hiddenSearch.split(',');
+            for (let i = 0; i < hiddenFields.length; i++) {
+                this.searchFields.push(hiddenFields[i]);
+            }
+        }
 
         // Setup pagination
         this.currentPage = 1;
 
         // Setup width of text column to full if no image present
-        if ( ! this.imageField ) {
+        if (!this.imageField) {
             this.textColWidth = 'col-12';
         }
 
@@ -164,11 +177,11 @@ export class AppComponent {
 
             // Initialize default sorting and filtering
             let mockFormVals = [];
-            if ( this.defaultSort ) {
+            if (this.defaultSort) {
                 mockFormVals['Sort'] = this.defaultSort;
             }
-            if ( this.defaultFilter ) {
-                mockFormVals = Object.assign({}, mockFormVals, this.defaultFilter );
+            if (this.defaultFilter) {
+                mockFormVals = Object.assign({}, mockFormVals, this.defaultFilter);
             }
             this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
                 mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
@@ -183,26 +196,26 @@ export class AppComponent {
                     this.filterFields.push(key);
                 }
 
-                if ( ! this.filterModel.hasOwnProperty( key ) ) {
-                    this.filterModel[ key ] = '';
+                if (!this.filterModel.hasOwnProperty(key)) {
+                    this.filterModel[key] = '';
                 }
             }
 
             // Setup sort drop down based on data file
             this.sortOptions = [];
-            for ( const sortField in this.dataHouse.sorts ) {
-                if ( Object.prototype.hasOwnProperty.call(this.dataHouse.sorts, sortField)) {
+            for (const sortField in this.dataHouse.sorts) {
+                if (Object.prototype.hasOwnProperty.call(this.dataHouse.sorts, sortField)) {
                     const ascLabel = this.dataHouse.sorts[sortField]['asc'];
                     const sortOptionAsc = [];
                     sortOptionAsc['label'] = ascLabel;
                     sortOptionAsc['value'] = sortField + this.globalsService.SORT_VAL_DELIMITER + 'asc';
-                    this.sortOptions.push( sortOptionAsc );
+                    this.sortOptions.push(sortOptionAsc);
 
                     const descLabel = this.dataHouse.sorts[sortField]['desc'];
                     const sortOptionDesc = [];
                     sortOptionDesc['label'] = descLabel;
                     sortOptionDesc['value'] = sortField + this.globalsService.SORT_VAL_DELIMITER + 'desc';
-                    this.sortOptions.push( sortOptionDesc );
+                    this.sortOptions.push(sortOptionDesc);
                 }
             }
 
