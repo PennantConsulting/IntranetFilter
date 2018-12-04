@@ -369,7 +369,7 @@ export class AppComponent {
         const end = +this.currentPage * +this.itemsPerPage;
         const start = +end - +this.itemsPerPage;
         this.currentPageData = this.filteredData.slice(start, end);
-
+        window.scroll(0,0); //Fixes lack of scrolling - WCMSRD-7047
     }
 
     setDefaultFilters( defaultFilterParam: string ) {
