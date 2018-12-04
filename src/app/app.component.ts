@@ -298,7 +298,7 @@ export class AppComponent {
                         } else {
                             qs += '&';
                         }
-                        qs += parts[1] + '=' + formVals[key];
+                        qs += parts[1] + '=' + encodeURIComponent(formVals[key]);
                     }
                 }
             }
@@ -313,6 +313,7 @@ export class AppComponent {
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
+        (this.filteredDataLength > 0) ? document.getElementById('resultCount').focus() : document.getElementById('noResult').focus(); //force screen reader to focus on element
         this.setupCurrentPage();
 
         this.updatePathForFilters( '?' + filterField + '=' + filterValue );
