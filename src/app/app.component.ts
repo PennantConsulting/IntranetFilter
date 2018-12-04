@@ -298,7 +298,7 @@ export class AppComponent {
                         } else {
                             qs += '&';
                         }
-                        qs += parts[1] + '=' + formVals[key];
+                        qs += parts[1] + '=' + encodeURIComponent(formVals[key]);
                     }
                 }
             }
