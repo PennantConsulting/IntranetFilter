@@ -45,6 +45,21 @@ export class FilterPipe implements PipeTransform {
             }
         }
 
+        for(let item of items){
+            let formats = item['Alternate Formats'];
+            for(let format of formats){
+                let file = format['Alternative File Format'];
+                let ext = file.substring(file.lastIndexOf('.')+1);
+                switch(ext){
+                    case 'doc':
+                    case 'docx':
+                        ext = 'word';
+                    break;
+                }
+                format['extension'] = '#'+ext;
+            }
+        };
+
         // If nothing selected for filtering don't filter
         if ( ! this.needToFilterData( formVals ) ) {
             return items;
