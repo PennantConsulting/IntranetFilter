@@ -71,8 +71,8 @@
 	</div>
 </div>
 <div>
-	<p role="alert" *ngIf="filteredDataLength <= 0">No results available for the selected criteria.  Please adjust the filter options above.</p>
-	<p role="alert" *ngIf="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length">Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.</p>
+	<p role="alert" id="noResult" tabindex="-1" *ngIf="filteredDataLength <= 0">No results available for the selected criteria.  Please adjust the filter options above.</p>
+	<p role="alert" id="resultCount" tabindex="-1" *ngIf="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length"><span class="sr-only">Search results </span>Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.</p>
 </div>
 <div>
 	<div *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">

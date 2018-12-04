@@ -313,6 +313,7 @@ export class AppComponent {
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
+        (this.filteredDataLength > 0) ? document.getElementById('resultCount').focus() : document.getElementById('noResult').focus(); //force screen reader to focus on element
         this.setupCurrentPage();
 
         this.updatePathForFilters( '?' + filterField + '=' + filterValue );
@@ -368,6 +369,7 @@ export class AppComponent {
         const end = +this.currentPage * +this.itemsPerPage;
         const start = +end - +this.itemsPerPage;
         this.currentPageData = this.filteredData.slice(start, end);
+
     }
 
     setDefaultFilters( defaultFilterParam: string ) {
