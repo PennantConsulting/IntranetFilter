@@ -3,7 +3,6 @@ import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'sort-filter-root',

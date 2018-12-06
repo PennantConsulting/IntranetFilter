@@ -106,7 +106,7 @@
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
 											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }} 
 												<svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-													<use href="{{alt['extension']}}" xlink:href="{{alt['extension']}}"></use>
+													<use attr.href="{{alt['extension']}}" attr.xlink:href="{{alt['extension']}}"></use>
 												</svg>
 											</a>
 										</li>
