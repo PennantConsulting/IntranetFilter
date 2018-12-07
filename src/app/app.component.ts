@@ -48,6 +48,7 @@ export class AppComponent {
     altFormats: string;
     altLanguages: string;
     hiddenSearch: string;
+    searched : boolean = false;
 
     searchFields: string[];
 
@@ -71,6 +72,7 @@ export class AppComponent {
                 private globalsService: GlobalsService,
                 location: Location) {
         this.location = location;
+        
     }
 
     ngOnInit() {
@@ -267,6 +269,7 @@ export class AppComponent {
         // Reset models and form
         this.sortValue = '';
         this.searchValue = '';
+        this.searched = false;
         for ( const property in this.filterModel ) {
             if ( this.filterModel.hasOwnProperty( property ) ) {
                 this.filterModel[property] = '';
@@ -311,6 +314,7 @@ export class AppComponent {
             }
         }
         this.updatePathForFilters( qs );
+        document.getElementById('resultCount').focus();
     }
 
     doFilter(filterField, filterValue) {
@@ -320,7 +324,7 @@ export class AppComponent {
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
-        (this.filteredDataLength > 0) ? document.getElementById('resultCount').focus() : document.getElementById('noResult').focus(); //force screen reader to focus on element
+        document.getElementById('resultCount').focus(); //force screen reader to focus on element
         this.setupCurrentPage();
 
         this.updatePathForFilters( '?' + filterField + '=' + filterValue );
@@ -376,6 +380,7 @@ export class AppComponent {
         const end = +this.currentPage * +this.itemsPerPage;
         const start = +end - +this.itemsPerPage;
         this.currentPageData = this.filteredData.slice(start, end);
+        this.searched = true;
         window.scroll(0,0); //Fixes lack of scrolling - WCMSRD-7047
     }
 
