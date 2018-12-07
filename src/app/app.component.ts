@@ -224,10 +224,10 @@ export class AppComponent {
         });
 
         //Make enter keypress formulate search results
-        const _this = this;
+        const app = this;
         window.addEventListener("keypress", function(e){
             if(e.keyCode === 13){
-                _this.updateFilter(_this.searchFields);
+                app.updateFilter(app.searchFields);
             };
         });
     }
