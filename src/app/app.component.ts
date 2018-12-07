@@ -3,7 +3,6 @@ import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'sort-filter-root',
@@ -222,6 +221,14 @@ export class AppComponent {
             // remove spinner
             const loadingElement = document.getElementById('mediaSpinner');
             loadingElement.parentNode.removeChild(loadingElement);
+        });
+
+        //Make enter keypress formulate search results
+        const _this = this;
+        window.addEventListener("keypress", function(e){
+            if(e.keyCode === 13){
+                _this.updateFilter(_this.searchFields);
+            };
         });
     }
 
