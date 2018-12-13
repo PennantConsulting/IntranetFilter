@@ -258,6 +258,7 @@ export class AppComponent {
 
     clearFilter() {
         // Reset models and form
+        document.getElementById('Search').focus();
         this.sortValue = '';
         this.searchValue = '';
         for ( const property in this.filterModel ) {
