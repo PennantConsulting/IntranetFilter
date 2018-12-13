@@ -45,7 +45,8 @@ export class FilterPipe implements PipeTransform {
             }
         }
 
-        for(let item of items){
+        for(let i=0; i<items.length; i++){
+            let item = items[i];
             let formats = item['Alternate Formats'];
             for(let format of formats){
                 let file = format['Alternative File Format'];
