@@ -51,25 +51,21 @@ export class FilterPipe implements PipeTransform {
                 let file = format['Alternative File Format'];
                 let ext = file.substring(file.lastIndexOf('.')+1);
                 switch(ext){
-                    case 'doc' || 'docx':
+                    case 'doc': case 'docx':
                         ext = 'word';
                         break;
                     case 'pptx':
                         ext = 'ppt';
                         break;
-                    case 'xls' || 'xlsx':
+                    case 'xls': case 'xlsx':
                         ext = 'excel';
-                        break;
-                    case 'mp3' || 'mp4' || 'wmv' || 'webm' || 'wav' || 'ogg' || 'wma' || 'mov' || 'rm' || 'mpeg' || 'ram' || 'ogv' || 'avi' || 'qt' || 'mpg':
-                        ext = 'media';
                         break;
                     case 'rtf':
                         ext = 'txt';
                         break;
-                    case 'dta' || 'sps' || 'sav':
-                        ext = 'stats';
-                        break;
                 }
+                if (['mp3','mp4', 'wmv','webm','wav','ogg','wma','mov','rm','mpeg','ram','ogv','avi','qt','mpg'].indexOf(ext) > -1) {ext = 'media'};
+                if (['dta','sps','save'].indexOf(ext) > -1){ext = 'stats'};
                 format['extension'] = '#'+ext;
             }
         };
