@@ -3,7 +3,6 @@ import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'sort-filter-root',
@@ -49,6 +48,7 @@ export class AppComponent {
     altFormats: string;
     altLanguages: string;
     hiddenSearch: string;
+    searched : boolean = false;
 
     searchFields: string[];
 
@@ -72,6 +72,7 @@ export class AppComponent {
                 private globalsService: GlobalsService,
                 location: Location) {
         this.location = location;
+        
     }
 
     ngOnInit() {
@@ -223,6 +224,14 @@ export class AppComponent {
             const loadingElement = document.getElementById('mediaSpinner');
             loadingElement.parentNode.removeChild(loadingElement);
         });
+
+        //Make enter keypress formulate search results
+        const app = this;
+        window.addEventListener("keypress", function(e){
+            if(e.keyCode === 13){
+                app.updateFilter(app.searchFields);
+            };
+        });
     }
 
     getCommentAnchor() {
@@ -258,8 +267,10 @@ export class AppComponent {
 
     clearFilter() {
         // Reset models and form
+        document.getElementById('Search').focus();
         this.sortValue = '';
         this.searchValue = '';
+        this.searched = false;
         for ( const property in this.filterModel ) {
             if ( this.filterModel.hasOwnProperty( property ) ) {
                 this.filterModel[property] = '';
@@ -304,6 +315,7 @@ export class AppComponent {
             }
         }
         this.updatePathForFilters( qs );
+        document.getElementById('resultCount').focus();
     }
 
     doFilter(filterField, filterValue) {
@@ -313,7 +325,7 @@ export class AppComponent {
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
-        (this.filteredDataLength > 0) ? document.getElementById('resultCount').focus() : document.getElementById('noResult').focus(); //force screen reader to focus on element
+        document.getElementById('resultCount').focus(); //force screen reader to focus on element
         this.setupCurrentPage();
 
         this.updatePathForFilters( '?' + filterField + '=' + filterValue );
@@ -369,6 +381,7 @@ export class AppComponent {
         const end = +this.currentPage * +this.itemsPerPage;
         const start = +end - +this.itemsPerPage;
         this.currentPageData = this.filteredData.slice(start, end);
+        this.searched = true;
         window.scroll(0,0); //Fixes lack of scrolling - WCMSRD-7047
     }
 
