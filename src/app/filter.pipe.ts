@@ -45,35 +45,6 @@ export class FilterPipe implements PipeTransform {
             }
         }
 
-        for(let i=0; i<items.length; i++){
-            let item = items[i];
-            let formats = item['Alternate Formats'];
-            if (formats && formats.length > 0){
-                for(let j=0; j<formats.length; j++){
-                    let format = formats[j];
-                    let file = format['Alternative File Format'];
-                    let ext = file.substring(file.lastIndexOf('.')+1);
-                    switch(ext){
-                        case 'doc': case 'docx':
-                            ext = 'word';
-                            break;
-                        case 'pptx':
-                            ext = 'ppt';
-                            break;
-                        case 'xls': case 'xlsx':
-                            ext = 'excel';
-                            break;
-                        case 'rtf':
-                            ext = 'txt';
-                            break;
-                    }
-                    if (['mp3','mp4', 'wmv','webm','wav','ogg','wma','mov','rm','mpeg','ram','ogv','avi','qt','mpg'].indexOf(ext) > -1) {ext = 'media'};
-                    if (['dta','sps','save'].indexOf(ext) > -1){ext = 'stats'};
-                    format['extension'] = '#'+ext;
-                };
-            }
-        };
-
         // If nothing selected for filtering don't filter
         if ( ! this.needToFilterData( formVals ) ) {
             return items;
