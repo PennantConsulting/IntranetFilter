@@ -3,6 +3,7 @@ import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
+import { AttrAst } from '@angular/compiler';
 
 @Component({
     selector: 'sort-filter-root',
@@ -48,6 +49,8 @@ export class AppComponent {
     altFormats: string;
     altLanguages: string;
     hiddenSearch: string;
+    hiddenLabels: any;
+    fieldLabels: any = [];
     searched : boolean = false;
 
     searchFields: string[];
@@ -114,6 +117,7 @@ export class AppComponent {
         this.altFormats = appInjectDiv.getAttribute('data-altformats');
         this.altLanguages = appInjectDiv.getAttribute('data-altlanguages');
         this.hiddenSearch = appInjectDiv.getAttribute('data-hiddensearch');
+        this.hiddenLabels = appInjectDiv.getAttribute('data-hiddenlabels').split(',');
         this.dateFormat = appInjectDiv.getAttribute('data-dateformat');
         if (!this.dateFormat) {
             this.dateFormat = 'mediumDate';
@@ -176,6 +180,35 @@ export class AppComponent {
             this.dataHouse = {};
             this.dataHouse = this.organizeData(response, this.dataHouse);
 
+            //Add additional item pieces
+            this.dataHouse.items.forEach(item => {
+                let formats = item['Alternate Formats'];
+                if (formats && formats.length > 0){
+                    for(let j=0; j<formats.length; j++){
+                        let format = formats[j];
+                        let file = format['Alternative File Format'];
+                        let ext = file.substring(file.lastIndexOf('.')+1);
+                        switch(ext){
+                            case 'doc': case 'docx':
+                                ext = 'word';
+                                break;
+                            case 'pptx':
+                                ext = 'ppt';
+                                break;
+                            case 'xls': case 'xlsx':
+                                ext = 'excel';
+                                break;
+                            case 'rtf':
+                                ext = 'txt';
+                                break;
+                        }
+                        if (['mp3','mp4', 'wmv','webm','wav','ogg','wma','mov','rm','mpeg','ram','ogv','avi','qt','mpg'].indexOf(ext) > -1) {ext = 'media'}
+                        if (['dta','sps','save'].indexOf(ext) > -1){ext = 'stats'}
+                        format['extension'] = '#'+ext;
+                    };
+                }
+            });
+
             // Initialize default sorting and filtering
             let mockFormVals = [];
             if (this.defaultSort) {
@@ -219,6 +252,26 @@ export class AppComponent {
                     this.sortOptions.push(sortOptionDesc);
                 }
             }
+
+            //Search & replace hidden fields
+            //1. Get an array of the field names
+            this.hiddenLabels.forEach(label => {
+                this.fieldLabels.push(appInjectDiv.getAttribute(label));
+            });
+            this.dataHouse.filterKeys.forEach(filter => {
+                if(this.hiddenLabels.indexOf(filter.toLowerCase()) > -1){
+                    this.fieldLabels.push(filter);
+                }
+            });
+            //2. Put in list (3. Check if in list in html)
+            this.dataHouse.items.forEach(item => {
+                item['Hidden Labels'] = [];
+                this.fieldLabels.forEach(label => {
+                    if(item.hasOwnProperty(label)){
+                        item['Hidden Labels'].push(label);
+                    }
+                });
+            });
 
             // remove spinner
             const loadingElement = document.getElementById('mediaSpinner');

@@ -96,16 +96,16 @@
 							<div class="{{textColWidth}}">
 								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-								<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:dateFormat}} </p>
+								<p *ngIf="item[dateField]"><span *ngIf="item['Hidden Labels'].indexOf(dateField) == -1">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
 								<ng-container *ngIf="displayFilterVals">
-									<p *ngFor="let filter of filterFields"> {{filter}}:
+									<p *ngFor="let filter of filterFields"><span *ngIf="item['Hidden Labels'].indexOf(filter) == -1">{{filter}}: </span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
 											<a href="" (click)="doFilter(filter, filterVal)">{{formatFilterVal( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
 								</ng-container>
 								<div *ngIf="item[altFormats]" class="mb-10">
-									<span>{{altFormats}}: </span>
+									<span *ngIf="item['Hidden Labels'].indexOf(altFormats) == -1">{{altFormats}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
 											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}
@@ -117,7 +117,7 @@
 									</ul>
 								</div>
 								<div *ngIf="item[altLanguages]" class="mb-10">
-									<span>{{altLanguages}}: </span>
+									<span *ngIf="item['Hidden Labels'].indexOf(altLanguages) == -1">{{altLanguages}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]">
 											<a href="{{alt['Alternative Language']}}">{{alt['Link Text (optional)']}}</a>
@@ -151,9 +151,9 @@
 							<div class="card-body pr-0 pl-0">
 								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-								<p *ngIf="item[dateField]">{{dateField}}: {{item[dateField] | date:dateFormat}} </p>
+								<p *ngIf="item[dateField]"><span *ngIf="item['Hidden Labels'].indexOf(dateField) == -1">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
 								<ng-container *ngIf="displayFilterVals">
-									<p *ngFor="let filter of filterFields"> {{filter}}:
+									<p *ngFor="let filter of filterFields"> <span *ngIf="item['Hidden Labels'].indexOf(filter) == -1">{{filter}}:</span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
 											<a href="" (click)="doFilter(filter, filterVal)">{{formatFilterVal( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
