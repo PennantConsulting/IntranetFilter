@@ -16,6 +16,7 @@ export class AppComponent {
     filteredData: any[];
     currentPageData: any[];
     filteredDataLength: number;
+    oldFilteredDataLength: number;
 
     // Configuration options read from data attributes
     appSrctype: string; // flat, api
@@ -57,6 +58,7 @@ export class AppComponent {
 
     // Models
     searchValue: string;
+    oldSearchValue: string;
     sortValue: string;
     filterModel;
 
@@ -220,6 +222,7 @@ export class AppComponent {
             this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
                 mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
             this.filteredDataLength = this.filteredData.length;
+            this.oldFilteredDataLength = this.filteredDataLength;
 
             // Initial pagination
             this.setupCurrentPage();
@@ -323,6 +326,7 @@ export class AppComponent {
         document.getElementById('Search').focus();
         this.sortValue = '';
         this.searchValue = '';
+        this.oldSearchValue = '';
         this.searched = false;
         for ( const property in this.filterModel ) {
             if ( this.filterModel.hasOwnProperty( property ) ) {
@@ -382,10 +386,15 @@ export class AppComponent {
                     if(app.filteredDataLength <= 0){
                         resultCountDiv.focus();
                     }
+                    if(app.filteredDataLength > 0 &&
+                        app.filteredDataLength < app.dataHouse.items.length &&
+                        app.searchValue.indexOf(app.oldSearchValue) === 0 &&
+                        app.oldFilteredDataLength != app.filteredDataLength){
+                            resultCountDiv.focus();
+                    }
                 }
-                if(app.filteredDataLength > 0 && app.filteredDataLength < app.dataHouse.items.length){
-                    resultCountDiv.focus();
-                }
+                app.oldFilteredDataLength = app.filteredDataLength;
+                app.oldSearchValue = app.searchValue;
             });
         }
     }
