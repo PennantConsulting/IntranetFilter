@@ -119,7 +119,7 @@ export class AppComponent {
         this.altFormats = appInjectDiv.getAttribute('data-altformats');
         this.altLanguages = appInjectDiv.getAttribute('data-altlanguages');
         this.hiddenSearch = appInjectDiv.getAttribute('data-hiddensearch');
-        this.hiddenLabels = appInjectDiv.getAttribute('data-hiddenlabels').split(',');
+        this.hiddenLabels = appInjectDiv.getAttribute('data-hiddenlabels') ? appInjectDiv.getAttribute('data-hiddenlabels').split(',') : [];
         this.dateFormat = appInjectDiv.getAttribute('data-dateformat');
         if (!this.dateFormat) {
             this.dateFormat = 'mediumDate';
