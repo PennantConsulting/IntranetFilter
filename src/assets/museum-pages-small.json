@@ -43,18 +43,7 @@
       "Internal-Only Description": "Bacon ipsum dolor amet jowl andouille corned beef, kielbasa picanha beef ribs sausage bresaola swine tail ham hock meatloaf shoulder sirloin. Cupim rump doner frankfurter pancetta shankle. Capicola chicken tenderloin ground round shankle.",
       "Alternate Formats": [
         {
-          "Alternative File Format": "/tp4/files/sample.docx",
-          "Link Text (optional)": "Word Doc"
-        },
-        {
-          "Alternative File Format": "/tp4/files/sample_01.pdf",
-          "Link Text (optional)": "PDF"
-        }
-      ],
-      "Alternate Languages": [
-        {
-          "Alternative Language": "/tp4/pages/spanish-page.html",
-          "Link Text (optional)": "Espanol"
+          "Alternative File Format": "/tp4/files/sample_01.pdf"
         }
       ]
     },

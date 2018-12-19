@@ -206,7 +206,7 @@ export class AppComponent {
                         }
                         if (['mp3','mp4', 'wmv','webm','wav','ogg','wma','mov','rm','mpeg','ram','ogv','avi','qt','mpg'].indexOf(ext) > -1) {ext = 'media'}
                         if (['dta','sps','save'].indexOf(ext) > -1){ext = 'stats'}
-                        format['extension'] = '#'+ext;
+                        format['extension'] = '#cdc-'+ext; //Change to '#-'+ext for localhost test
                     };
                 }
             });
