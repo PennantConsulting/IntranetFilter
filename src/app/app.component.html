@@ -124,7 +124,7 @@
 										</li>
 									</ul>
 								</div>
-								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#chat_02" xlink:href="#chat_02"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
+								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#comment3" xlink:href="#comment3"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
 							</div><!-- col -->
 							<ng-container *ngIf="'right' === imagePosition">
 								<div *ngIf="item[imageField]" class="{{imageColWidth}}">
@@ -159,7 +159,7 @@
 										</ng-container>
 									</p>
 								</ng-container>
-								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#chat_02" xlink:href="#chat_02"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
+								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#comment3" xlink:href="#comment3"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
 							</div><!-- card-body -->
 						</div><!-- card -->
 					</div><!-- card-body -->
@@ -180,12 +180,11 @@
 		[(directionLinks)]="directionLinks"
 		[(boundaryLinks)]="boundaryLinks"
 		[(pageSize)]="itemsPerPage">
-	</ngb-pagination>
-	<svg style="display:none" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><symbol id="chat_02" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" xmlns:xlink="http://www.w3.org/1999/xlink">
-		<title>
-			chat_02
-		</title>
-		<path d="M31.3,24.29V8.68a2.8,2.8,0,0,0-2.8-2.8H4a2.8,2.8,0,0,0-2.8,2.8V24.29A2.8,2.8,0,0,0,4,27.09H8.71v6.42l7.13-6.42H28.51A2.79,2.79,0,0,0,31.3,24.29ZM36,12h-3.5V25.66a3.21,3.21,0,0,1-2.69,2.68l-13.68.07a2.55,2.55,0,0,0,2.8,2.48h5.39l7,6.38V30.89H36a2.54,2.54,0,0,0,2.8-2.48V14.74A2.73,2.73,0,0,0,36,12Z" class="fr-evenodd"/>
-	</symbol>
-	</svg>
+    </ngb-pagination>
+    <svg style="display:none" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <symbol id="comment3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <title>comment3</title>
+            <path d="M 18 8.016 v -2.016 h -12 v 2.016 h 12 Z M 18 11.016 v -2.016 h -12 v 2.016 h 12 Z M 18 14.016 v -2.016 h -12 v 2.016 h 12 Z M 21.984 3.984 v 18 l -3.984 -3.984 h -14.016 c -1.078 0 -1.969 -0.938 -1.969 -2.016 v -12 c 0 -1.078 0.891 -1.969 1.969 -1.969 h 16.031 c 1.078 0 1.969 0.891 1.969 1.969 Z" />
+        </symbol>
+    </svg>
 </div>
