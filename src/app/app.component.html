@@ -8,7 +8,7 @@
 			<div class="row">
 				<div class="col-md-6 mb-3">
 					<label for="Search" class="forms-label h5 open">Search</label>
-					<input *ngIf="! submitButton" [(ngModel)]="searchValue" (keyup)="updateFilter(filtersubmit.value)"
+					<input *ngIf="!submitButton" [(ngModel)]="searchValue" (keyup)="updateFilter(filtersubmit.value)"
 						   class="form-control nobutton" type="text" id="Search"
 						   name="Search" placeholder="Enter keywords"/>
 					<input *ngIf="submitButton" [(ngModel)]="searchValue" class="form-control button" type="text" id="Search"
@@ -45,7 +45,6 @@
 						</option>
 					</select>
 				</div>
-
 			</div>
 			<div class="row">
 				<!-- Submit / Reset Buttons -->
@@ -71,12 +70,18 @@
 	</div>
 </div>
 <div role="alert" id="resultCount" tabindex="-1" *ngIf="searched">
+    <p [attr.class]="errorMsg ? 'd-block' : 'd-none'">
+        {{errorMsg}}
+    </p>
 	<p [attr.class]="filteredDataLength <= 0 ? 'd-block' : 'd-none'">
 		No results available for the selected criteria. Please adjust the filter options above.
 	</p>
 	<p [attr.class]="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length ? 'd-block' : 'd-none'">
 		<span class="sr-only">Search results </span>Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.
 	</p>
+</div>
+<div *ngIf="errorMsg">
+    <p>{{errorMsg}}</p>
 </div>
 <div>
 	<div *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
