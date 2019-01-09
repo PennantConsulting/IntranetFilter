@@ -344,7 +344,10 @@ export class AppComponent {
 
     filterText(filter: string){
         const searchParams = this.getAllQueryStringParams();
-        const keys = Object.keys(searchParams);
+        let keys = [];
+        for(const key in searchParams) {
+            keys.push(key);
+        }
         const values = this.dataHouse.filters[filter];
         let returnValue = "Select "+filter;
         if(keys.length > 0){
@@ -431,9 +434,9 @@ export class AppComponent {
         this.searchFocus();
     }
 
-    updateSorts(value: string, label: string){
-        this.sortValue = value;
-        this.sortLabel = label;
+    updateSorts(sortValue: any, sortLabel: any){
+        this.sortValue = sortValue;
+        this.sortLabel = sortLabel;
     }
 
     searchFocus(){

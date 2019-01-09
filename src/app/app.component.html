@@ -37,16 +37,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue" (change)="!submitbutton ? updateFilter(filtersubmit.value): ''">
-					<!-- <select *ngIf="! submitButton" [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
-					<select *ngIf="submitButton" [(ngModel)]="sortValue" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select> -->
 				</div>
 
 			</div>
@@ -56,19 +46,18 @@
 					<button type="reset" class="btn btn-sm {{resetButtonColor}} mr-3" (click)="clearFilter()">Reset</button>
 					<button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
 				</div>
-				<!-- <div *ngIf="0 !== filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
-					<label for="Sort" class="forms-label h5 open">Sort</label>
-					<select *ngIf="! submitButton" [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
-					<select *ngIf="submitButton" [(ngModel)]="sortValue" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
-				</div> -->
+				<div *ngIf="0 !== filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
+                    <label for="Sort" class="forms-label h5 open">Sort</label>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{sortLabel}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
+                        </div>
+                    </div>
+                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue" (change)="!submitbutton ? updateFilter(filtersubmit.value): ''">
+				</div>
 			</div>
 		</form>
 	</div>

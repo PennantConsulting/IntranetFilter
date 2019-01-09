@@ -68,6 +68,7 @@ export class FilterPipe implements PipeTransform {
 
             for ( const filterField in formFilters ) {
                 let itemHasFilterVal = false;
+                if(!item[filterField]){ break; } //IE bug where it comes up undefined without select boxes for filters
                 for (let i = 0; i < item[filterField].length; i++) {
                     if (item[filterField][i] === formFilters[filterField] ) {
                         itemHasFilterVal = true;
