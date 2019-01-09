@@ -4,7 +4,7 @@
 </div>
 <div class="card mb-3 {{formBgColor}}" aria-describedby="sort-filter-desc">
 	<div class="card-body">
-		<form [ngClass]="filtersAreHierarchical ? 'forms': ''" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
+		<form class="forms" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
 			<div class="row">
 				<div class="col-md-6 mb-3">
 					<label for="Search" class="forms-label h5 open">Search</label>
