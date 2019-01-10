@@ -53,6 +53,7 @@ export class AppComponent {
     hiddenLabels: any;
     fieldLabels: any = [];
     searched : boolean = false;
+    errorMsg: string;
 
     searchFields: string[];
 
@@ -73,11 +74,11 @@ export class AppComponent {
 
     location: Location;
 
-    constructor(private dataService: MediadataService,
-                private globalsService: GlobalsService,
-                location: Location) {
-        this.location = location;
-        
+    constructor(
+        private dataService: MediadataService,
+        private globalsService: GlobalsService,
+        location: Location) {
+            this.location = location;
     }
 
     ngOnInit() {
@@ -179,6 +180,25 @@ export class AppComponent {
 
         this.dataService.getPosts(this.dataPath).subscribe((response) => {
 
+            const loadingElement = document.getElementById('mediaSpinner');
+
+            //Error scenarios
+            if(this.dataService.errorStatus == 404){
+                this.errorMsg = "The JSON file cannot be found.";
+                loadingElement.parentNode.removeChild(loadingElement);
+                return;
+            };
+            if(!response){
+                this.errorMsg = "The JSON file appears to be empty.";
+                loadingElement.parentNode.removeChild(loadingElement);
+                return;
+            };
+            if(Object.keys(response).length === 0){
+                this.errorMsg = "The JSON file contains an empty object.";
+                loadingElement.parentNode.removeChild(loadingElement);
+                return;
+            };
+
             this.dataHouse = {};
             this.dataHouse = this.organizeData(response, this.dataHouse);
 
@@ -277,7 +297,6 @@ export class AppComponent {
             });
 
             // remove spinner
-            const loadingElement = document.getElementById('mediaSpinner');
             loadingElement.parentNode.removeChild(loadingElement);
         });
 
