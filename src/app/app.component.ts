@@ -61,6 +61,9 @@ export class AppComponent {
     searchValue: string;
     oldSearchValue: string;
     sortValue: string;
+    sortLabel: string;
+    defaultSortLabel: string;
+    defaultSortValue: string;
     filterModel;
 
     // Pagination
@@ -276,6 +279,16 @@ export class AppComponent {
                 }
             }
 
+            //Create Default Sort Label
+            for(let i=0; i<this.sortOptions.length; i++){
+                if(this.sortOptions[i]['value'] == this.sortValue){
+                    this.defaultSortLabel = this.sortOptions[i]['label'];
+                    this.defaultSortValue = this.sortValue;
+                }
+            }
+
+            this.sortLabel = this.defaultSortLabel;
+
             //Search & replace hidden fields
             //1. Get an array of the field names
             this.hiddenLabels.forEach(label => {
@@ -335,21 +348,63 @@ export class AppComponent {
                 dataHouse.filterKeys.push(key);
                 this.searchFields.push( key );
             }
+
+            //Organize filter values for hierarchy
+            let values = dataHouse.filters[key];
+            let formattedValues = [];
+            for(let i=0; i<values.length; i++){
+               formattedValues.push(this.formatFilterVal(values[i]));
+            }
+            dataHouse.filters[key] = formattedValues;
         }
 
         return dataHouse;
     }
 
+    filterText(filter: string){
+        const searchParams = this.getAllQueryStringParams();
+        let keys = [];
+        for(const key in searchParams) {
+            keys.push(key);
+        }
+        const values = this.dataHouse.filters[filter];
+        let returnValue = "Select "+filter;
+        if(keys.length > 0){
+            for(let i=0; i<keys.length; i++){
+                if(keys[i] === filter){
+                    for(let j=0; j<values.length; j++){
+                        if(values[j].raw == this.filterModel[filter]){
+                            return values[j].title;
+                        } 
+                    }  
+                }
+            }
+        }
+        return returnValue;
+    }
+
     clearFilter() {
+        //Reset Sort & Lists
+        this.sortValue = this.defaultSortValue;
+        this.sortLabel = this.defaultSortLabel;
+        document.getElementById('Sort').innerHTML = this.sortLabel;
+        let dropdowns = document.getElementsByClassName('forms')[0].getElementsByClassName('dropdown');
+        for(let i=0; i<dropdowns.length; i++){
+            let selected = dropdowns[i].getElementsByClassName('selected');
+            if(selected.length){
+                selected[0].classList.remove('selected');
+            }
+        }
+
         // Reset models and form
         document.getElementById('Search').focus();
-        this.sortValue = '';
         this.searchValue = '';
         this.oldSearchValue = '';
         this.searched = false;
         for ( const property in this.filterModel ) {
             if ( this.filterModel.hasOwnProperty( property ) ) {
                 this.filterModel[property] = '';
+                document.getElementById('button-'+property).innerHTML = "Select "+property;
             }
         }
 
@@ -365,6 +420,10 @@ export class AppComponent {
 
         // Initial pagination
         this.setupCurrentPage();
+    }
+
+    changeFilter(filter: string, value: string){
+        this.filterModel[filter] = value;
     }
 
     updateFilter(formVals) {
@@ -392,6 +451,11 @@ export class AppComponent {
         }
         this.updatePathForFilters( qs );
         this.searchFocus();
+    }
+
+    updateSorts(sortValue: any, sortLabel: any){
+        this.sortValue = sortValue;
+        this.sortLabel = sortLabel;
     }
 
     searchFocus(){
@@ -514,7 +578,7 @@ export class AppComponent {
         this.setupCurrentPage();
     }
 
-    formatFilterVal( val: string ): string {
+    formatForView( val: string ): string {
         if ( val && this.filtersAreHierarchical && ! this.showItemFilterHerarchy ) {
             const valParts = val.split( this.filterHierarchyDelimiter );
             if ( valParts.length > 0 ) {
@@ -527,6 +591,31 @@ export class AppComponent {
         }
     }
 
+    formatFilterVal( val: string ) {
+        let value = [];
+        if ( val && this.filtersAreHierarchical && ! this.showItemFilterHerarchy ) {
+            const valParts = val.split( this.filterHierarchyDelimiter );
+            if ( valParts.length > 0 ) {
+                let classEnd = "";
+                switch(valParts.length){
+                    case 1:classEnd = "one"; break;
+                    case 2:classEnd = "two"; break;
+                    case 3:classEnd = "three"; break;
+                    case 4:classEnd = "four"; break;
+                }
+                value['class'] = "dropdown-node-"+classEnd;
+                value['title'] = valParts[ valParts.length - 1 ];
+            } else {
+                value['class'] = "dropdown-node-one";
+                value['title'] = val;
+            }
+        } else {
+            value['class'] = "";
+            value['title'] = val;
+        }
+        value['raw'] = val;
+        return value;
+    }
 }
 
 interface Item {

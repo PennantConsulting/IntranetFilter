@@ -4,7 +4,7 @@
 </div>
 <div class="card mb-3 {{formBgColor}}" aria-describedby="sort-filter-desc">
 	<div class="card-body">
-		<form class="" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
+		<form class="forms" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
 			<div class="row">
 				<div class="col-md-6 mb-3">
 					<label for="Search" class="forms-label h5 open">Search</label>
@@ -15,35 +15,28 @@
 						   name="Search" placeholder="Enter keywords"/>
 				</div>
 				<div *ngFor="let filter of filterFields" class="col-md-6 mb-3">
-					<label for="filter-{{filter}}" class="forms-label h5 open">Filter by {{filter}}</label>
-					<select *ngIf="! submitButton" [(ngModel)]="filterModel[filter]" (change)="updateFilter(filtersubmit.value)"
-							id="filter-{{filter}}" name="filter-{{filter}}" class="form-control" placeholder="Filter by...">
-						<option [selected]="filter" value="" selected>Select {{filter}}
-						</option>
-						<option class="dropdown-item" *ngFor="let vals of dataHouse.filters[filter]" value="{{vals}}">
-							{{vals}}
-						</option>
-					</select>
-					<select *ngIf="submitButton" [(ngModel)]="filterModel[filter]" name="filter-{{filter}}" id="filter-{{filter}}" class="form-control">
-						<option [selected]="filter" value="" selected>Select {{filter}}
-						</option>
-						<option class="dropdown-item" *ngFor="let vals of dataHouse.filters[filter]" value="{{vals}}">
-							{{vals}}
-						</option>
-					</select>
+                    <label for="filter-{{filter}}" class="forms-label h5 open">Filter by {{filter}}</label>
+                    <div class="dropdown" id="filter-{{filter}}">
+                        <button class="btn dropdown-toggle form-control text-left td-none" id="button-{{filter}}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{filterText(filter)}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a [attr.class]="'dropdown-item '+vals.class" *ngFor="let vals of dataHouse.filters[filter]" (click)="changeFilter(filter,vals.raw)">{{vals.title}}</a>
+                        </div>
+                    </div>
+                    <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]" (change)="!submitbutton ? updateFilter(filtersubmit.value): ''">
 				</div>
 				<div *ngIf="0 === filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
-					<label for="Sort" class="forms-label h5 open">Sort</label>
-					<select *ngIf="! submitButton" [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
-					<select *ngIf="submitButton" [(ngModel)]="sortValue" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
+                    <label for="Sort" class="forms-label h5 open">Sort</label>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{sortLabel}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
+                        </div>
+                    </div>
+                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue" (change)="!submitbutton ? updateFilter(filtersubmit.value): ''">
 				</div>
 			</div>
 			<div class="row">
@@ -53,17 +46,16 @@
 					<button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
 				</div>
 				<div *ngIf="0 !== filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
-					<label for="Sort" class="forms-label h5 open">Sort</label>
-					<select *ngIf="! submitButton" [(ngModel)]="sortValue" (change)="updateFilter(filtersubmit.value)" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
-					<select *ngIf="submitButton" [(ngModel)]="sortValue" name="Sort" id="Sort" class="form-control">
-						<option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption.value">
-							{{sortOption.label}}
-						</option>
-					</select>
+                    <label for="Sort" class="forms-label h5 open">Sort</label>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{sortLabel}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
+                        </div>
+                    </div>
+                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue" (change)="!submitbutton ? updateFilter(filtersubmit.value): ''">
 				</div>
 			</div>
 		</form>
@@ -105,7 +97,7 @@
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"><span *ngIf="item['Hidden Labels'].indexOf(filter) == -1">{{filter}}: </span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
-											<a href="" (click)="doFilter(filter, filterVal)">{{formatFilterVal( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
+											<a href="" (click)="doFilter(filter, filterVal)">{{formatForView( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
 								</ng-container>
@@ -160,7 +152,7 @@
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"> <span *ngIf="item['Hidden Labels'].indexOf(filter) == -1">{{filter}}:</span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
-											<a href="" (click)="doFilter(filter, filterVal)">{{formatFilterVal( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
+											<a href="" (click)="doFilter(filter, filterVal)">{{formatForView( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
 								</ng-container>
