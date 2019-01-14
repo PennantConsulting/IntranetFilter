@@ -184,20 +184,24 @@ export class AppComponent {
         this.dataService.getPosts(this.dataPath).subscribe((response) => {
 
             const loadingElement = document.getElementById('mediaSpinner');
+            const error: any = this.dataService.error;
 
             //Error scenarios
-            if(this.dataService.errorStatus == 404){
-                this.errorMsg = "The JSON file cannot be found.";
+            if(error && error.status == 404){
+                this.errorMsg = "No data are available.";
+                console.log(error.status+": The JSON file is missing or cannot be found.");
                 loadingElement.parentNode.removeChild(loadingElement);
                 return;
             };
             if(!response){
-                this.errorMsg = "The JSON file appears to be empty.";
+                this.errorMsg = "No data are available.";
+                console.log("The JSON file appears to be empty.");
                 loadingElement.parentNode.removeChild(loadingElement);
                 return;
             };
             if(Object.keys(response).length === 0){
-                this.errorMsg = "The JSON file contains an empty object.";
+                this.errorMsg = "No data are available.";
+                console.log("The JSON file contains an empty object.");
                 loadingElement.parentNode.removeChild(loadingElement);
                 return;
             };
@@ -229,7 +233,7 @@ export class AppComponent {
                         }
                         if (['mp3','mp4', 'wmv','webm','wav','ogg','wma','mov','rm','mpeg','ram','ogv','avi','qt','mpg'].indexOf(ext) > -1) {ext = 'media'}
                         if (['dta','sps','save'].indexOf(ext) > -1){ext = 'stats'}
-                        format['extension'] = '#cdc-'+ext; //Change to '#-'+ext for localhost test
+                        format['extension'] = '#cdc-'+ext; //Change to '#'+ext for localhost && '#cdc-'+ext for live
                     };
                 }
             });
@@ -545,7 +549,7 @@ export class AppComponent {
         const start = +end - +this.itemsPerPage;
         this.currentPageData = this.filteredData.slice(start, end);
         this.searched = true;
-        window.scroll(0,0); //Fixes lack of scrolling - WCMSRD-7047
+        window.scroll(0,0);
     }
 
     setDefaultFilters( defaultFilterParam: string ) {

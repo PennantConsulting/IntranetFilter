@@ -6,7 +6,7 @@ import {catchError, tap} from 'rxjs/operators';
 @Injectable()
 export class MediadataService {
 
-    public errorStatus: number;
+    public error: any;
 
     constructor(public http: HttpClient) {
         // console.log('data service connected');
@@ -29,7 +29,7 @@ export class MediadataService {
         return (error: any): Observable<T> => {
 
             // TODO: send the error to remote logging infrastructure
-            this.errorStatus = error.status;
+            this.error = error;
 
             // Let the app keep running by returning an empty result.
             return of(result as T);
