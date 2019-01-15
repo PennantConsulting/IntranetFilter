@@ -435,6 +435,7 @@ export class AppComponent {
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             formVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
+        this.currentPage = 1;
         this.setupCurrentPage();
 
         let qs = '';
@@ -493,6 +494,7 @@ export class AppComponent {
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
+        this.currentPage = 1;
         this.setupCurrentPage();
 
         this.updatePathForFilters( '?' + filterField + '=' + filterValue );
