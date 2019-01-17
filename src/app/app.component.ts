@@ -538,7 +538,7 @@ export class AppComponent {
             function($0, $1, $2, $3) {
                 const qsKey = decodeURIComponent( $1 );
                 const qsVal = decodeURIComponent( $3 );
-                queryString[qsKey] = qsVal;
+                queryString[qsKey] = qsVal.replace(/\+/g,' ');
                 return '';
             }
         );
