@@ -319,9 +319,6 @@ export class AppComponent {
             loadingElement.parentNode.removeChild(loadingElement);
         });
 
-                
-        //When there's a keyup event, run a timer until it reaches 1000ms. After that point, run the function, stop the timer
-
         const app = this;
         let interval: any;
         window.addEventListener("keyup", (e) =>{
