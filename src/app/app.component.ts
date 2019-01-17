@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
 import { AttrAst } from '@angular/compiler';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'sort-filter-root',
@@ -74,8 +75,9 @@ export class AppComponent {
     textColWidth: string;
 
     sortOptions: Array<object>;
-
     location: Location;
+    @ViewChild('filtersubmit') filtersubmit: NgForm;
+    timer: any = Date.now(); //for registering delay on keystrokes with no submit
 
     constructor(
         private dataService: MediadataService,
@@ -317,11 +319,30 @@ export class AppComponent {
             loadingElement.parentNode.removeChild(loadingElement);
         });
 
-        //Make enter keypress formulate search results
+                
+        //When there's a keyup event, run a timer until it reaches 1000ms. After that point, run the function, stop the timer
+
         const app = this;
-        window.addEventListener("keypress", function(e){
+        let interval: any;
+        window.addEventListener("keyup", (e) =>{
+            //If no submit button, check for changes and update
+            if(!app.submitButton){
+                clearInterval(interval);
+                let functionTimer: any;
+                
+                interval = setInterval(()=>{
+                    functionTimer = Date.now();
+                    if((functionTimer - app.timer) > 1000){
+                        app.updateFilter(app.filtersubmit.value);   
+                        app.timer = Date.now();
+                        clearInterval(interval);
+                    }
+                }, 500);
+            };
+            
+            //Make enter keypress formulate search results
             if(e.keyCode === 13){
-                app.updateFilter(app.searchFields);
+                app.updateFilter(app.filtersubmit.value);
             };
         });
     }
@@ -469,8 +490,8 @@ export class AppComponent {
             resultCountDiv.focus();
         } else {
             const app = this;
-            window.addEventListener("keyup", function(event){
-                if(event.keyCode !== 8 && event.keyCode !== 46){
+            //window.addEventListener("keyup", function(event){
+                //if(event.keyCode !== 8 && event.keyCode !== 46){ //WCMSRD-7283 (delay before search with no submit button) overrides this solution
                     if(app.filteredDataLength <= 0){
                         resultCountDiv.focus();
                     }
@@ -480,10 +501,10 @@ export class AppComponent {
                         app.oldFilteredDataLength != app.filteredDataLength){
                             resultCountDiv.focus();
                     }
-                }
+                //}
                 app.oldFilteredDataLength = app.filteredDataLength;
                 app.oldSearchValue = app.searchValue;
-            });
+            //});
         }
     }
 
