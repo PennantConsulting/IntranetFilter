@@ -27,8 +27,8 @@
                     <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]" (change)="!submitbutton ? updateFilter(filtersubmit.value): ''">
 				</div>
 				<div *ngIf="0 === filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
-                    <label for="Sort" class="forms-label h5 open">Sort</label>
-                    <div class="dropdown">
+                    <label *ngIf="sortOptions && sortOptions.length" for="Sort" class="forms-label h5 open">Sort</label>
+                    <div class="dropdown" *ngIf="sortOptions && sortOptions.length">
                         <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{sortLabel}}
                         </button>
