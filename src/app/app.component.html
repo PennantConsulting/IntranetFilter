@@ -20,8 +20,8 @@
                         <button class="btn dropdown-toggle form-control text-left td-none" id="button-{{filter}}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{filterText(filter)}}
                         </button>
-                        <div class="dropdown-menu">
-                            <a [attr.class]="'dropdown-item '+vals.class" *ngFor="let vals of dataHouse.filters[filter]" (click)="changeFilter(filter,vals.raw)">{{vals.title}}</a>
+                        <div class="dropdown-menu" [attr.aria-labelledby]="'button-'+filter">
+                            <a href="#" [attr.class]="'dropdown-item '+vals.class" *ngFor="let vals of dataHouse.filters[filter]" (click)="changeFilter(filter,vals.raw)">{{vals.title}}</a>
                         </div>
                     </div>
                     <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]" (change)="!submitButton ? updateFilter(filtersubmit.value): ''">
@@ -32,8 +32,8 @@
                         <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{sortLabel}}
                         </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
+                        <div class="dropdown-menu" aria-labelledby="Sort">
+                            <a class="dropdown-item" href="#" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
                         </div>
                     </div>
                     <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue" (change)="!submitButton ? updateFilter(filtersubmit.value): ''">
@@ -51,8 +51,8 @@
                         <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{sortLabel}}
                         </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
+                        <div class="dropdown-menu" aria-labelledby="Sort">
+                            <a class="dropdown-item" href="#" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
                         </div>
                     </div>
                     <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue" (change)="!submitButton ? updateFilter(filtersubmit.value): ''">
