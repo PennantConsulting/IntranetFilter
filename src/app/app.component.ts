@@ -409,7 +409,9 @@ export class AppComponent {
         //Reset Sort & Lists
         this.sortValue = this.defaultSortValue;
         this.sortLabel = this.defaultSortLabel;
-        document.getElementById('Sort').innerHTML = this.sortLabel;
+        if(document.getElementById('Sort')){
+            document.getElementById('Sort').innerHTML = this.sortLabel;
+        }
         let dropdowns = document.getElementsByClassName('forms')[0].getElementsByClassName('dropdown');
         for(let i=0; i<dropdowns.length; i++){
             let selected = dropdowns[i].getElementsByClassName('selected');
