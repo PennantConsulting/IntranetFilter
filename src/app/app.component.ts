@@ -605,7 +605,7 @@ export class AppComponent {
     }
 
     formatForView( val: string ): string {
-        if ( val && this.filtersAreHierarchical && ! this.showItemFilterHerarchy ) {
+        if ( val && this.showItemFilterHerarchy ) {
             const valParts = val.split( this.filterHierarchyDelimiter );
             if ( valParts.length > 0 ) {
                 return valParts[ valParts.length - 1 ];
@@ -619,7 +619,7 @@ export class AppComponent {
 
     formatFilterVal( val: string ) {
         let value = [];
-        if ( val && this.filtersAreHierarchical && ! this.showItemFilterHerarchy ) {
+        if ( val && this.filtersAreHierarchical) {
             const valParts = val.split( this.filterHierarchyDelimiter );
             if ( valParts.length > 0 ) {
                 let classEnd = "";
