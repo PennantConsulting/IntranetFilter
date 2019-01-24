@@ -318,28 +318,12 @@ export class AppComponent {
             // remove spinner
             loadingElement.parentNode.removeChild(loadingElement);
         });
-
-        const app = this;
-        let interval: any;
+        if(!this.submitButton){
+            this.delaySearch("keyup", 2000);
+        }
         window.addEventListener("keyup", (e) =>{
-            //If no submit button, check for changes and update
-            if(!app.submitButton){
-                clearInterval(interval);
-                let functionTimer: any;
-                
-                interval = setInterval(()=>{
-                    functionTimer = Date.now();
-                    if((functionTimer - app.timer) > 1000){
-                        app.updateFilter(app.filtersubmit.value);   
-                        app.timer = Date.now();
-                        clearInterval(interval);
-                    }
-                }, 500);
-            };
-            
-            //Make enter keypress formulate search results
             if(e.keyCode === 13){
-                app.updateFilter(app.filtersubmit.value);
+                this.updateFilter(this.filtersubmit.value);
             };
         });
     }
@@ -446,6 +430,33 @@ export class AppComponent {
 
     changeFilter(filter: string, value: string){
         this.filterModel[filter] = value;
+        if(!this.submitButton){
+            this.delaySearch("click", 2000);
+        window.addEventListener("keyup", (e)=>{     
+                if(e.keyCode === 13){
+                    this.updateFilter(this.filtersubmit.value);
+                };
+            });
+        }
+    }
+
+    delaySearch(eventType: string, delay: number){
+        const app = this;
+        let interval: any;
+        window.addEventListener(eventType, (e) =>{
+            //If no submit button, check for changes and update
+            clearInterval(interval);
+            let functionTimer: any;
+            
+            interval = setInterval(()=>{
+                functionTimer = Date.now();
+                if((functionTimer - app.timer) > 1000){
+                    app.updateFilter(app.filtersubmit.value);   
+                    app.timer = Date.now();
+                    clearInterval(interval);
+                }
+            }, delay);
+        });
     }
 
     updateFilter(formVals) {
@@ -494,6 +505,7 @@ export class AppComponent {
                     }
                     if(app.filteredDataLength > 0 &&
                         app.filteredDataLength < app.dataHouse.items.length &&
+                        app.searchValue &&  
                         app.searchValue.indexOf(app.oldSearchValue) === 0 &&
                         app.oldFilteredDataLength != app.filteredDataLength){
                             resultCountDiv.focus();
