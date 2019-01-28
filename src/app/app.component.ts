@@ -5,6 +5,7 @@ import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
 import { AttrAst } from '@angular/compiler';
 import { NgForm } from '@angular/forms';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'sort-filter-root',
@@ -318,10 +319,16 @@ export class AppComponent {
             // remove spinner
             loadingElement.parentNode.removeChild(loadingElement);
         });
-        if(!this.submitButton){
-            this.delaySearch("keyup", 2000);
-        }
+
+        window.addEventListener('click', (event)=>{
+            if($(event.target).parent().hasClass('dropdown-menu') && !this.submitButton){
+                this.updateFilter(this.filtersubmit.value);
+            }
+        });
         window.addEventListener("keyup", (e) =>{
+            if(!this.submitButton){
+                this.delaySearch("keyup", 2000);
+            }
             if(e.keyCode === 13){
                 this.updateFilter(this.filtersubmit.value);
             };
@@ -428,18 +435,6 @@ export class AppComponent {
 
         // Initial pagination
         this.setupCurrentPage();
-    }
-
-    changeFilter(filter: string, value: string){
-        this.filterModel[filter] = value;
-        if(!this.submitButton){
-            this.delaySearch("click", 2000);
-        window.addEventListener("keyup", (e)=>{     
-                if(e.keyCode === 13){
-                    this.updateFilter(this.filtersubmit.value);
-                };
-            });
-        }
     }
 
     delaySearch(eventType: string, delay: number){
