@@ -21,7 +21,7 @@
                             {{filterText(filter)}}
                         </button>
                         <div class="dropdown-menu" [attr.aria-labelledby]="'button-'+filter">
-                            <a href="#" [attr.class]="'dropdown-item '+vals.class" *ngFor="let vals of dataHouse.filters[filter]" (click)="changeFilter(filter,vals.raw)">{{vals.title}}</a>
+                            <a href="#" [attr.class]="'dropdown-item '+vals.class" *ngFor="let vals of dataHouse.filters[filter]" (click)="this.filterModel[filter] = vals.raw;">{{vals.title}}</a>
                         </div>
                     </div>
                     <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]" (change)="!submitButton ? updateFilter(filtersubmit.value): ''">
