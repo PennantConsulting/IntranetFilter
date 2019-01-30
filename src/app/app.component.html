@@ -24,7 +24,7 @@
                             <a href="#" [attr.class]="'dropdown-item '+vals.class" *ngFor="let vals of dataHouse.filters[filter]" (click)="this.filterModel[filter] = vals.raw;">{{vals.title}}</a>
                         </div>
                     </div>
-                    <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]" (change)="!submitButton ? updateFilter(filtersubmit.value): ''">
+                    <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]">
 				</div>
 				<div *ngIf="0 === filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
                     <label *ngIf="sortOptions && sortOptions.length" for="Sort" class="forms-label h5 open">Sort</label>
@@ -36,7 +36,7 @@
                             <a class="dropdown-item" href="#" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
                         </div>
                     </div>
-                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue" (change)="!submitButton ? updateFilter(filtersubmit.value): ''">
+                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue">
 				</div>
 			</div>
 			<div class="row">
@@ -55,7 +55,7 @@
                             <a class="dropdown-item" href="#" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
                         </div>
                     </div>
-                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue" (change)="!submitButton ? updateFilter(filtersubmit.value): ''">
+                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue">
 				</div>
 			</div>
 		</form>
