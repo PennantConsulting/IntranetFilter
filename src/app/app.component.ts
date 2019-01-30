@@ -326,10 +326,10 @@ export class AppComponent {
             }
         });
         window.addEventListener("keyup", (e) =>{
-            if(!this.submitButton){
+            if(!this.submitButton && $(e.target).attr('id') === 'Search'){
                 this.delaySearch("keyup", 2000);
             }
-            if(e.keyCode === 13){
+            if(e.keyCode === 13 && !$(e.target).parent().hasClass('dropdown-menu')){
                 this.updateFilter(this.filtersubmit.value);
             };
         });
@@ -441,7 +441,6 @@ export class AppComponent {
         const app = this;
         let interval: any;
         window.addEventListener(eventType, (e) =>{
-            //If no submit button, check for changes and update
             clearInterval(interval);
             let functionTimer: any;
             
@@ -450,8 +449,8 @@ export class AppComponent {
                 if((functionTimer - app.timer) > 1000){
                     app.updateFilter(app.filtersubmit.value);   
                     app.timer = Date.now();
-                    clearInterval(interval);
-                }
+                };
+                clearInterval(interval);
             }, delay);
         });
     }
