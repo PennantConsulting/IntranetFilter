@@ -18,10 +18,10 @@
                     <label for="filter-{{filter}}" class="forms-label h5 open">Filter by {{filter}}</label>
                     <div class="dropdown" id="filter-{{filter}}">
                         <button class="btn dropdown-toggle form-control text-left td-none" id="button-{{filter.toLowerCase().replace(' ','-')}}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{filterText(filter)}}
+                            Select {{filter}}
                         </button>
                         <div class="dropdown-menu" [attr.aria-labelledby]="'button-'+filter">
-                            <a href="#" [attr.class]="(!filterModel[filter] || filterModel[filter] == null) ? 'dropdown-item selected' : 'dropdown-item'" (click)="filterModel[filter] = null;" (keyup)="selectFilter($event, filter, null)">Select {{filter}}</a>
+                            <a href="#" [attr.class]="(filterModel[filter] == '') ? 'dropdown-item selected' : 'dropdown-item'" (click)="filterModel[filter] = '';" (keyup)="selectFilter($event, filter, [])">Select {{filter}}</a>
                             <a href="#" [attr.class]="(filterModel[filter] == vals.raw) ? 'dropdown-item selected ' + vals.class : 'dropdown-item '+ vals.class" *ngFor="let vals of dataHouse.filters[filter]" (click)="filterModel[filter] = vals.raw;" (keyup)="selectFilter($event, filter, vals)">{{vals.title}}</a>
                         </div>
                     </div>

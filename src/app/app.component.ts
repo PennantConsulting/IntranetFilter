@@ -1,4 +1,4 @@
-import {Component, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, ViewChild, AfterViewInit, AfterContentChecked} from '@angular/core';
 import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
@@ -335,14 +335,18 @@ export class AppComponent {
         }
     }
 
+    ngAfterContentChecked(){
+        this.filterText();
+    }
+
     selectFilter(e: KeyboardEvent, filter: string, value:any){
         if(e.keyCode === 40 || e.keyCode === 38 || e.keyCode == 9){ //Arrow Down/Up & Tab
             const filterString = filter.toLowerCase().replace(" ", '-');
-            if(value){
+            if(value.raw){
                 this.filterModel[filter] = value.raw;
                 $('#button-'+filterString).html(value.title);
             } else {
-                this.filterModel[filter] = null;
+                this.filterModel[filter] = '';
                 $('#button-'+filterString).html("Select "+filter);
             }
         }
@@ -383,30 +387,39 @@ export class AppComponent {
             }
             dataHouse.filters[key] = formattedValues;
         }
-
         return dataHouse;
     }
 
-    filterText(filter: string){
+    filterText(){
         const searchParams = this.getAllQueryStringParams();
         let keys = [];
-        for(const key in searchParams) {
-            keys.push(key);
-        }
-        const values = this.dataHouse.filters[filter];
-        let returnValue = "Select "+filter;
-        if(keys.length > 0){
+        for(let key in searchParams) {
+            let keyArray = key.split(" ");
+            if(keyArray && keyArray.length > 0){
+                for(let i=0; i<keyArray.length; i++){
+                    keyArray[i] = keyArray[i].substring(0,1).toUpperCase() + keyArray[i].substring(1);
+                }
+                key = keyArray.join(" ");
+                keys.push(key);
+            }
+        };
+        if(keys && keys.length > 0 && this.dataHouse){
             for(let i=0; i<keys.length; i++){
-                if(keys[i] === filter){
+                const values = this.dataHouse.filters[keys[i]];
+                let returnValue = "Select "+keys[i];
+                if(values){
                     for(let j=0; j<values.length; j++){
-                        if(values[j].raw == this.filterModel[filter]){
+                        if(values[j].raw == this.filterModel[keys[i]]){
                             returnValue = values[j].title;
-                        } 
-                    }  
+                        }
+                    }
+                    const button = $('#button-'+keys[i].toLowerCase().replace(' ','-'));
+                    if(button){
+                        $(button).text(returnValue);
+                    }
                 }
             }
         }
-        return returnValue;
     }
 
     clearFilter() {
@@ -431,9 +444,12 @@ export class AppComponent {
         this.searched = false;
         for ( const property in this.filterModel ) {
             if ( this.filterModel.hasOwnProperty( property ) ) {
-                this.filterModel[property] = null;
+                this.filterModel[property] = '';
                 //syntax changed for proper IDs in DOM
-                document.getElementById('button-'+property.toLowerCase().replace(" ",'-')).innerHTML = "Select "+property;
+                const button = document.getElementById('button-'+property.toLowerCase().replace(" ",'-'));
+                if(button){
+                    button.innerHTML = "Select "+property;
+                }
             }
         }
 
