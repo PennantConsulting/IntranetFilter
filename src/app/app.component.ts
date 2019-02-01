@@ -1,9 +1,8 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, AfterViewInit} from '@angular/core';
 import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
-import { AttrAst } from '@angular/compiler';
 import { NgForm } from '@angular/forms';
 import * as $ from 'jquery';
 
@@ -317,22 +316,36 @@ export class AppComponent {
             });
 
             // remove spinner
-            loadingElement.parentNode.removeChild(loadingElement);
+            loadingElement.parentNode.removeChild(loadingElement);  
         });
+    }
 
-        window.addEventListener('click', (event)=>{
-            if($(event.target).parent().hasClass('dropdown-menu') && !this.submitButton){
-                this.updateFilter(this.filtersubmit.value);
-            }
-        });
-        window.addEventListener("keyup", (e) =>{
-            if(!this.submitButton && $(e.target).attr('id') === 'Search'){
+    ngAfterViewInit(){
+        if(!this.submitButton){
+            $('#Search').on('keyup', ()=>{
                 this.delaySearch("keyup", 2000);
-            }
-            if(e.keyCode === 13 && !$(e.target).parent().hasClass('dropdown-menu')){
-                this.updateFilter(this.filtersubmit.value);
+            });
+
+            window.onclick = (e)=>{
+                //window click events capture both keypress and click as click
+                if($(e.target).parent().hasClass('dropdown-menu')){
+                    this.updateFilter(this.filtersubmit.value);
+                }
             };
-        });
+        }
+    }
+
+    selectFilter(e: KeyboardEvent, filter: string, value:any){
+        if(e.keyCode === 40 || e.keyCode === 38 || e.keyCode == 9){ //Arrow Down/Up & Tab
+            const filterString = filter.toLowerCase().replace(" ", '-');
+            if(value){
+                this.filterModel[filter] = value.raw;
+                $('#button-'+filterString).html(value.title);
+            } else {
+                this.filterModel[filter] = null;
+                $('#button-'+filterString).html("Select "+filter);
+            }
+        }
     }
 
     getCommentAnchor() {
@@ -387,7 +400,7 @@ export class AppComponent {
                 if(keys[i] === filter){
                     for(let j=0; j<values.length; j++){
                         if(values[j].raw == this.filterModel[filter]){
-                            return values[j].title;
+                            returnValue = values[j].title;
                         } 
                     }  
                 }
@@ -418,8 +431,9 @@ export class AppComponent {
         this.searched = false;
         for ( const property in this.filterModel ) {
             if ( this.filterModel.hasOwnProperty( property ) ) {
-                this.filterModel[property] = '';
-                document.getElementById('button-'+property).innerHTML = "Select "+property;
+                this.filterModel[property] = null;
+                //syntax changed for proper IDs in DOM
+                document.getElementById('button-'+property.toLowerCase().replace(" ",'-')).innerHTML = "Select "+property;
             }
         }
 
