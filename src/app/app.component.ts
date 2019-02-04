@@ -323,6 +323,7 @@ export class AppComponent {
     ngAfterViewInit(){
         if(!this.submitButton){
             $('#Search').on('keyup', ()=>{
+                console.log('test');
                 this.delaySearch("keyup", 2000);
             });
 
@@ -510,7 +511,9 @@ export class AppComponent {
             }
         }
         this.updatePathForFilters( qs );
-        this.searchFocus();
+        if(!$('.dropdown-menu').hasClass('show')){
+            this.searchFocus();
+        }
     }
 
     updateSorts(sortValue: any, sortLabel: any){
