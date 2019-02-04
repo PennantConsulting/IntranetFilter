@@ -323,7 +323,6 @@ export class AppComponent {
     ngAfterViewInit(){
         if(!this.submitButton){
             $('#Search').on('keyup', ()=>{
-                console.log('test');
                 this.delaySearch("keyup", 2000);
             });
 
