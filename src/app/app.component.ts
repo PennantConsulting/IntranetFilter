@@ -1,9 +1,8 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, AfterViewInit, AfterContentChecked} from '@angular/core';
 import {MediadataService} from './mediadata.service';
 import {FilterPipe} from './filter.pipe';
 import {GlobalsService} from './globals.service';
 import {Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF, DatePipe} from '@angular/common';
-import { AttrAst } from '@angular/compiler';
 import { NgForm } from '@angular/forms';
 import * as $ from 'jquery';
 
@@ -317,22 +316,40 @@ export class AppComponent {
             });
 
             // remove spinner
-            loadingElement.parentNode.removeChild(loadingElement);
+            loadingElement.parentNode.removeChild(loadingElement);  
         });
+    }
 
-        window.addEventListener('click', (event)=>{
-            if($(event.target).parent().hasClass('dropdown-menu') && !this.submitButton){
-                this.updateFilter(this.filtersubmit.value);
-            }
-        });
-        window.addEventListener("keyup", (e) =>{
-            if(!this.submitButton && $(e.target).attr('id') === 'Search'){
+    ngAfterViewInit(){
+        if(!this.submitButton){
+            $('#Search').on('keyup', ()=>{
                 this.delaySearch("keyup", 2000);
-            }
-            if(e.keyCode === 13 && !$(e.target).parent().hasClass('dropdown-menu')){
-                this.updateFilter(this.filtersubmit.value);
+            });
+
+            window.onclick = (e)=>{
+                //window click events capture both keypress and click as click
+                if($(e.target).parent().hasClass('dropdown-menu')){
+                    this.updateFilter(this.filtersubmit.value);
+                }
             };
-        });
+        }
+    }
+
+    ngAfterContentChecked(){
+        this.filterText();
+    }
+
+    selectFilter(e: KeyboardEvent, filter: string, value:any){
+        if(e.keyCode === 40 || e.keyCode === 38 || e.keyCode == 9){ //Arrow Down/Up & Tab
+            const filterString = filter.toLowerCase().replace(" ", '-');
+            if(value.raw){
+                this.filterModel[filter] = value.raw;
+                $('#button-'+filterString).html(value.title);
+            } else {
+                this.filterModel[filter] = '';
+                $('#button-'+filterString).html("Select "+filter);
+            }
+        }
     }
 
     getCommentAnchor() {
@@ -370,30 +387,39 @@ export class AppComponent {
             }
             dataHouse.filters[key] = formattedValues;
         }
-
         return dataHouse;
     }
 
-    filterText(filter: string){
+    filterText(){
         const searchParams = this.getAllQueryStringParams();
         let keys = [];
-        for(const key in searchParams) {
-            keys.push(key);
-        }
-        const values = this.dataHouse.filters[filter];
-        let returnValue = "Select "+filter;
-        if(keys.length > 0){
+        for(let key in searchParams) {
+            let keyArray = key.split(" ");
+            if(keyArray && keyArray.length > 0){
+                for(let i=0; i<keyArray.length; i++){
+                    keyArray[i] = keyArray[i].substring(0,1).toUpperCase() + keyArray[i].substring(1);
+                }
+                key = keyArray.join(" ");
+                keys.push(key);
+            }
+        };
+        if(keys && keys.length > 0 && this.dataHouse){
             for(let i=0; i<keys.length; i++){
-                if(keys[i] === filter){
+                const values = this.dataHouse.filters[keys[i]];
+                let returnValue = "Select "+keys[i];
+                if(values){
                     for(let j=0; j<values.length; j++){
-                        if(values[j].raw == this.filterModel[filter]){
-                            return values[j].title;
-                        } 
-                    }  
+                        if(values[j].raw == this.filterModel[keys[i]]){
+                            returnValue = values[j].title;
+                        }
+                    }
+                    const button = $('#button-'+keys[i].toLowerCase().replace(' ','-'));
+                    if(button){
+                        $(button).text(returnValue);
+                    }
                 }
             }
         }
-        return returnValue;
     }
 
     clearFilter() {
@@ -419,7 +445,11 @@ export class AppComponent {
         for ( const property in this.filterModel ) {
             if ( this.filterModel.hasOwnProperty( property ) ) {
                 this.filterModel[property] = '';
-                document.getElementById('button-'+property).innerHTML = "Select "+property;
+                //syntax changed for proper IDs in DOM
+                const button = document.getElementById('button-'+property.toLowerCase().replace(" ",'-'));
+                if(button){
+                    button.innerHTML = "Select "+property;
+                }
             }
         }
 
@@ -480,7 +510,9 @@ export class AppComponent {
             }
         }
         this.updatePathForFilters( qs );
-        this.searchFocus();
+        if(!$('.dropdown-menu').hasClass('show')){
+            this.searchFocus();
+        }
     }
 
     updateSorts(sortValue: any, sortLabel: any){
