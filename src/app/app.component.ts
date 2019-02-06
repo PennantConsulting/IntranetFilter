@@ -125,7 +125,7 @@ export class AppComponent {
         this.altFormats = appInjectDiv.getAttribute('data-altformats');
         this.altLanguages = appInjectDiv.getAttribute('data-altlanguages');
         this.hiddenSearch = appInjectDiv.getAttribute('data-hiddensearch');
-        this.hiddenLabels = appInjectDiv.getAttribute('data-hiddenlabels') ? appInjectDiv.getAttribute('data-hiddenlabels').split(',') : [];
+        this.hiddenLabels = appInjectDiv.getAttribute('data-hiddenlabels') ? appInjectDiv.getAttribute('data-hiddenlabels').toLowerCase().split(/\s*,\s*/) : [];
         this.dateFormat = appInjectDiv.getAttribute('data-dateformat');
         if (!this.dateFormat) {
             this.dateFormat = 'mediumDate';
@@ -295,28 +295,8 @@ export class AppComponent {
 
             this.sortLabel = this.defaultSortLabel;
 
-            //Search & replace hidden fields
-            //1. Get an array of the field names
-            this.hiddenLabels.forEach(label => {
-                this.fieldLabels.push(appInjectDiv.getAttribute(label));
-            });
-            this.dataHouse.filterKeys.forEach(filter => {
-                if(this.hiddenLabels.indexOf(filter.toLowerCase()) > -1){
-                    this.fieldLabels.push(filter);
-                }
-            });
-            //2. Put in list (3. Check if in list in html)
-            this.dataHouse.items.forEach(item => {
-                item['Hidden Labels'] = [];
-                this.fieldLabels.forEach(label => {
-                    if(item.hasOwnProperty(label)){
-                        item['Hidden Labels'].push(label);
-                    }
-                });
-            });
-
             // remove spinner
-            loadingElement.parentNode.removeChild(loadingElement);  
+            loadingElement.parentNode.removeChild(loadingElement);
         });
     }
 
@@ -473,11 +453,11 @@ export class AppComponent {
         window.addEventListener(eventType, (e) =>{
             clearInterval(interval);
             let functionTimer: any;
-            
+
             interval = setInterval(()=>{
                 functionTimer = Date.now();
                 if((functionTimer - app.timer) > 1000){
-                    app.updateFilter(app.filtersubmit.value);   
+                    app.updateFilter(app.filtersubmit.value);
                     app.timer = Date.now();
                 };
                 clearInterval(interval);
@@ -533,7 +513,7 @@ export class AppComponent {
                     }
                     if(app.filteredDataLength > 0 &&
                         app.filteredDataLength < app.dataHouse.items.length &&
-                        app.searchValue &&  
+                        app.searchValue &&
                         app.searchValue.indexOf(app.oldSearchValue) === 0 &&
                         app.oldFilteredDataLength != app.filteredDataLength){
                             resultCountDiv.focus();
@@ -679,6 +659,10 @@ export class AppComponent {
         }
         value['raw'] = val;
         return value;
+    }
+
+    isLabelHidden( label: string ) {
+        return this.hiddenLabels.indexOf( label.toLowerCase() ) >= 0;
     }
 }
 

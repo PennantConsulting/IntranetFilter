@@ -77,6 +77,7 @@
     <p>{{errorMsg}}</p>
 </div>
 <div>
+  <!-- RESULTS with card position left, right or not set -->
 	<div *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
 		<div class="row">
 			<div class="{{colWidth}}" *ngFor="let item of currentPageData; let i = index; let odd = odd">
@@ -94,16 +95,16 @@
 							<div class="{{textColWidth}}">
 								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-								<p *ngIf="item[dateField]"><span *ngIf="item['Hidden Labels'].indexOf(dateField) == -1">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
+								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}}</p>
 								<ng-container *ngIf="displayFilterVals">
-									<p *ngFor="let filter of filterFields"><span *ngIf="item['Hidden Labels'].indexOf(filter) == -1">{{filter}}: </span>
+									<p *ngFor="let filter of filterFields"><span *ngIf="!isLabelHidden(filter)">{{filter}}: </span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
 											<a href="" (click)="doFilter(filter, filterVal)">{{formatForView( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
 								</ng-container>
 								<div *ngIf="item[altFormats]" class="mb-10">
-									<span *ngIf="item['Hidden Labels'].indexOf(altFormats) == -1">{{altFormats}}: </span>
+									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
 											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}
@@ -115,7 +116,7 @@
 									</ul>
 								</div>
 								<div *ngIf="item[altLanguages]" class="mb-10">
-									<span *ngIf="item['Hidden Labels'].indexOf(altLanguages) == -1">{{altLanguages}}: </span>
+									<span *ngIf="!isLabelHidden(altLanguages)">{{altLanguages}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]">
 											<a href="{{alt['Alternative Language']}}">{{alt['Link Text (optional)']}}</a>
@@ -136,6 +137,8 @@
 			</div><!-- column -->
 		</div><!-- row -->
 	</div>
+
+  <!-- RESULTS with card position top -->
 	<ng-container *ngIf="'top' === imagePosition">
 		<div class="row">
 			<div class="{{colWidth}}"  *ngFor="let item of currentPageData; let i = index; let odd = odd">
@@ -149,14 +152,34 @@
 							<div class="card-body pr-0 pl-0">
 								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-								<p *ngIf="item[dateField]"><span *ngIf="item['Hidden Labels'].indexOf(dateField) == -1">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
+								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
 								<ng-container *ngIf="displayFilterVals">
-									<p *ngFor="let filter of filterFields"> <span *ngIf="item['Hidden Labels'].indexOf(filter) == -1">{{filter}}:</span>
+									<p *ngFor="let filter of filterFields"> <span *ngIf="!isLabelHidden(filter)">{{filter}}: </span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
 											<a href="" (click)="doFilter(filter, filterVal)">{{formatForView( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
 								</ng-container>
+                <div *ngIf="item[altFormats]" class="mb-10">
+									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
+									<ul class="d-inline list-inline">
+										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
+											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}
+													<svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+														<use attr.href="{{alt['extension']}}" attr.xlink:href="{{alt['extension']}}"></use>
+													</svg>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div *ngIf="item[altLanguages]" class="mb-10">
+									<span *ngIf="!isLabelHidden(altLanguages)">{{altLanguages}}: </span>
+									<ul class="d-inline list-inline">
+										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]">
+											<a href="{{alt['Alternative Language']}}">{{alt['Link Text (optional)']}}</a>
+										</li>
+									</ul>
+								</div>
 								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#comment3" xlink:href="#comment3"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
 							</div><!-- card-body -->
 						</div><!-- card -->
