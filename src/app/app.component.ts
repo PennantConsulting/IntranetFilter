@@ -211,34 +211,18 @@ export class AppComponent {
             this.dataHouse = {};
             this.dataHouse = this.organizeData(response, this.dataHouse);
 
-            //Add additional item pieces
+            //Add svg IDs
             this.dataHouse.items.forEach(item => {
                 let formats = item['Alternate Formats'];
                 if (formats && formats.length > 0){
                     for(let j=0; j<formats.length; j++){
-                        let format = formats[j];
-                        let file = format['Alternative File Format'];
-                        let ext = file.substring(file.lastIndexOf('.')+1);
-                        switch(ext){
-                            case 'doc': case 'docx':
-                                ext = 'word';
-                                break;
-                            case 'pptx':
-                                ext = 'ppt';
-                                break;
-                            case 'xls': case 'xlsx':
-                                ext = 'excel';
-                                break;
-                            case 'rtf':
-                                ext = 'txt';
-                                break;
-                        }
-                        if (['mp3','mp4', 'wmv','webm','wav','ogg','wma','mov','rm','mpeg','ram','ogv','avi','qt','mpg'].indexOf(ext) > -1) {ext = 'media'}
-                        if (['dta','sps','save'].indexOf(ext) > -1){ext = 'stats'}
-                        format['extension'] = '#cdc-'+ext; //Change to '#'+ext for localhost && '#cdc-'+ext for live
+                        formats[j]['svgID'] = this.getSVGID( formats[j]['Alternative File Format'] );
                     };
                 }
+                item['svgID'] = this.getSVGID( item[this.urlField] );
             });
+
+            console.info( 'GK: ', this.dataHouse.items );
 
             // Initialize default sorting and filtering
             let mockFormVals = [];
@@ -400,6 +384,35 @@ export class AppComponent {
                 }
             }
         }
+    }
+
+    getSVGID( file ) {
+        let svgIDs = {
+            '#pdf'   : [ 'pdf' ]
+            '#powerpoint' : ['ppt', 'pptx', 'ppsx'],
+            '#word'  : ['doc', 'docx'],
+            '#excel' : ['xls', 'xlsx', 'csv'],
+            '#media' : ['mp4', 'wmv', 'webm', 'wav', 'ogg', 'wma', 'mov', 'rm', 'mpeg', 'ram', 'ogv', 'avi', 'qt', 'mpg'],
+            '#txt'   : ['txt', 'rtf'],
+            '#zip'   : ['zip'],
+            '#epub'  : ['epub'],
+            '#imgft' : ['jpg', 'jpeg', 'png', 'bmp', 'gif'],
+        };
+        let svgID = false;
+        let match = file.match(/\.(\w+)$/);
+        let extension = ( match && match.length ) ? match[1] : file;
+        let extensions;
+        let id;
+        if ( !extension ) {
+            return null;
+        }
+        for ( id in svgIDs ) {
+            if ( svgIDs.hasOwnProperty(id) && svgIDs[id].indexOf( extension ) > -1 ) {
+                svgID = id;
+                break;
+            }
+        }
+        return svgID;
     }
 
     clearFilter() {

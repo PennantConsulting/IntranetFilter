@@ -93,7 +93,16 @@
 								</div>
 							</ng-container>
 							<div class="{{textColWidth}}">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
+								<div *ngIf="item[titleField]" class="card-title h4 text-left">
+									<a href="{{item[urlField]}}">
+										<span>
+										{{item[titleField]}}
+											<svg *ngIf="item.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
+											</svg>
+										</span>
+									</a>
+								</div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}}</p>
 								<ng-container *ngIf="displayFilterVals">
@@ -108,9 +117,9 @@
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
 											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}
-													<svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-														<use attr.href="{{alt['extension']}}" attr.xlink:href="{{alt['extension']}}"></use>
-													</svg>
+												<svg *ngIf="alt.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
+												</svg>
 											</a>
 										</li>
 									</ul>
@@ -150,7 +159,16 @@
 								<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
 							</a>
 							<div class="card-body pr-0 pl-0">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left"><a href="{{item[urlField]}}"><span [innerHTML]="item[titleField]"></span></a></div>
+								<div *ngIf="item[titleField]" class="card-title h4 text-left">
+									<a href="{{item[urlField]}}">
+										<span>
+											{{item[titleField]}}
+											<svg *ngIf="item.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
+											</svg>
+										</span>
+									</a>
+								</div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
 								<ng-container *ngIf="displayFilterVals">
@@ -160,14 +178,14 @@
 										</ng-container>
 									</p>
 								</ng-container>
-                <div *ngIf="item[altFormats]" class="mb-10">
+								<div *ngIf="item[altFormats]" class="mb-10">
 									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
 											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}
-													<svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-														<use attr.href="{{alt['extension']}}" attr.xlink:href="{{alt['extension']}}"></use>
-													</svg>
+												<svg *ngIf="alt.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
+												</svg>
 											</a>
 										</li>
 									</ul>

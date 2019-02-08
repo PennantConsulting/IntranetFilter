@@ -28,23 +28,19 @@
   },
   "items": [
     {
-      "Public URL": "\/museum\/history\/redspots.html",
-      "Post Title": "Red Spots among Flight Attendants",
-      "Last Reviewed": "2015-01-09T00:00:00-04:00",
-      "Topics": [
-        "Level 1 -> Level 2 -> History of CDC",
-        "Level 1 -> Level 2 -> Another Topic"
-      ],
-      "Content Source": [
-        "Centers for Disease Control and Prevention"
-      ],
-      "Iconic Image": "//placeimg.com/220/125/animals/any?i=1",
-      "Internal-Only Description": "Bacon ipsum dolor amet jowl andouille corned beef, kielbasa picanha beef ribs sausage bresaola swine tail ham hock meatloaf shoulder sirloin. Cupim rump doner frankfurter pancetta shankle. Capicola chicken tenderloin ground round shankle.",
-      "Alternate Formats": [
-        {
-          "Alternative File Format": "/tp4/files/sample_01.pdf"
-        }
-      ]
+        "Public URL": "\/files\/health-information.epub",
+        "Post Title": "2017 US Health Questionnaire eBook",
+        "Last Reviewed": "2016-03-09T00:00:00-04:00",
+        "Topics": [
+          "Level 1 -> Museum, CDC"
+        ],
+        "Content Source": [
+          "Centers for Disease Control and Prevention"
+        ],
+        "Iconic Image": "",
+        "Internal-Only Description": "",
+        "Alternate Formats": [],
+        "Alternate Languages": []
     },
     {
       "Public URL": "\/museum\/teacher-signup-thankyou.htm",
@@ -76,6 +72,21 @@
       ]
     },
     {
+      "Public URL": "\/files\/teacher-signup-form.pdf",
+      "Post Title": "2016 Teacher Workshop Signup Form",
+      "Last Reviewed": "2016-03-03T00:00:00-04:00",
+      "Topics": [
+        "Level 1 -> Museum, CDC"
+      ],
+      "Content Source": [
+        "Centers for Disease Control and Prevention"
+      ],
+      "Iconic Image": "",
+      "Internal-Only Description": "Bacon ipsum dolor amet jowl andouille corned beef, kielbasa picanha beef ribs sausage bresaola swine tail ham hock meatloaf shoulder sirloin. Cupim rump doner frankfurter pancetta shankle. Capicola chicken tenderloin ground round shankle. hamburger and stuff",
+      "Alternate Formats": [],
+      "Alternate Languages": []
+    },
+    {
       "Public URL": "\/museum\/asf.htm",
       "Post Title": "2017 Atlanta Science Festival",
       "Last Reviewed": "2016-03-02T00:00:00-04:00",
@@ -89,12 +100,12 @@
       "Internal-Only Description": "Bacon ipsum dolor amet jowl andouille corned beef, kielbasa picanha beef ribs sausage bresaola swine tail ham hock meatloaf shoulder sirloin. Cupim rump doner frankfurter pancetta shankle. Capicola chicken tenderloin ground round shankle.",
       "Alternate Formats": [
         {
-          "Alternative File Format": "/tp4/files/sample.docx",
-          "Link Text (optional)": "Word Doc"
+          "Alternative File Format": "/tp4/files/sample.zip",
+          "Link Text (optional)": "Zip File"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.pdf",
-          "Link Text (optional)": "PDF"
+          "Alternative File Format": "/tp4/files/sample_01.ppt",
+          "Link Text (optional)": "Power Point"
         }
       ],
       "Alternate Languages": [
@@ -123,8 +134,8 @@
           "Link Text (optional)": "Word Doc"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.pdf",
-          "Link Text (optional)": "PDF"
+          "Alternative File Format": "/tp4/files/sample_01.xls",
+          "Link Text (optional)": "Spreadsheet"
         }
       ],
       "Alternate Languages": [
@@ -209,12 +220,12 @@
       "Internal-Only Description": "Bacon ipsum dolor amet jowl andouille corned beef, kielbasa picanha beef ribs sausage bresaola swine tail ham hock meatloaf shoulder sirloin. Cupim rump doner frankfurter pancetta shankle. Capicola chicken tenderloin ground round shankle.",
       "Alternate Formats": [
         {
-          "Alternative File Format": "/tp4/files/sample.docx",
-          "Link Text (optional)": "Word Doc"
+          "Alternative File Format": "/tp4/files/sample.gif",
+          "Link Text (optional)": "Image"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.pdf",
-          "Link Text (optional)": "PDF"
+          "Alternative File Format": "/tp4/files/sample_01.mpg",
+          "Link Text (optional)": "Movie Clip"
         }
       ],
       "Alternate Languages": [
