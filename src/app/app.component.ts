@@ -388,7 +388,7 @@ export class AppComponent {
 
     getSVGID( file ) {
         let svgIDs = {
-            '#pdf'   : [ 'pdf' ]
+            '#pdf'   : [ 'pdf' ],
             '#powerpoint' : ['ppt', 'pptx', 'ppsx'],
             '#word'  : ['doc', 'docx'],
             '#excel' : ['xls', 'xlsx', 'csv'],
