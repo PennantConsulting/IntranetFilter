@@ -175,8 +175,8 @@
       ]
     },
     {
-      "Public URL": "\/museum\/about.htm",
-      "Post Title": "About the David J. Sencer CDC Museum",
+      "Public URL": "\/museum\/about.jpg",
+      "Post Title": "House Cats of America",
       "Last Reviewed": "2012-10-22T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC",
@@ -187,23 +187,9 @@
         "OFFICE OF THE ASSOCIATE DIRECTOR FOR COMMUNICATION"
       ],
       "Iconic Image": "//placeimg.com/220/125/animals/any?i=6",
-      "Internal-Only Description": "Edits on 5\/22\/17 were reversed\/un-done. There's nothing to push.",
-      "Alternate Formats": [
-        {
-          "Alternative File Format": "/tp4/files/sample.docx",
-          "Link Text (optional)": "Word Doc"
-        },
-        {
-          "Alternative File Format": "/tp4/files/sample_01.pdf",
-          "Link Text (optional)": "PDF"
-        }
-      ],
-      "Alternate Languages": [
-        {
-          "Alternative Language": "/tp4/pages/spanish-page.html",
-          "Link Text (optional)": "Espanol"
-        }
-      ]
+      "Internal-Only Description": "",
+      "Alternate Formats": [],
+      "Alternate Languages": []
     },
     {
       "Public URL": "\/museum\/tours\/about.htm",

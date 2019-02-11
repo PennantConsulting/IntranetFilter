@@ -211,19 +211,6 @@ export class AppComponent {
             this.dataHouse = {};
             this.dataHouse = this.organizeData(response, this.dataHouse);
 
-            //Add svg IDs
-            this.dataHouse.items.forEach(item => {
-                let formats = item['Alternate Formats'];
-                if (formats && formats.length > 0){
-                    for(let j=0; j<formats.length; j++){
-                        formats[j]['svgID'] = this.getSVGID( formats[j]['Alternative File Format'] );
-                    };
-                }
-                item['svgID'] = this.getSVGID( item[this.urlField] );
-            });
-
-            console.info( 'GK: ', this.dataHouse.items );
-
             // Initialize default sorting and filtering
             let mockFormVals = [];
             if (this.defaultSort) {
@@ -336,6 +323,20 @@ export class AppComponent {
             }
         }
 
+        //Add svg IDs
+        for ( let i = 0; i < dataHouse.items.length; i++ ) {
+            if ( dataHouse.items[i][this.altFormats] && dataHouse.items[i][this.altFormats].length ) {
+                for ( let j = 0; j < dataHouse.items[i][this.altFormats].length; j++ ) {
+                    if ( dataHouse.items[i][this.altFormats][j]['Alternative File Format'] ) {
+                        dataHouse.items[i][this.altFormats][j].svgID = this.getSVGID(
+                            dataHouse.items[i][this.altFormats][j]['Alternative File Format']
+                        );
+                    }
+                }
+            }
+            dataHouse.items[i].svgID = this.getSVGID( dataHouse.items[i][this.urlField] );
+        };
+
         // Save filter Keys for easier access and add key to fields to search on
         for (const key in (dataHouse.filters)) {
             if ( dataHouse.filters.hasOwnProperty( key ) ) {
@@ -388,15 +389,17 @@ export class AppComponent {
 
     getSVGID( file ) {
         let svgIDs = {
-            '#pdf'   : [ 'pdf' ],
-            '#powerpoint' : ['ppt', 'pptx', 'ppsx'],
-            '#word'  : ['doc', 'docx'],
-            '#excel' : ['xls', 'xlsx', 'csv'],
-            '#media' : ['mp4', 'wmv', 'webm', 'wav', 'ogg', 'wma', 'mov', 'rm', 'mpeg', 'ram', 'ogv', 'avi', 'qt', 'mpg'],
-            '#txt'   : ['txt', 'rtf'],
-            '#zip'   : ['zip'],
-            '#epub'  : ['epub'],
-            '#imgft' : ['jpg', 'jpeg', 'png', 'bmp', 'gif'],
+            '#cdc-pdf'   : ['pdf'],
+            '#cdc-ppt'   : ['ppt', 'pptx', 'ppsx'],
+            '#cdc-word'  : ['doc', 'docx'],
+            '#cdc-excel' : ['xls', 'xlsx', 'csv'],
+            '#cdc-media' : ['mp4', 'wmv', 'webm', 'wav', 'ogg', 'wma', 'mov', 'rm', 'mpeg', 'ram', 'ogv', 'avi', 'qt', 'mpg'],
+            '#cdc-txt'   : ['txt', 'rtf'],
+            '#cdc-sas'   : ['sas'],
+            '#cdc-stats' : ['dta', 'sps', 'sav'],
+            '#cdc-image' : ['png', 'jpg', 'jpeg', 'bmp', 'gif'],
+            '#cdc-zip'   : ['zip'],
+            '#cdc-epub'  : ['epub'],
         };
         let svgID = false;
         let match = file.match(/\.(\w+)$/);
