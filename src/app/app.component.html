@@ -108,8 +108,8 @@
 								</div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}}</p>
-								<ng-container *ngIf="additionalFields.length">
-									<p *ngFor="let field of additionalFields">
+								<ng-container *ngFor="let field of additionalFields">
+									<p *ngIf="item[field]">
 										<span *ngIf="!isLabelHidden(field)">{{field}}: </span>
 										{{item[field]}}
 									</p>
@@ -185,8 +185,8 @@
 								</div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
-								<ng-container *ngIf="additionalFields.length">
-									<p *ngFor="let field of additionalFields">
+								<ng-container *ngFor="let field of additionalFields">
+									<p *ngIf="item[field]">
 										<span *ngIf="!isLabelHidden(field)">{{field}}: </span>
 										{{item[field]}}
 									</p>
