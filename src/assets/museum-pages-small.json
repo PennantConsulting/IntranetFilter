@@ -31,6 +31,7 @@
         "Public URL": "\/files\/health-information.epub",
         "Post Title": "2017 US Health Questionnaire eBook",
         "Last Reviewed": "2016-03-09T00:00:00-04:00",
+        "Created Date": "2016-03-09T00:00:00-04:00",
         "Topics": [
           "Level 1 -> Museum, CDC"
         ],
@@ -46,6 +47,7 @@
       "Public URL": "\/museum\/teacher-signup-thankyou.htm",
       "Post Title": "2016 Teacher Workshop Application Form",
       "Last Reviewed": "2016-03-04T00:00:00-04:00",
+      "Created Date": "2016-03-04T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC"
       ],
@@ -56,12 +58,12 @@
       "Internal-Only Description": "Bacon ipsum dolor amet jowl andouille corned beef, kielbasa picanha beef ribs sausage bresaola swine tail ham hock meatloaf shoulder sirloin. Cupim rump doner frankfurter pancetta shankle. Capicola chicken tenderloin ground round shankle. hamburger and stuff",
       "Alternate Formats": [
         {
-          "Alternative File Format": "/tp4/files/sample.docx",
-          "Link Text (optional)": "Word Doc"
+          "Alternative File Format": "http://example.com/tp4/files/sample.docx",
+          "Link Text (optional)": "External Word Doc"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.pdf",
-          "Link Text (optional)": "PDF"
+          "Alternative File Format": "http://example.com/tp4/files/sample_01.pdf",
+          "Link Text (optional)": "External PDF"
         }
       ],
       "Alternate Languages": [
@@ -75,6 +77,7 @@
       "Public URL": "\/files\/teacher-signup-form.pdf",
       "Post Title": "2016 Teacher Workshop Signup Form",
       "Last Reviewed": "2016-03-03T00:00:00-04:00",
+      "Created Date": "2016-03-03T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC"
       ],
@@ -90,6 +93,7 @@
       "Public URL": "\/museum\/asf.htm",
       "Post Title": "2017 Atlanta Science Festival",
       "Last Reviewed": "2016-03-02T00:00:00-04:00",
+      "Created Date": "2016-03-02T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Level 2 -> History of CDC"
       ],
@@ -104,8 +108,7 @@
           "Link Text (optional)": "Zip File"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.ppt",
-          "Link Text (optional)": "Power Point"
+          "Alternative File Format": "/tp4/files/sample_01.ppt"
         }
       ],
       "Alternate Languages": [
@@ -116,9 +119,10 @@
       ]
     },
     {
-      "Public URL": "\/museum\/exhibits\/gathany.htm",
-      "Post Title": "A Lens on CDC: The Photographs of Jim Gathany",
+      "Public URL": "http:\/\/example.com\/museum\/exhibits\/gathany.html",
+      "Post Title": "Oddball External Link",
       "Last Reviewed": "2011-10-11T00:00:00-04:00",
+      "Created Date": "2011-10-11T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC",
         "Level 1 -> Level 2"
@@ -130,12 +134,12 @@
       "Internal-Only Description": "Bacon ipsum dolor amet jowl andouille corned beef, kielbasa picanha beef ribs sausage bresaola swine tail ham hock meatloaf shoulder sirloin. Cupim rump doner frankfurter pancetta shankle. Capicola chicken tenderloin ground round shankle.",
       "Alternate Formats": [
         {
-          "Alternative File Format": "/tp4/files/sample.docx",
-          "Link Text (optional)": "Word Doc"
+          "Alternative File Format": "http://example.com/tp4/files/sample.docx",
+          "Link Text (optional)": "External Word Doc"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.xls",
-          "Link Text (optional)": "Spreadsheet"
+          "Alternative File Format": "http://example.com/tp4/files/sample_01.xls",
+          "Link Text (optional)": "External Spreadsheet"
         }
       ],
       "Alternate Languages": [
@@ -149,6 +153,7 @@
       "Public URL": "\/museum\/camp\/about.htm",
       "Post Title": "",
       "Last Reviewed": "2011-05-23T00:00:00-04:00",
+      "Created Date": "2011-05-23T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC"
       ],
@@ -159,12 +164,10 @@
       "Internal-Only Description": "No Title.  Bacon ipsum dolor amet jowl andouille corned beef, kielbasa picanha beef ribs sausage bresaola swine tail ham hock meatloaf shoulder sirloin. Cupim rump doner frankfurter pancetta shankle. Capicola chicken tenderloin ground round shankle.",
       "Alternate Formats": [
         {
-          "Alternative File Format": "/tp4/files/sample.docx",
-          "Link Text (optional)": "Word Doc"
+          "Alternative File Format": "/tp4/files/sample.docx"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.pdf",
-          "Link Text (optional)": "PDF"
+          "Alternative File Format": "/tp4/files/sample_01.pdf"
         }
       ],
       "Alternate Languages": [
@@ -195,6 +198,7 @@
       "Public URL": "\/museum\/tours\/about.htm",
       "Post Title": "About the David J. Sencer CDC: In Association with the Smithsonian Institution",
       "Last Reviewed": "2011-08-17T00:00:00-04:00",
+      "Created Date": "2011-08-17T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC",
         "Level 1 -> Level 2"
@@ -210,8 +214,7 @@
           "Link Text (optional)": "Image"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.mpg",
-          "Link Text (optional)": "Movie Clip"
+          "Alternative File Format": "/tp4/files/sample_01.mpg"
         }
       ],
       "Alternate Languages": [
@@ -225,6 +228,7 @@
       "Public URL": "\/museum\/tours\/adult.htm",
       "Post Title": "Adult Group Tour",
       "Last Reviewed": "2016-04-11T00:00:00-04:00",
+      "Created Date": "2016-04-11T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC"
       ],
@@ -254,6 +258,7 @@
       "Public URL": "\/museum\/exhibits\/eid.htm",
       "Post Title": "Art in Science: Selections from Emerging Infectious Diseases\u00ae",
       "Last Reviewed": "2013-11-19T00:00:00-04:00",
+      "Created Date": "2013-11-19T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC",
         "Level 1 -> Level 2 -> Another Topic"
@@ -284,6 +289,7 @@
       "Public URL": "\/museum\/exhibits\/artmeetsscience.html",
       "Post Title": "Art Meets Science",
       "Last Reviewed": "2012-06-25T00:00:00-04:00",
+      "Created Date": "2012-06-25T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC"
       ],
@@ -313,6 +319,7 @@
       "Public URL": "\/museum\/exhibits\/artmeetsscience2.html",
       "Post Title": "Art Meets Science",
       "Last Reviewed": "2012-06-11T00:00:00-04:00",
+      "Created Date": "2012-06-11T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC"
       ],
@@ -342,6 +349,7 @@
       "Public URL": "\/museum\/box-test.html",
       "Post Title": "Box Options",
       "Last Reviewed": "2018-08-01T00:00:00-04:00",
+      "Created Date": "2018-08-01T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC",
         "Level 1 -> Level 2 -> History of CDC"
@@ -372,6 +380,7 @@
       "Public URL": "\/museum\/camp\/gallery.htm",
       "Post Title": "Camp Gallery",
       "Last Reviewed": "2010-10-15T00:00:00-04:00",
+      "Created Date": "2010-10-15T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Level 2"
       ],
@@ -401,6 +410,7 @@
       "Public URL": "\/museum\/exhibits\/cancer.html",
       "Post Title": "Cancer: Survivors in Focus",
       "Last Reviewed": "2013-05-29T00:00:00-04:00",
+      "Created Date": "2013-05-29T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC"
       ],
@@ -430,6 +440,7 @@
       "Public URL": "\/museum\/history\/7decades.html",
       "Post Title": "CDC 70th Anniversary: 7 Decades of Firsts",
       "Last Reviewed": "2016-07-01T00:00:00-04:00",
+      "Created Date": "2016-07-01T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Museum, CDC",
         "Level 1 -> Level 2 -> History of CDC"
@@ -460,6 +471,7 @@
       "Public URL": "\/museum\/history\/70Anniversary.html",
       "Post Title": "CDC 70th Anniversary: 7 Decades of Firsts",
       "Last Reviewed": "2016-12-12T00:00:00-04:00",
+      "Created Date": "2016-12-12T00:00:00-04:00",
       "Topics": [
         "Level 1 -> Level 2 -> History of CDC"
       ],

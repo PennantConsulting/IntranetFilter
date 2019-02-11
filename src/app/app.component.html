@@ -87,24 +87,33 @@
 							<ng-container *ngIf="'left' === imagePosition">
 								<div *ngIf="item[imageField]" class="{{imageColWidth}}">
 									<img *ngIf="!makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
-									<a *ngIf="makeImagesLinks" href="{{item[urlField]}}">
+									<a *ngIf="makeImagesLinks" href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
 									</a>
 								</div>
 							</ng-container>
 							<div class="{{textColWidth}}">
 								<div *ngIf="item[titleField]" class="card-title h4 text-left">
-									<a href="{{item[urlField]}}">
+									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
-										{{item[titleField]}}
+											{{item[titleField]}}
 											<svg *ngIf="item.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
+											</svg>
+											<svg *ngIf="isLinkExternal(item[urlField])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+												<use href="#external" xlink:href="#external"></use>
 											</svg>
 										</span>
 									</a>
 								</div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}}</p>
+								<ng-container *ngIf="additionalFields.length">
+									<p *ngFor="let field of additionalFields">
+										<span *ngIf="!isLabelHidden(field)">{{field}}: </span>
+										{{item[field]}}
+									</p>
+								</ng-container>
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"><span *ngIf="!isLabelHidden(filter)">{{filter}}: </span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
@@ -116,9 +125,11 @@
 									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
-											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}
-												<svg *ngIf="alt.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
+												{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
+												</svg><svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+													<use href="#external" xlink:href="#external"></use>
 												</svg>
 											</a>
 										</li>
@@ -155,22 +166,31 @@
 					<div class="card-body">
 						<div class="card">
 							<img *ngIf="item[imageField] && !makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
-							<a *ngIf="makeImagesLinks && item[imageField]" href="{{item[urlField]}}">
+							<a *ngIf="makeImagesLinks && item[imageField]" href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 								<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
 							</a>
 							<div class="card-body pr-0 pl-0">
 								<div *ngIf="item[titleField]" class="card-title h4 text-left">
-									<a href="{{item[urlField]}}">
+									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
 											{{item[titleField]}}
 											<svg *ngIf="item.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
+											</svg>
+											<svg *ngIf="isLinkExternal(item[urlField])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+												<use href="#external" xlink:href="#external"></use>
 											</svg>
 										</span>
 									</a>
 								</div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
 								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
+								<ng-container *ngIf="additionalFields.length">
+									<p *ngFor="let field of additionalFields">
+										<span *ngIf="!isLabelHidden(field)">{{field}}: </span>
+										{{item[field]}}
+									</p>
+								</ng-container>
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"> <span *ngIf="!isLabelHidden(filter)">{{filter}}: </span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
@@ -182,9 +202,11 @@
 									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
-											<a href="{{alt['Alternative File Format']}}">{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}
-												<svg *ngIf="alt.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
+												{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
+												</svg><svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+													<use href="#external" xlink:href="#external"></use>
 												</svg>
 											</a>
 										</li>

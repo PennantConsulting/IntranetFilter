@@ -49,6 +49,7 @@ export class AppComponent {
     dateFormat: string;
     makeImagesLinks: boolean;
     altFormats: string;
+    additionalFields: string[];
     altLanguages: string;
     hiddenSearch: string;
     hiddenLabels: any;
@@ -155,7 +156,10 @@ export class AppComponent {
             this.defaultSort = this.titleField + this.globalsService.SORT_VAL_DELIMITER + 'asc';
         }
         this.sortValue = this.defaultSort;
-
+        this.additionalFields = [];
+        if ( appInjectDiv.getAttribute('data-additionalfields') ) {
+            this.additionalFields = appInjectDiv.getAttribute('data-additionalfields').split(/\s*,\s*/);
+        }
         this.filterFields = [];
         this.filterModel = [];
         this.defaultFilter = [];
@@ -313,28 +317,51 @@ export class AppComponent {
         dataHouse.items = data.items;
         dataHouse.filterKeys = [];
 
-        // Store formatted date with each item for search
-        if ( this.dateField ) {
-            for ( let i = 0; i < dataHouse.items.length; i++ ) {
-                const utcDate = dataHouse.items[i][this.dateField];
+        for ( let i = 0; i < dataHouse.items.length; i++ ) {
+
+            // Store formatted date with each item for search
+            if ( this.dateField ) {
+                let utcDate = dataHouse.items[i][this.dateField];
                 let datePipe = new DatePipe('en-US');
                 let formattedDate = datePipe.transform( utcDate, this.dateFormat );
                 dataHouse.items[i][this.globalsService.DATE_FORMATTED] = formattedDate;
             }
-        }
 
-        //Add svg IDs
-        for ( let i = 0; i < dataHouse.items.length; i++ ) {
+            //Add svg IDs for alt format links
             if ( dataHouse.items[i][this.altFormats] && dataHouse.items[i][this.altFormats].length ) {
                 for ( let j = 0; j < dataHouse.items[i][this.altFormats].length; j++ ) {
-                    if ( dataHouse.items[i][this.altFormats][j]['Alternative File Format'] ) {
-                        dataHouse.items[i][this.altFormats][j].svgID = this.getSVGID(
-                            dataHouse.items[i][this.altFormats][j]['Alternative File Format']
-                        );
+                    let formatLink = dataHouse.items[i][this.altFormats][j]['Alternative File Format'];
+                    if ( formatLink ) {
+                        dataHouse.items[i][this.altFormats][j].svgID = this.getSVGID(formatLink);
+                        if ( !dataHouse.items[i][this.altFormats][j]['Link Text (optional)'] ) {
+                            let name = formatLink.replace(/^.*\//,'');
+                            let match = formatLink.match(/\.(\w+)$/);
+                            if ( match && match.length > 1 ) {
+                                name = match[1].toUpperCase();
+                            }
+                            dataHouse.items[i][this.altFormats][j]['Link Text (optional)'] = name;
+                        }
                     }
                 }
             }
+
+            // Add svg ID for main link
             dataHouse.items[i].svgID = this.getSVGID( dataHouse.items[i][this.urlField] );
+
+            // // Format any additional fieldLabels
+            for ( let j = 0; j < this.additionalFields.length; j++ ) {
+                let field = this.additionalFields[j];
+                if ( !dataHouse.items[i][field] ) {
+                    continue;
+                }
+                // Format any date fields
+                if ( dataHouse.items[i][field].match(/^20\d{2}[-\/][0,1]\d[-\/][0-3]\d/) ) {
+                    let utcDate = dataHouse.items[i][this.dateField];
+                    let datePipe = new DatePipe('en-US');
+                    dataHouse.items[i][field] = datePipe.transform( utcDate, this.dateFormat );
+                }
+            }
+
         };
 
         // Save filter Keys for easier access and add key to fields to search on
@@ -679,6 +706,18 @@ export class AppComponent {
 
     isLabelHidden( label: string ) {
         return this.hiddenLabels.indexOf( label.toLowerCase() ) >= 0;
+    }
+
+    // Test if url is external
+    isLinkExternal( url: string ) {
+        let isExternal = false;
+        let parts = url.match(/\/\/([^\/]+)\//);
+        if ( parts && parts.length > 1 ) {
+            if ( !parts[1].match(/cdc\.gov$/) ) {
+                isExternal = true;
+            }
+        }
+        return isExternal;
     }
 }
 
