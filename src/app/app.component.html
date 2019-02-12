@@ -2,86 +2,97 @@
 	This filtering area contains options for sorting data dynamically for easy discovery.
 	Filtering options include search by text, dropdowns for filtering based on various fields, and various sorting.
 </div>
-<div class="card mb-3 {{formBgColor}}" aria-describedby="sort-filter-desc">
+<div class="card {{formBgColor}}" aria-describedby="sort-filter-desc">
 	<div class="card-body">
 		<form class="forms" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
 			<div class="row">
 				<div class="col-md-6 mb-3">
-					<label for="Search" class="forms-label h5 open">Search</label>
-					<input *ngIf="!submitButton" [(ngModel)]="searchValue"
-						   class="form-control nobutton" type="text" id="Search"
-						   name="Search" placeholder="Enter keywords"/>
-					<input *ngIf="submitButton" [(ngModel)]="searchValue" class="form-control button" type="text" id="Search"
-						   name="Search" placeholder="Enter keywords"/>
-				</div>
-				<div *ngFor="let filter of filterFields" class="col-md-6 mb-3">
-                    <label for="filter-{{filter}}" class="forms-label h5 open">Filter by {{filter}}</label>
+                    <label for="Search" class="forms-label h5 open sr-only">Search</label>
+                    <div class="input-group">
+                        <input [(ngModel)]="searchValue" class="form-control button" type="text" id="Search" name="Search" placeholder="Search"/>
+                        <span class="form-control-clear" (click)="searchValue = null" *ngIf="searchValue != null && searchValue != ''">×</span>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-search search-submit search-button">
+                                <span class="sr-only">Submit</span>
+                                <svg class="svg-icon fill-p" xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <use xlink:href="#sym-search-icon"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <span class="sr-only">{{filterFields.length}} content filters available.</span>
+				<div *ngFor="let filter of filterFields; let i=index" class="col-md-6 mb-3">
+                    <span class="sr-only">{{i+1}} of {{filterFields.length}} content filters.</span>
+                    <label for="filter-{{filter}}" class="forms-label h5 open sr-only">Filter by {{filter}}</label>
                     <div class="dropdown" id="filter-{{filter}}">
                         <button class="btn dropdown-toggle form-control text-left td-none" id="button-{{filter.toLowerCase().replace(' ','-')}}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Select {{filter}}
+                            Filter by {{filter}}
                         </button>
                         <div class="dropdown-menu" [attr.aria-labelledby]="'button-'+filter">
-                            <a href="#" [attr.class]="(filterModel[filter] == '') ? 'dropdown-item selected' : 'dropdown-item'" (click)="filterModel[filter] = '';" (keyup)="selectFilter($event, filter, [])">Select {{filter}}</a>
+                            <a href="#" [attr.class]="(filterModel[filter] == '') ? 'dropdown-item selected' : 'dropdown-item'" (click)="filterModel[filter] = '';" (keyup)="selectFilter($event, filter, [])">Filter by {{filter}}</a>
                             <a href="#" [attr.class]="(filterModel[filter] == vals.raw) ? 'dropdown-item selected ' + vals.class : 'dropdown-item '+ vals.class" *ngFor="let vals of dataHouse.filters[filter]" (click)="filterModel[filter] = vals.raw;" (keyup)="selectFilter($event, filter, vals)">{{vals.title}}</a>
                         </div>
                     </div>
                     <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]">
 				</div>
-				<div *ngIf="0 === filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
-                    <label *ngIf="sortOptions && sortOptions.length" for="Sort" class="forms-label h5 open">Sort</label>
-                    <div class="dropdown" *ngIf="sortOptions && sortOptions.length">
-                        <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{sortLabel}}
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="Sort">
-                            <a class="dropdown-item" href="#" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
-                        </div>
-                    </div>
-                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue">
-				</div>
-			</div>
-			<div class="row">
+            </div>
+			<div class="row" *ngIf="submitButton || clearButton">
 				<!-- Submit / Reset Buttons -->
-				<div class="col-md-6 mt-md-4 order-2 order-md-1">
-					<button type="reset" class="btn btn-sm {{resetButtonColor}} mr-3" (click)="clearFilter()">Reset</button>
-					<button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
+				<div class="col mt-md-4 order-2 order-md-1 d-flex justify-content-end">
+                    <button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
+					<button *ngIf="clearButton" type="reset" class="btn btn-sm {{resetButtonColor}} ml-3" (click)="clearFilter()">Clear</button>
 				</div>
-				<div *ngIf="0 !== filterFields.length % 2" class="col-md-6 mb-3 order-1 order-md-2">
-                    <label for="Sort" class="forms-label h5 open">Sort</label>
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{sortLabel}}
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="Sort">
-                            <a class="dropdown-item" href="#" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
-                        </div>
-                    </div>
-                    <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue">
-				</div>
-			</div>
+            </div>
+            <input type="hidden" name="Sort" class="form-control" [(ngModel)]="sortValue">
 		</form>
 	</div>
 </div>
-<div role="alert" id="resultCount" tabindex="-1" *ngIf="searched">
-    <p [attr.class]="errorMsg ? 'd-block' : 'd-none'">
-        {{errorMsg}}
-    </p>
-	<p [attr.class]="filteredDataLength <= 0 ? 'd-block' : 'd-none'">
-		No results available for the selected criteria. Please adjust the filter options above.
-	</p>
-	<p [attr.class]="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length ? 'd-block' : 'd-none'">
-		<span class="sr-only">Search results </span>Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.
-	</p>
-</div>
-<div *ngIf="errorMsg">
-    <p>{{errorMsg}}</p>
+<div class="container-fluid mt-2 mb-2">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div role="alert" id="resultCount" *ngIf="dataHouse" tabindex="-1">
+                <p [attr.class]="errorMsg ? 'd-block' : 'd-none'">
+                    {{errorMsg}}
+                </p>
+                <p [attr.class]="dataHouse.items && dataHouse.items.length && filteredDataLength === dataHouse.items.length ? 'd-block' : 'd-none'">
+                    Found {{filteredDataLength}} items.
+                </p>
+                <p [attr.class]="dataHouse.items && filteredDataLength <= 0 ? 'd-block' : 'd-none'">
+                    No results available for the selected criteria. Please adjust the filter options above.
+                </p>
+                <p [attr.class]="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length ? 'd-block' : 'd-none'">
+                    <span class="sr-only">Search results </span>Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.
+                </p>
+            </div>
+            <div *ngIf="errorMsg">
+                <p>{{errorMsg}}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="d-flex justify-content-md-end forms">
+                <label *ngIf="sortOptions && sortOptions.length" for="Sort" class="forms-label sr-only">Sort</label>
+                <div class="dropdown" style="flex-basis:200px;" *ngIf="sortOptions && sortOptions.length">
+                    <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{sortLabel}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="Sort">
+                        <a class="dropdown-item" href="#" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div>
   <!-- RESULTS with card position left, right or not set -->
 	<div *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
 		<div class="row">
 			<div class="{{colWidth}}" *ngFor="let item of currentPageData; let i = index; let odd = odd">
-				<div class="card mb-3 {{bgColor}}">
+				<div class="card {{bgColor}}">
 					<div class="card-body">
 						<div class="row">
 							<ng-container *ngIf="'left' === imagePosition">
@@ -142,7 +153,7 @@
 	<ng-container *ngIf="'top' === imagePosition">
 		<div class="row">
 			<div class="{{colWidth}}"  *ngFor="let item of currentPageData; let i = index; let odd = odd">
-				<div class="card mb-3 {{bgColor}}">
+				<div class="card {{bgColor}}">
 					<div class="card-body">
 						<div class="card">
 							<img *ngIf="item[imageField] && !makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>

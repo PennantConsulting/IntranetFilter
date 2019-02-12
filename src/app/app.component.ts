@@ -39,6 +39,7 @@ export class AppComponent {
     resetButtonColor: string;
     submitButtonColor: string;
     submitButton: boolean;
+    clearButton: boolean;
     colWidth: string;
     defaultSort: string;
     defaultFilter: object[];
@@ -113,6 +114,7 @@ export class AppComponent {
             this.textColWidth = 'col-md-8';
         }
         this.submitButton = 'true' === appInjectDiv.getAttribute('data-submitbutton');
+        this.clearButton = 'true' === appInjectDiv.getAttribute('data-clearbutton');
         this.displayComments = 'true' === appInjectDiv.getAttribute('data-displaycomments');
         this.imagePosition = appInjectDiv.getAttribute('data-imageposition');
         this.itemsPerPage = appInjectDiv.getAttribute('data-itemsperpage');
@@ -302,9 +304,9 @@ export class AppComponent {
 
     ngAfterViewInit(){
         if(!this.submitButton){
-            $('#Search').on('keyup', ()=>{
-                this.delaySearch("keyup", 2000);
-            });
+            // $('#Search').on('keyup', ()=>{
+            //     this.delaySearch("keyup", 2000);
+            // });
 
             window.onclick = (e)=>{
                 //window click events capture both keypress and click as click
@@ -386,7 +388,7 @@ export class AppComponent {
         if(keys && keys.length > 0 && this.dataHouse){
             for(let i=0; i<keys.length; i++){
                 const values = this.dataHouse.filters[keys[i]];
-                let returnValue = "Select "+keys[i];
+                let returnValue = "Filter by "+keys[i];
                 if(values){
                     for(let j=0; j<values.length; j++){
                         if(values[j].raw == this.filterModel[keys[i]]){
@@ -428,7 +430,7 @@ export class AppComponent {
                 //syntax changed for proper IDs in DOM
                 const button = document.getElementById('button-'+property.toLowerCase().replace(" ",'-'));
                 if(button){
-                    button.innerHTML = "Select "+property;
+                    button.innerHTML = "Filter by "+property;
                 }
             }
         }
@@ -447,23 +449,23 @@ export class AppComponent {
         this.setupCurrentPage();
     }
 
-    delaySearch(eventType: string, delay: number){
-        const app = this;
-        let interval: any;
-        window.addEventListener(eventType, (e) =>{
-            clearInterval(interval);
-            let functionTimer: any;
+    // delaySearch(eventType: string, delay: number){
+    //     const app = this;
+    //     let interval: any;
+    //     window.addEventListener(eventType, (e) =>{
+    //         clearInterval(interval);
+    //         let functionTimer: any;
 
-            interval = setInterval(()=>{
-                functionTimer = Date.now();
-                if((functionTimer - app.timer) > 1000){
-                    app.updateFilter(app.filtersubmit.value);
-                    app.timer = Date.now();
-                };
-                clearInterval(interval);
-            }, delay);
-        });
-    }
+    //         interval = setInterval(()=>{
+    //             functionTimer = Date.now();
+    //             if((functionTimer - app.timer) > 1000){
+    //                 app.updateFilter(app.filtersubmit.value);
+    //                 app.timer = Date.now();
+    //             };
+    //             clearInterval(interval);
+    //         }, delay);
+    //     });
+    // }
 
     updateFilter(formVals) {
         // this is a pass-through to update the filter pipe on submit
@@ -502,27 +504,27 @@ export class AppComponent {
 
     searchFocus(){
         const resultCountDiv = document.getElementById('resultCount');
-        if(this.submitButton){
+        // if(this.submitButton){
             resultCountDiv.focus();
-        } else {
-            const app = this;
-            //window.addEventListener("keyup", function(event){
-                //if(event.keyCode !== 8 && event.keyCode !== 46){ //WCMSRD-7283 (delay before search with no submit button) overrides this solution
-                    if(app.filteredDataLength <= 0){
-                        resultCountDiv.focus();
-                    }
-                    if(app.filteredDataLength > 0 &&
-                        app.filteredDataLength < app.dataHouse.items.length &&
-                        app.searchValue &&
-                        app.searchValue.indexOf(app.oldSearchValue) === 0 &&
-                        app.oldFilteredDataLength != app.filteredDataLength){
-                            resultCountDiv.focus();
-                    }
-                //}
-                app.oldFilteredDataLength = app.filteredDataLength;
-                app.oldSearchValue = app.searchValue;
-            //});
-        }
+        // } else {
+        //     const app = this;
+        //     //window.addEventListener("keyup", function(event){
+        //         //if(event.keyCode !== 8 && event.keyCode !== 46){ //WCMSRD-7283 (delay before search with no submit button) overrides this solution
+        //             if(app.filteredDataLength <= 0){
+        //                 resultCountDiv.focus();
+        //             }
+        //             if(app.filteredDataLength > 0 &&
+        //                 app.filteredDataLength < app.dataHouse.items.length &&
+        //                 app.searchValue &&
+        //                 app.searchValue.indexOf(app.oldSearchValue) === 0 &&
+        //                 app.oldFilteredDataLength != app.filteredDataLength){
+        //                     resultCountDiv.focus();
+        //             }
+        //         //}
+        //         app.oldFilteredDataLength = app.filteredDataLength;
+        //         app.oldSearchValue = app.searchValue;
+        //     //});
+        // }
     }
 
     doFilter(filterField, filterValue) {

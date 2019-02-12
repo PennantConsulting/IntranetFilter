@@ -1,79 +1,117 @@
 /* You can add global styles to this file, and also import other style files */
 
 .ngx-pagination {
-  margin-left: 0;
-  margin-bottom: 1rem;
-  text-align: center;
-  padding-top:30px;
+    margin-left: 0;
+    margin-bottom: 1rem;
+    text-align: center;
+    padding-top:30px;
 
-  &::before, &::after {
-    content: ' ';
-    display: table;
-  }
-  &::after {clear: both;}
+    &::before, &::after {
+        content: ' ';
+        display: table;
+    }
+    &::after {clear: both;}
 
-  li {
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    margin-right: 0.0625rem;
-    border-radius: 0;
-    display: inline-block;
-  }
-  a {text-decoration: none;}
-  a, button {
-    color: #0a0a0a;
-    display: block;
-    padding: 0.1875rem 0.625rem;
-    border-radius: 0;
-  }
-  a:hover, button:hover {
-    background: #e6e6e6;
-  }
-  .current {
-    padding: 0.1875rem 0.625rem;
-    background: #2199e8;
-    color: #fefefe;
-    cursor: default;
-  }
-  .disabled {
-    padding: 0.1875rem 0.625rem;
-    color: #cacaca;
-    cursor: default;
-    &:hover {background: transparent;}
-  }
-  .ellipsis::after {
-    //content: '…';
-    //padding: 0.1875rem 0.625rem;
-    //color: #0a0a0a;
-  }
-  a, button {
-    cursor: pointer;
-  }
+    li {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        margin-right: 0.0625rem;
+        border-radius: 0;
+        display: inline-block;
+    }
+    a {text-decoration: none;}
+    a, button {
+        color: #0a0a0a;
+        display: block;
+        padding: 0.1875rem 0.625rem;
+        border-radius: 0;
+    }
+    a:hover, button:hover {
+        background: #e6e6e6;
+    }
+    .current {
+        padding: 0.1875rem 0.625rem;
+        background: #2199e8;
+        color: #fefefe;
+        cursor: default;
+    }
+    .disabled {
+        padding: 0.1875rem 0.625rem;
+        color: #cacaca;
+        cursor: default;
+        &:hover {background: transparent;}
+    }
+    .ellipsis::after {
+        //content: '…';
+        //padding: 0.1875rem 0.625rem;
+        //color: #0a0a0a;
+    }
+    a, button {
+        cursor: pointer;
+    }
 
-  .pagination-previous a::before,
-  .pagination-previous.disabled::before {
-    content: '«';
-    display: inline-block;
-    margin-right: 0.5rem;
-  }
+    .pagination-previous a::before,
+    .pagination-previous.disabled::before {
+        content: '«';
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
 
-  .pagination-next a::after,
-  .pagination-next.disabled::after {
-    content: '»';
-    display: inline-block;
-    margin-left: 0.5rem;
-  }
+    .pagination-next a::after,
+    .pagination-next.disabled::after {
+        content: '»';
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
 
-  .show-for-sr {
-    position: absolute !important;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-  }
+    .show-for-sr {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+    }
 }
 
 .mb-10{
-  margin-bottom:10px;
+    margin-bottom:10px;
+}
+
+#resultCount {
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.search-button {
+    border:1px solid #bdbdbd;
+    padding:2px 0.75rem;
+    display:flex;
+    align-items: center;
+    background: #e0e0e0;
+
+    svg {
+        height:24px;
+        width:24px;
+    }
+}
+
+#Search {
+    padding-right:2.1em;
+}
+
+.form-control-clear {
+    pointer-events: auto;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 59px;
+    z-index: 99;
+    display: block;
+    line-height: 1.4;
+    text-align: center;
+    font-size: 30px;
 }
