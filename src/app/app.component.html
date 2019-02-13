@@ -26,7 +26,7 @@
             <div class="w-100" *ngIf="filterFields.length >= 3"></div>
             <div [attr.class]="filterFields.length >= 2 ? 'row' : 'col-xs-12 col-md-6 d-flex d-lg-inline-flex flex-wrap'">
                 <span class="sr-only">{{filterFields.length}} content filters available.</span>
-				<div *ngFor="let filter of filterFields; let i=index" [attr.class]="filterFields.length === 1 && (!submitButton || !clearButton) ? 'one-filter-full col mb-3' : (submitButton || clearButton) && filterFields.length === 1 ? 'one-filter col mb-3' : 'col-md-6 mb-3'">
+				<div *ngFor="let filter of filterFields; let i=index" [attr.class]="filterFields.length === 1 && (!submitButton && !clearButton) ? 'one-filter-full col mb-3' : (submitButton || clearButton) && filterFields.length === 1 ? 'one-filter col mb-3' : 'col-md-6 mb-3'">
                     <span class="sr-only">{{i+1}} of {{filterFields.length}} content filters.</span>
                     <label for="filter-{{filter}}" class="forms-label h5 open sr-only">Filter by {{filter}}</label>
                     <div class="dropdown" id="filter-{{filter}}">
