@@ -50,6 +50,7 @@ export class AppComponent {
     dateFormat: string;
     makeImagesLinks: boolean;
     altFormats: string;
+    additionalFields: string[];
     altLanguages: string;
     hiddenSearch: string;
     hiddenLabels: any;
@@ -157,7 +158,10 @@ export class AppComponent {
             this.defaultSort = this.titleField + this.globalsService.SORT_VAL_DELIMITER + 'asc';
         }
         this.sortValue = this.defaultSort;
-
+        this.additionalFields = [];
+        if ( appInjectDiv.getAttribute('data-additionalfields') ) {
+            this.additionalFields = appInjectDiv.getAttribute('data-additionalfields').split(/\s*,\s*/);
+        }
         this.filterFields = [];
         this.filterModel = [];
         this.defaultFilter = [];
@@ -212,35 +216,6 @@ export class AppComponent {
 
             this.dataHouse = {};
             this.dataHouse = this.organizeData(response, this.dataHouse);
-
-            //Add additional item pieces
-            this.dataHouse.items.forEach(item => {
-                let formats = item['Alternate Formats'];
-                if (formats && formats.length > 0){
-                    for(let j=0; j<formats.length; j++){
-                        let format = formats[j];
-                        let file = format['Alternative File Format'];
-                        let ext = file.substring(file.lastIndexOf('.')+1);
-                        switch(ext){
-                            case 'doc': case 'docx':
-                                ext = 'word';
-                                break;
-                            case 'pptx':
-                                ext = 'ppt';
-                                break;
-                            case 'xls': case 'xlsx':
-                                ext = 'excel';
-                                break;
-                            case 'rtf':
-                                ext = 'txt';
-                                break;
-                        }
-                        if (['mp3','mp4', 'wmv','webm','wav','ogg','wma','mov','rm','mpeg','ram','ogv','avi','qt','mpg'].indexOf(ext) > -1) {ext = 'media'}
-                        if (['dta','sps','save'].indexOf(ext) > -1){ext = 'stats'}
-                        format['extension'] = '#cdc-'+ext; //Change to '#'+ext for localhost && '#cdc-'+ext for live
-                    };
-                }
-            });
 
             // Initialize default sorting and filtering
             let mockFormVals = [];
@@ -344,15 +319,52 @@ export class AppComponent {
         dataHouse.items = data.items;
         dataHouse.filterKeys = [];
 
-        // Store formatted date with each item for search
-        if ( this.dateField ) {
-            for ( let i = 0; i < dataHouse.items.length; i++ ) {
-                const utcDate = dataHouse.items[i][this.dateField];
+        for ( let i = 0; i < dataHouse.items.length; i++ ) {
+
+            // Store formatted date with each item for search
+            if ( this.dateField ) {
+                let utcDate = dataHouse.items[i][this.dateField];
                 let datePipe = new DatePipe('en-US');
                 let formattedDate = datePipe.transform( utcDate, this.dateFormat );
                 dataHouse.items[i][this.globalsService.DATE_FORMATTED] = formattedDate;
             }
-        }
+
+            //Add svg IDs for alt format links
+            if ( dataHouse.items[i][this.altFormats] && dataHouse.items[i][this.altFormats].length ) {
+                for ( let j = 0; j < dataHouse.items[i][this.altFormats].length; j++ ) {
+                    let formatLink = dataHouse.items[i][this.altFormats][j]['Alternative File Format'];
+                    if ( formatLink ) {
+                        dataHouse.items[i][this.altFormats][j].svgID = this.getSVGID(formatLink);
+                        if ( !dataHouse.items[i][this.altFormats][j]['Link Text (optional)'] ) {
+                            let name = formatLink.replace(/^.*\//,'');
+                            let match = formatLink.match(/\.(\w+)$/);
+                            if ( match && match.length > 1 ) {
+                                name = match[1].toUpperCase();
+                            }
+                            dataHouse.items[i][this.altFormats][j]['Link Text (optional)'] = name;
+                        }
+                    }
+                }
+            }
+
+            // Add svg ID for main link
+            dataHouse.items[i].svgID = this.getSVGID( dataHouse.items[i][this.urlField] );
+
+            // // Format any additional fieldLabels
+            for ( let j = 0; j < this.additionalFields.length; j++ ) {
+                let field = this.additionalFields[j];
+                if ( !dataHouse.items[i][field] ) {
+                    continue;
+                }
+                // Format any date fields
+                if ( dataHouse.items[i][field].match(/^20\d{2}[-\/][0,1]\d[-\/][0-3]\d/) ) {
+                    let utcDate = dataHouse.items[i][this.dateField];
+                    let datePipe = new DatePipe('en-US');
+                    dataHouse.items[i][field] = datePipe.transform( utcDate, this.dateFormat );
+                }
+            }
+
+        };
 
         // Save filter Keys for easier access and add key to fields to search on
         for (const key in (dataHouse.filters)) {
@@ -402,6 +414,37 @@ export class AppComponent {
                 }
             }
         }
+    }
+
+    getSVGID( file ) {
+        let svgIDs = {
+            '#cdc-pdf'   : ['pdf'],
+            '#cdc-ppt'   : ['ppt', 'pptx', 'ppsx'],
+            '#cdc-word'  : ['doc', 'docx'],
+            '#cdc-excel' : ['xls', 'xlsx', 'csv'],
+            '#cdc-media' : ['mp4', 'wmv', 'webm', 'wav', 'ogg', 'wma', 'mov', 'rm', 'mpeg', 'ram', 'ogv', 'avi', 'qt', 'mpg'],
+            '#cdc-txt'   : ['txt', 'rtf'],
+            '#cdc-sas'   : ['sas'],
+            '#cdc-stats' : ['dta', 'sps', 'sav'],
+            '#cdc-image' : ['png', 'jpg', 'jpeg', 'bmp', 'gif'],
+            '#cdc-zip'   : ['zip'],
+            '#cdc-epub'  : ['epub'],
+        };
+        let svgID = false;
+        let match = file.match(/\.(\w+)$/);
+        let extension = ( match && match.length ) ? match[1] : file;
+        let extensions;
+        let id;
+        if ( !extension ) {
+            return null;
+        }
+        for ( id in svgIDs ) {
+            if ( svgIDs.hasOwnProperty(id) && svgIDs[id].indexOf( extension ) > -1 ) {
+                svgID = id;
+                break;
+            }
+        }
+        return svgID;
     }
 
     clearFilter() {
@@ -666,6 +709,18 @@ export class AppComponent {
 
     isLabelHidden( label: string ) {
         return this.hiddenLabels.indexOf( label.toLowerCase() ) >= 0;
+    }
+
+    // Test if url is external
+    isLinkExternal( url: string ) {
+        let isExternal = false;
+        let parts = url.match(/\/\/([^\/]+)\//);
+        if ( parts && parts.length > 1 ) {
+            if ( !parts[1].match(/cdc\.gov$/) ) {
+                isExternal = true;
+            }
+        }
+        return isExternal;
     }
 }
 
