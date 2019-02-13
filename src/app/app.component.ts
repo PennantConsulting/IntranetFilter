@@ -36,6 +36,7 @@ export class AppComponent {
     directionLinks: boolean;
     bgColor: string;
     formBgColor: string;
+    resetButton: boolean;
     resetButtonColor: string;
     submitButtonColor: string;
     submitButton: boolean;
@@ -114,6 +115,7 @@ export class AppComponent {
             this.textColWidth = 'col-md-8';
         }
         this.submitButton = 'true' === appInjectDiv.getAttribute('data-submitbutton');
+        this.resetButton = 'true' === appInjectDiv.getAttribute('data-resetbutton');
         this.displayComments = 'true' === appInjectDiv.getAttribute('data-displaycomments');
         this.imagePosition = appInjectDiv.getAttribute('data-imageposition');
         this.itemsPerPage = appInjectDiv.getAttribute('data-itemsperpage');
