@@ -303,18 +303,18 @@ export class AppComponent {
     }
 
     ngAfterViewInit(){
-        if(!this.submitButton){
-            // $('#Search').on('keyup', ()=>{
-            //     this.delaySearch("keyup", 2000);
-            // });
 
             window.onclick = (e)=>{
                 //window click events capture both keypress and click as click
                 if($(e.target).parent().hasClass('dropdown-menu')){
-                    this.updateFilter(this.filtersubmit.value);
+                    if(!this.submitButton){
+                        this.updateFilter(this.filtersubmit.value);
+                    } else {
+                        $(e.target).parent().prev().html($(e.target).text());
+                    }
                 }
             };
-        }
+
     }
 
     ngAfterContentChecked(){
@@ -591,7 +591,8 @@ export class AppComponent {
         const start = +end - +this.itemsPerPage;
         this.currentPageData = this.filteredData.slice(start, end);
         this.searched = true;
-        window.scroll(0,0);
+        const scrollTop = $('#sort-filter-desc')[0].offsetTop;
+        window.scroll(0,scrollTop);
     }
 
     setDefaultFilters( defaultFilterParam: string ) {
