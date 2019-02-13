@@ -30,6 +30,7 @@
     {
         "Public URL": "\/files\/health-information.epub",
         "Post Title": "2017 US Health Questionnaire eBook",
+        "Post Title_alt": "EPUB - 64 KB",
         "Last Reviewed": "2016-03-09T00:00:00-04:00",
         "Created Date": "2016-03-09T00:00:00-04:00",
         "Topics": [
@@ -59,10 +60,12 @@
       "Alternate Formats": [
         {
           "Alternative File Format": "http://example.com/tp4/files/sample.docx",
+          "Alternative File Format_alt": "DOCX - 125 KB",
           "Link Text (optional)": "External Word Doc"
         },
         {
           "Alternative File Format": "http://example.com/tp4/files/sample_01.pdf",
+          "Alternative File Format_alt": "PDF - 43 KB",
           "Link Text (optional)": "External PDF"
         }
       ],
@@ -75,6 +78,7 @@
     },
     {
       "Public URL": "\/files\/teacher-signup-form.pdf",
+      "Post Title_alt": "PDF - 14 KB",
       "Post Title": "2016 Teacher Workshop Signup Form",
       "Last Reviewed": "2016-03-03T00:00:00-04:00",
       "Created Date": "2016-03-03T00:00:00-04:00",
@@ -133,10 +137,12 @@
       "Alternate Formats": [
         {
           "Alternative File Format": "http://example.com/tp4/files/sample.docx",
+          "Alternative File Format_alt": "PDF - 915 KB",
           "Link Text (optional)": "External Word Doc"
         },
         {
           "Alternative File Format": "http://example.com/tp4/files/sample_01.xls",
+          "Alternative File Format_alt": "XLS - 59 KB",
           "Link Text (optional)": "External Spreadsheet"
         }
       ],
@@ -177,6 +183,7 @@
     },
     {
       "Public URL": "\/museum\/about.jpg",
+      "Post Title_alt": "JPG - 92 KB",
       "Post Title": "House Cats of America",
       "Last Reviewed": "2012-10-22T00:00:00-04:00",
       "Topics": [
@@ -209,10 +216,12 @@
       "Alternate Formats": [
         {
           "Alternative File Format": "/tp4/files/sample.gif",
+          "Alternative File Format_alt": "GIF - 97 KB",
           "Link Text (optional)": "Image"
         },
         {
-          "Alternative File Format": "/tp4/files/sample_01.mpg"
+          "Alternative File Format": "/tp4/files/sample_01.mpg",
+          "Alternative File Format_alt": "MPG - 12 MB"
         }
       ],
       "Alternate Languages": [

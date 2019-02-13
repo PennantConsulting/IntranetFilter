@@ -97,10 +97,13 @@
 									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
 											{{item[titleField]}}
-											<svg *ngIf="item.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<svg *ngIf="item.svgID" class="x24" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
 											</svg>
-											<svg *ngIf="isLinkExternal(item[urlField])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<ng-container *ngIf="item[titleField + '_alt']">
+												[{{item[titleField + '_alt']}}]
+											</ng-container>
+											<svg *ngIf="isLinkExternal(item[urlField])" class="x16" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use href="#external" xlink:href="#external"></use>
 											</svg>
 										</span>
@@ -125,10 +128,13 @@
 									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
-											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
-												{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">{{
+												alt['Link Text (optional)'] || alt['Alternative File Format']
+												}}<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
-												</svg><svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+												</svg><span *ngIf="alt['Alternative File Format_alt']">[{{
+													alt['Alternative File Format_alt']
+												}}]</span><svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use href="#external" xlink:href="#external"></use>
 												</svg>
 											</a>
@@ -174,10 +180,13 @@
 									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
 											{{item[titleField]}}
-											<svg *ngIf="item.svgID" class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<svg *ngIf="item.svgID" class="x24" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
 											</svg>
-											<svg *ngIf="isLinkExternal(item[urlField])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<ng-container *ngIf="item[titleField + '_alt']">
+												[{{item[titleField + '_alt']}}]
+											</ng-container>
+											<svg *ngIf="isLinkExternal(item[urlField])" class="x16" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use href="#external" xlink:href="#external"></use>
 											</svg>
 										</span>
@@ -202,10 +211,13 @@
 									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
-											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
-												{{ alt['Link Text (optional)'] || alt['Alternative File Format'] }}<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">{{
+												alt['Link Text (optional)'] || alt['Alternative File Format']
+												}}<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
-												</svg><svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+												</svg><span *ngIf="alt['Alternative File Format_alt']">[{{
+													alt['Alternative File Format_alt']
+												}}]</span><svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use href="#external" xlink:href="#external"></use>
 												</svg>
 											</a>
