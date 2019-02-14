@@ -278,7 +278,6 @@ export class AppComponent {
     }
 
     ngAfterViewInit(){
-
             window.onclick = (e)=>{
                 //window click events capture both keypress and click as click
                 if($(e.target).parent().hasClass('dropdown-menu')){
@@ -289,7 +288,6 @@ export class AppComponent {
                     }
                 }
             };
-
     }
 
     ngAfterContentChecked(){
@@ -416,6 +414,24 @@ export class AppComponent {
         }
     }
 
+    filterClasses(fIndex: number){
+        if(!this.submitButton && !this.clearButton){
+            if(this.filterFields.length === 1) {return 'one-filter-full col mt-1 mb-1 pl-0';}
+
+            if(fIndex + 1 !== this.filterFields.length){
+                return 'col-md-6 mb-3';
+            } else {
+                return 'col-md-6';
+            }
+        } else {
+            if(this.filterFields.length === 1){
+                return 'one-filter col mt-1 mb-1 pb-0 pl-0';
+            } else {
+                return 'col-md-6 mb-3';
+            }
+        }
+    }
+
     getSVGID( file ) {
         let svgIDs = {
             '#cdc-pdf'   : ['pdf'],
@@ -492,24 +508,6 @@ export class AppComponent {
         this.setupCurrentPage();
     }
 
-    // delaySearch(eventType: string, delay: number){
-    //     const app = this;
-    //     let interval: any;
-    //     window.addEventListener(eventType, (e) =>{
-    //         clearInterval(interval);
-    //         let functionTimer: any;
-
-    //         interval = setInterval(()=>{
-    //             functionTimer = Date.now();
-    //             if((functionTimer - app.timer) > 1000){
-    //                 app.updateFilter(app.filtersubmit.value);
-    //                 app.timer = Date.now();
-    //             };
-    //             clearInterval(interval);
-    //         }, delay);
-    //     });
-    // }
-
     updateFilter(formVals) {
         // this is a pass-through to update the filter pipe on submit
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
@@ -547,27 +545,7 @@ export class AppComponent {
 
     searchFocus(){
         const resultCountDiv = document.getElementById('resultCount');
-        // if(this.submitButton){
             resultCountDiv.focus();
-        // } else {
-        //     const app = this;
-        //     //window.addEventListener("keyup", function(event){
-        //         //if(event.keyCode !== 8 && event.keyCode !== 46){ //WCMSRD-7283 (delay before search with no submit button) overrides this solution
-        //             if(app.filteredDataLength <= 0){
-        //                 resultCountDiv.focus();
-        //             }
-        //             if(app.filteredDataLength > 0 &&
-        //                 app.filteredDataLength < app.dataHouse.items.length &&
-        //                 app.searchValue &&
-        //                 app.searchValue.indexOf(app.oldSearchValue) === 0 &&
-        //                 app.oldFilteredDataLength != app.filteredDataLength){
-        //                     resultCountDiv.focus();
-        //             }
-        //         //}
-        //         app.oldFilteredDataLength = app.filteredDataLength;
-        //         app.oldSearchValue = app.searchValue;
-        //     //});
-        // }
     }
 
     doFilter(filterField, filterValue) {

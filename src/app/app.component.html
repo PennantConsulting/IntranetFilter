@@ -5,8 +5,8 @@
 <div class="card {{formBgColor}}" aria-describedby="sort-filter-desc">
 	<div class="card-body">
 		<form [attr.class]="filterFields.length === 1 ? 'forms d-flex flex-wrap': 'forms'" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
-			<div [attr.class]="filterFields.length % 2 === 0 ? 'row' : filterFields.length >= 3 ? 'row' : 'col-xs-12 col-md-6 d-flex d-lg-inline-flex flex-wrap'">
-				<div [attr.class]="filterFields.length % 2 === 0 ? 'col-md-6 mb-3' : filterFields.length >= 3 ? 'col-md-6 mb-3' : 'col mb-3'">
+			<div [attr.class]="filterFields.length % 2 === 0 ? 'row' : filterFields.length >= 3 ? 'row mb-3' : 'col-xs-12 col-md-6 d-flex d-lg-inline-flex flex-wrap p-0'">
+				<div [attr.class]="filterFields.length % 2 === 0 ? 'col-md-6 mb-3' : filterFields.length >= 3 ? 'col-md-6 mt-1 mb-1' : 'col mt-1 mb-1'">
                     <label for="Search" class="forms-label h5 open sr-only">Search</label>
                     <div class="input-group">
                         <input [(ngModel)]="searchValue" class="form-control button" type="text" id="Search" name="Search" placeholder="Search"/>
@@ -24,9 +24,9 @@
                 </div>
             </div>
             <div class="w-100" *ngIf="filterFields.length >= 3"></div>
-            <div [attr.class]="filterFields.length >= 2 ? 'row' : 'col-xs-12 col-md-6 d-flex d-lg-inline-flex flex-wrap'">
+            <div [attr.class]="filterFields.length >= 2 ? 'row' : 'col-xs-12 col-md-6 pr-0 d-flex d-lg-inline-flex flex-wrap'">
                 <span class="sr-only">{{filterFields.length}} content filters available.</span>
-				<div *ngFor="let filter of filterFields; let i=index" [attr.class]="filterFields.length === 1 && (!submitButton && !clearButton) ? 'one-filter-full col mb-3' : (submitButton || clearButton) && filterFields.length === 1 ? 'one-filter col mb-3' : 'col-md-6 mb-3'">
+				<div *ngFor="let filter of filterFields; let i=index" [attr.class]="filterClasses(i)">
                     <span class="sr-only">{{i+1}} of {{filterFields.length}} content filters.</span>
                     <label for="filter-{{filter}}" class="forms-label h5 open sr-only">Filter by {{filter}}</label>
                     <div class="dropdown" id="filter-{{filter}}">
@@ -40,15 +40,15 @@
                     </div>
                     <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]">
                 </div>
-                <div *ngIf="(submitButton || clearButton) && filterFields.length % 2 !== 0 || filterFields.length === 1" [attr.class]="filterFields.length === 1 ? 'col' : 'col-md-6'">
+                <div *ngIf="(submitButton || clearButton) && filterFields.length % 2 !== 0 || filterFields.length === 1" [attr.class]="filterFields.length === 1 ? 'col mt-2' : 'col-md-6 d-flex align-items-center justify-content-end'">
                     <!-- Submit / Reset Buttons -->
-				    <div class="col d-flex pr-0 mt-1 justify-content-end">
+				    <div class="d-flex justify-content-end">
                         <button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
                         <button *ngIf="clearButton" type="reset" class="btn btn-sm {{resetButtonColor}} ml-3" (click)="clearFilter()">Clear</button>
                     </div>
                 </div>
             </div>
-			<div class="row" *ngIf="(submitButton || clearButton) && filterFields.length % 2 === 0 && filterFields.length !== 1">
+			<div class="row" *ngIf="(submitButton || clearButton) && filterFields.length % 2 === 0">
 				<!-- Submit / Reset Buttons -->
 				<div class="col d-flex justify-content-end">
                     <button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
