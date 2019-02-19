@@ -612,7 +612,7 @@ export class AppComponent {
         const start = +end - +this.itemsPerPage;
         this.currentPageData = this.filteredData.slice(start, end);
         this.searched = true;
-        const scrollTop = $('#sort-filter-desc')[0].offsetTop;
+        const scrollTop = $('#sort-filter-desc').offset().top;
         window.scroll(0,scrollTop);
     }
 
