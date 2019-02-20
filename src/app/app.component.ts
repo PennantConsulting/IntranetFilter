@@ -281,6 +281,7 @@ export class AppComponent {
             window.onclick = (e)=>{
                 //window click events capture both keypress and click as click
                 if($(e.target).parent().hasClass('dropdown-menu')){
+                    e.preventDefault();
                     if(!this.submitButton){
                         this.updateFilter(this.filtersubmit.value);
                     } else {
