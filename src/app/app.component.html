@@ -187,7 +187,7 @@
 	<ng-container *ngIf="'top' === imagePosition">
 		<div class="row">
 			<div class="{{colWidth}}"  *ngFor="let item of currentPageData; let i = index; let odd = odd">
-				<div class="card {{bgColor}}">
+				<div class="card mb-3 {{bgColor}}">
 					<div class="card-body">
 						<div class="card">
 							<img *ngIf="item[imageField] && !makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
