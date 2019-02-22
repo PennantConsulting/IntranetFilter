@@ -87,8 +87,8 @@
                     <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{sortLabel}}
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="Sort">
-                        <a class="dropdown-item" href="#" *ngFor="let sortOption of sortOptions" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
+                    <div class="dropdown-menu sort-menu" aria-labelledby="Sort">
+                        <a [class]="i==0 ? 'dropdown-item selected' : 'dropdown-item'" href="#" *ngFor="let sortOption of sortOptions; let i=index;" (click)="updateSorts(sortOption.value,sortOption.label)">{{sortOption.label}}</a>
                     </div>
                 </div>
             </div>
