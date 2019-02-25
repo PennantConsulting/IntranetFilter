@@ -13,6 +13,7 @@ import * as $ from 'jquery';
     providers: [DatePipe, FilterPipe, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, {provide: APP_BASE_HREF, useValue: '/'}]
 })
 export class AppComponent {
+    root: string = 'sort-filter-root';
     dataHouse;
     filteredData: any[];
     currentPageData: any[];
@@ -282,10 +283,17 @@ export class AppComponent {
                 //window click events capture both keypress and click as click
                 if($(e.target).parent().hasClass('dropdown-menu')){
                     e.preventDefault();
-                    if(!this.submitButton){
+                    $(e.target).addClass('selected');
+                    $(e.target).siblings().removeClass('selected');
+
+                    if($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
                         this.updateFilter(this.filtersubmit.value);
                     } else {
-                        $(e.target).parent().prev().html($(e.target).text());
+                        if(!this.submitButton){
+                            this.updateFilter(this.filtersubmit.value);
+                        } else {
+                            $(e.target).parent().prev().html($(e.target).text());
+                        }
                     }
                 }
             };
@@ -468,19 +476,18 @@ export class AppComponent {
         //Reset Sort & Lists
         this.sortValue = this.defaultSortValue;
         this.sortLabel = this.defaultSortLabel;
-        if(document.getElementById('Sort')){
-            document.getElementById('Sort').innerHTML = this.sortLabel;
+        if($(this.root).find('#Sort')){
+            $(this.root).find('#Sort').text(this.sortLabel);
         }
-        let dropdowns = document.getElementsByClassName('forms')[0].getElementsByClassName('dropdown');
-        for(let i=0; i<dropdowns.length; i++){
-            let selected = dropdowns[i].getElementsByClassName('selected');
-            if(selected.length){
-                selected[0].classList.remove('selected');
-            }
+        const dropMenus = $(this.root).find('.dropdown-menu');
+        for(let i=0; i<dropMenus.length; i++){
+            $(dropMenus[i]).find('.dropdown-item.selected').removeClass('selected').promise().then(()=>{
+                $(dropMenus[i]).find('.dropdown-item:first-child').addClass('selected');
+            });
         }
 
         // Reset models and form
-        document.getElementById('Search').focus();
+        $(this.root).find('#Search').focus();
         this.searchValue = '';
         this.oldSearchValue = '';
         this.searched = false;
@@ -534,7 +541,7 @@ export class AppComponent {
             }
         }
         this.updatePathForFilters( qs );
-        if(!$('.dropdown-menu').hasClass('show')){
+        if(!$(this.root).find('.dropdown-menu').hasClass('show')){
             this.searchFocus();
         }
     }
