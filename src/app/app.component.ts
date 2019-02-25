@@ -613,8 +613,6 @@ export class AppComponent {
         const start = +end - +this.itemsPerPage;
         this.currentPageData = this.filteredData.slice(start, end);
         this.searched = true;
-        const scrollTop = $('#sort-filter-desc').offset().top;
-        window.scroll(0,scrollTop);
     }
 
     setDefaultFilters( defaultFilterParam: string ) {
@@ -644,6 +642,8 @@ export class AppComponent {
 
     changeCurrentPage( pageNumber: number ): void {
         this.currentPage = pageNumber;
+        const scrollTop = $('#sort-filter-desc').offset().top;
+        window.scroll(0,scrollTop);
         this.setupCurrentPage();
     }
 
