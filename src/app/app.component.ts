@@ -307,11 +307,14 @@ export class AppComponent {
         if(e.keyCode === 40 || e.keyCode === 38 || e.keyCode == 9){ //Arrow Down/Up & Tab
             const filterString = filter.toLowerCase().replace(" ", '-');
             if(value.raw){
+                $(e.target).focus();
                 this.filterModel[filter] = value.raw;
                 $('#button-'+filterString).html(value.title);
             } else {
                 this.filterModel[filter] = '';
-                $('#button-'+filterString).html("Select "+filter);
+                $('#button-'+filterString).html("Filter by "+filter);
+                $(e.target).parent().find('.dropdown-item').first().focus();
+                $(e.target).parent().find('.dropdown-item').first().addClass('selected');
             }
         }
     }
