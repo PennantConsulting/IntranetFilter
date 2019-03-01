@@ -442,6 +442,10 @@ export class AppComponent {
     }
 
     getSVGID( file ) {
+        let svgID = false;
+        if ( !file || !file.match ) {
+            return svgID;
+        }
         let svgIDs = {
             '#cdc-pdf'   : ['pdf'],
             '#cdc-ppt'   : ['ppt', 'pptx', 'ppsx'],
@@ -455,7 +459,6 @@ export class AppComponent {
             '#cdc-zip'   : ['zip'],
             '#cdc-epub'  : ['epub'],
         };
-        let svgID = false;
         let match = file.match(/\.(\w+)$/);
         let extension = ( match && match.length ) ? match[1] : file;
         let extensions;
@@ -693,12 +696,15 @@ export class AppComponent {
         return value;
     }
 
-    isLabelHidden( label: string ) {
-        return this.hiddenLabels.indexOf( label.toLowerCase() ) >= 0;
+    isLabelHidden( label ) {
+        return ( typeof label == 'string' ) && this.hiddenLabels.indexOf( label.toLowerCase() ) >= 0;
     }
 
     // Test if url is external
-    isLinkExternal( url: string ) {
+    isLinkExternal( url ) {
+        if ( ! url || typeof url !== 'string' ) {
+            return false;
+        }
         let isExternal = false;
         let parts = url.match(/\/\/([^\/]+)\//);
         if ( parts && parts.length > 1 ) {

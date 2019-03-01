@@ -45,7 +45,7 @@
         "Alternate Languages": []
     },
     {
-      "Public URL": "\/museum\/teacher-signup-thankyou.htm",
+      "Public URL": null,
       "Post Title": "2016 Teacher Workshop Application Form",
       "Last Reviewed": "2016-03-04T00:00:00-04:00",
       "Created Date": "2016-03-04T00:00:00-04:00",
@@ -64,7 +64,7 @@
           "Link Text (optional)": "External Word Doc"
         },
         {
-          "Alternative File Format": "http://example.com/tp4/files/sample_01.pdf",
+          "Alternative File Format": null,
           "Alternative File Format_alt": "PDF - 43 KB",
           "Link Text (optional)": "External PDF"
         }
