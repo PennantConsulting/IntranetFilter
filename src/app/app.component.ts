@@ -19,6 +19,7 @@ export class AppComponent {
     currentPageData: any[];
     filteredDataLength: number;
     oldFilteredDataLength: number;
+    eventTarget: string;
 
     // Configuration options read from data attributes
     appSrctype: string; // flat, api
@@ -56,7 +57,6 @@ export class AppComponent {
     hiddenSearch: string;
     hiddenLabels: any;
     fieldLabels: any = [];
-    searched : boolean = false;
     errorMsg: string;
 
     searchFields: string[];
@@ -71,7 +71,7 @@ export class AppComponent {
     filterModel;
 
     // Pagination
-    currentPage: number;
+    currentPage: number = 1;
 
     // Image and text width, for horizontal layout
     imageColWidth: string;
@@ -167,7 +167,7 @@ export class AppComponent {
         this.filterModel = [];
         this.defaultFilter = [];
 
-        this.setDefaultFilters(appInjectDiv.getAttribute('data-defaultfilter'));
+        this.searchValue = this.getAllQueryStringParams()['Search'] || null;
 
         // Setup search fields array
         this.searchFields = [];
@@ -181,9 +181,6 @@ export class AppComponent {
                 this.searchFields.push(hiddenFields[i]);
             }
         }
-
-        // Setup pagination
-        this.currentPage = 1;
 
         // Setup width of text column to full if no image present
         if (!this.imageField) {
@@ -217,9 +214,13 @@ export class AppComponent {
 
             this.dataHouse = {};
             this.dataHouse = this.organizeData(response, this.dataHouse);
+            this.setDefaultFilters(appInjectDiv.getAttribute('data-defaultfilter'));
 
-            // Initialize default sorting and filtering
+            // Initialize default sorting, searching and filtering
             let mockFormVals = [];
+            if(this.searchValue){
+                mockFormVals['Search'] = this.searchValue;
+            }
             if (this.defaultSort) {
                 mockFormVals['Sort'] = this.defaultSort;
             }
@@ -231,8 +232,6 @@ export class AppComponent {
             this.filteredDataLength = this.filteredData.length;
             this.oldFilteredDataLength = this.filteredDataLength;
 
-            // Initial pagination
-            this.setupCurrentPage();
 
             // Setup filter drop downs based on data file
             for (const key in this.dataHouse.filters) {
@@ -494,9 +493,8 @@ export class AppComponent {
 
         // Reset models and form
         $(this.root).find('#Search').focus();
-        this.searchValue = '';
-        this.oldSearchValue = '';
-        this.searched = false;
+        this.searchValue = null;
+        this.oldSearchValue = null;
         for ( const property in this.filterModel ) {
             if ( this.filterModel.hasOwnProperty( property ) ) {
                 this.filterModel[property] = '';
@@ -522,14 +520,36 @@ export class AppComponent {
         this.setupCurrentPage();
     }
 
-    updateFilter(formVals) {
+    clearSearch(){
+        this.searchValue = null;
+        const queryArr = this.getAllQueryStringParams();
+        delete queryArr['Search'];
+        let qs = '';
+        for ( const key in queryArr ) {
+            if(queryArr[key]){
+                let value: any = queryArr[key];
+                if(qs === ''){
+                    qs = '?';
+                } else {
+                    qs += '&';
+                }
+                qs += key + '=' + encodeURIComponent(value);
+            }
+        }
+        this.updatePathForFilters( qs );
+    }
+
+    updateFilter(formVals:any) {
         // this is a pass-through to update the filter pipe on submit
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             formVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
-        this.currentPage = 1;
-        this.setupCurrentPage();
 
+        //Sort needs to be independent of current page setup or unfavorable UX, else could be under updatepathforfilters
+        if(this.eventTarget){ //only for manual submit
+            this.currentPage = 1;
+        }
+        this.changeCurrentPage(this.currentPage); //currentPage other than 1 for page load only
         let qs = '';
         for ( const key in formVals ) {
             if ( key.startsWith( 'filter-' ) ) {
@@ -544,6 +564,15 @@ export class AppComponent {
                         qs += parts[1] + '=' + encodeURIComponent(formVals[key]);
                     }
                 }
+            } else {
+                if(formVals[key]){
+                    if(qs === ''){
+                        qs = '?';
+                    } else {
+                        qs += '&';
+                    }
+                    qs += key + '=' + encodeURIComponent(formVals[key]);
+                }
             }
         }
         this.updatePathForFilters( qs );
@@ -555,11 +584,13 @@ export class AppComponent {
     updateSorts(sortValue: any, sortLabel: any){
         this.sortValue = sortValue;
         this.sortLabel = sortLabel;
+        this.eventTarget = 'sort';
     }
 
     searchFocus(){
-        const resultCountDiv = document.getElementById('resultCount');
-            resultCountDiv.focus();
+        if($('#resultCount')){
+            $('#resultCount').focus();
+        }
     }
 
     doFilter(filterField, filterValue) {
@@ -569,7 +600,6 @@ export class AppComponent {
         this.filteredData = new FilterPipe(this.globalsService).transform(this.dataHouse.items,
             mockFormVals, this.searchFields, this.dataHouse.sorts, this.filterIncludeSubs);
         this.filteredDataLength = this.filteredData.length;
-        this.currentPage = 1;
         this.setupCurrentPage();
 
         this.updatePathForFilters( '?' + filterField + '=' + filterValue );
@@ -589,22 +619,6 @@ export class AppComponent {
         this.location.go( currentPath, qs );
     }
 
-    getURLParameterByName(name, url) {
-        if (!url) {
-            url = window.location.href;
-        }
-        name = name.replace(/[\[\]]/g, '\\$&');
-        const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
-        if (!results) {
-            return null;
-        }
-        if (!results[2]) {
-            return '';
-        }
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-
     getAllQueryStringParams(): object[] {
         const uri = window.location.search;
         const queryString = [];
@@ -622,10 +636,16 @@ export class AppComponent {
 
     setupCurrentPage(): void {
         // Trim down dataset to limit to current page
-        const end = +this.currentPage * +this.itemsPerPage;
-        const start = +end - +this.itemsPerPage;
-        this.currentPageData = this.filteredData.slice(start, end);
-        this.searched = true;
+        if(this.filteredData){
+            const end = +this.currentPage * +this.itemsPerPage;
+            const start = +end - +this.itemsPerPage;
+            if(start > this.filteredData.length){
+                this.currentPage = 1;
+                this.currentPageData = this.filteredData;
+            } else {
+                this.currentPageData = this.filteredData.slice(start, end);
+            }
+        }
     }
 
     setDefaultFilters( defaultFilterParam: string ) {
@@ -646,15 +666,47 @@ export class AppComponent {
         if ( qs_params ) {
             for ( const param in qs_params ) {
                 if ( qs_params.hasOwnProperty( param ) ) {
-                    this.defaultFilter['filter-' + param] = qs_params[param];
-                    this.filterModel[param] = qs_params[param];
+                    switch(param) {
+                        case 'Search':
+                            this.filtersubmit.value['Search'] = qs_params['Search'];
+                            this.searchValue = qs_params['Search'];
+                            break;
+                        case 'Sort':
+                            this.defaultSort = qs_params['Sort'];
+                            this.sortValue = qs_params['Sort'];
+                            break;
+                        case 'Page':
+                            this.currentPage = qs_params['Page'];
+                            break;
+                        default:
+                            this.defaultFilter['filter-' + param] = qs_params[param];
+                            this.filterModel[param] = qs_params[param];
+                            this.filtersubmit.value['filter-' + param] = qs_params[param];
+                    }
                 }
             }
+            this.updateFilter(this.filtersubmit.value);
+            this.changeCurrentPage(this.currentPage);
         }
     }
 
     changeCurrentPage( pageNumber: number ): void {
         this.currentPage = pageNumber;
+        const queryArr = this.getAllQueryStringParams();
+        queryArr['Page'] = pageNumber;
+        let qs = '';
+        for ( const key in queryArr ) {
+            if(queryArr[key]){
+                let value: any = queryArr[key];
+                if(qs === ''){
+                    qs = '?';
+                } else {
+                    qs += '&';
+                }
+                qs += key + '=' + encodeURIComponent(value);
+            }
+        }
+        this.updatePathForFilters( qs );
         const scrollTop = $('#sort-filter-desc').offset().top;
         window.scroll(0,scrollTop);
         this.setupCurrentPage();
