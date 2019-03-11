@@ -114,13 +114,11 @@
 								<div *ngIf="item[titleField]" class="card-title h4 text-left">
 									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
-											{{item[titleField]}}
+											<span [innerHtml]="item[titleField]"></span>
 											<svg *ngIf="item.svgID" class="x24" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
 											</svg>
-											<ng-container *ngIf="item[titleField + '_alt']">
-												[{{item[titleField + '_alt']}}]
-											</ng-container>
+											<ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
 											<svg *ngIf="isLinkExternal(item[urlField])" class="x16" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use href="#external" xlink:href="#external"></use>
 											</svg>
@@ -128,31 +126,31 @@
 									</a>
 								</div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}}</p>
+								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)" [innerHtml]="dateField+': '"></span><span [innerHtml]="item[dateField] | date:dateFormat"></span></p>
 								<ng-container *ngFor="let field of additionalFields">
 									<p *ngIf="item[field]">
-										<span *ngIf="!isLabelHidden(field)">{{field}}: </span>
-										{{item[field]}}
+										<span *ngIf="!isLabelHidden(field)" [innerHtml]="field+': '"></span>
+										<span [innerHtml]="item[field]"></span>
 									</p>
 								</ng-container>
 								<ng-container *ngIf="displayFilterVals">
-									<p *ngFor="let filter of filterFields"><span *ngIf="!isLabelHidden(filter)">{{filter}}: </span>
+									<p *ngFor="let filter of filterFields"><span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '"></span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
-											<a href="" (click)="doFilter(filter, filterVal)">{{formatForView( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
+											<a href="" (click)="doFilter(filter, filterVal)" [innerHtml]="formatForView(filterVal)"></a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
 								</ng-container>
 								<div *ngIf="item[altFormats]" class="mb-10">
-									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
+									<span *ngIf="!isLabelHidden(altFormats)" [innerHtml]="altFormats+': '"></span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
-											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">{{
-												alt['Link Text (optional)'] || alt['Alternative File Format']
-												}}<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
+												<span [innerHtml]="alt['Link Text (optional)'] || alt['Alternative File Format']"></span>
+												<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
-												</svg><span *ngIf="alt['Alternative File Format_alt']">[{{
-													alt['Alternative File Format_alt']
-												}}]</span><svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                </svg>
+                                                <span *ngIf="alt['Alternative File Format_alt']" [innerHtml]="'['+alt['Alternative File Format_alt']+']'"></span>
+                                                <svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use href="#external" xlink:href="#external"></use>
 												</svg>
 											</a>
@@ -160,10 +158,10 @@
 									</ul>
 								</div>
 								<div *ngIf="item[altLanguages]" class="mb-10">
-									<span *ngIf="!isLabelHidden(altLanguages)">{{altLanguages}}: </span>
+									<span *ngIf="!isLabelHidden(altLanguages)" [innerHtml]="altLanguages+': '"></span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]">
-											<a href="{{alt['Alternative Language']}}">{{alt['Link Text (optional)']}}</a>
+											<a href="{{alt['Alternative Language']}}" [innerHtml]="alt['Link Text (optional)']"></a>
 										</li>
 									</ul>
 								</div>
@@ -197,13 +195,11 @@
 								<div *ngIf="item[titleField]" class="card-title h4 text-left">
 									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
-											{{item[titleField]}}
+											<span [innerHtml]="item[titleField]"></span>
 											<svg *ngIf="item.svgID" class="x24" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
 											</svg>
-											<ng-container *ngIf="item[titleField + '_alt']">
-												[{{item[titleField + '_alt']}}]
-											</ng-container>
+											<ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
 											<svg *ngIf="isLinkExternal(item[urlField])" class="x16" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use href="#external" xlink:href="#external"></use>
 											</svg>
@@ -211,31 +207,31 @@
 									</a>
 								</div>
 								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)">{{dateField}}: </span>{{item[dateField] | date:dateFormat}} </p>
+								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)" [innerHtml]="dateField+': '"></span><span [innerHtml]="item[dateField] | date:dateFormat"></span></p>
 								<ng-container *ngFor="let field of additionalFields">
 									<p *ngIf="item[field]">
-										<span *ngIf="!isLabelHidden(field)">{{field}}: </span>
-										{{item[field]}}
+										<span *ngIf="!isLabelHidden(field)" [innerHtml]="field+': '"></span>
+										<span [innerHtml]="item[field]"></span>
 									</p>
 								</ng-container>
 								<ng-container *ngIf="displayFilterVals">
-									<p *ngFor="let filter of filterFields"> <span *ngIf="!isLabelHidden(filter)">{{filter}}: </span>
+									<p *ngFor="let filter of filterFields"> <span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '"></span>
 										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
-											<a href="" (click)="doFilter(filter, filterVal)">{{formatForView( filterVal )}}</a><ng-container *ngIf="!last">, </ng-container>
+											<a href="" (click)="doFilter(filter, filterVal)" [innerHtml]="formatForView(filterVal)"></a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
 								</ng-container>
 								<div *ngIf="item[altFormats]" class="mb-10">
-									<span *ngIf="!isLabelHidden(altFormats)">{{altFormats}}: </span>
+									<span *ngIf="!isLabelHidden(altFormats)" [innerHtml]="altFormats+': '"></span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
-											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">{{
-												alt['Link Text (optional)'] || alt['Alternative File Format']
-												}}<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
+												<span [innerHtml]="alt['Link Text (optional)'] || alt['Alternative File Format']"></span>
+												<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
-												</svg><span *ngIf="alt['Alternative File Format_alt']">[{{
-													alt['Alternative File Format_alt']
-												}}]</span><svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                </svg>
+                                                <span *ngIf="alt['Alternative File Format_alt']" [innerHtml]="'['+ alt['Alternative File Format_alt'] +']'"></span>
+                                                <svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 													<use href="#external" xlink:href="#external"></use>
 												</svg>
 											</a>
@@ -243,10 +239,10 @@
 									</ul>
 								</div>
 								<div *ngIf="item[altLanguages]" class="mb-10">
-									<span *ngIf="!isLabelHidden(altLanguages)">{{altLanguages}}: </span>
+									<span *ngIf="!isLabelHidden(altLanguages)" [innerHtml]="altLanguages+': '"></span>
 									<ul class="d-inline list-inline">
 										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]">
-											<a href="{{alt['Alternative Language']}}">{{alt['Link Text (optional)']}}</a>
+											<a href="{{alt['Alternative Language']}}" *ngIf="alt['Link Text (optional)']"></a>
 										</li>
 									</ul>
 								</div>
