@@ -390,6 +390,16 @@ export class AppComponent {
             }
             dataHouse.filters[key] = formattedValues;
         }
+
+        //Set default sorts if none defined in JSON
+        for (const key in (dataHouse.sorts)) {
+            if (dataHouse.sorts.hasOwnProperty( key )) {
+                if(!dataHouse.sorts[key]['asc'].length || !dataHouse.sorts[key]['desc'].length){
+                    dataHouse.sorts[key] = {asc: key + " Ascending", desc: key + " Descending"};
+                }
+            }
+        }
+
         return dataHouse;
     }
 
