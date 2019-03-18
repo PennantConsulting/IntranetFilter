@@ -9,10 +9,10 @@
 				<div [attr.class]="filterFields.length % 2 === 0 ? 'col-md-6 mb-3' : filterFields.length >= 3 ? 'col-md-6 mt-1 mb-1' : 'col mt-1 mb-1'">
                     <label for="Search" class="forms-label h5 open sr-only">Search</label>
                     <div class="input-group">
-                        <input [(ngModel)]="searchValue" class="form-control button" type="text" id="Search" name="Search" placeholder="Search"/>
-                        <span class="form-control-clear" (click)="clearSearch()" *ngIf="searchValue != null && searchValue != ''">×</span>
+                        <input [(ngModel)]="searchValue" class="form-control button" type="text" id="Search" name="Search" placeholder="Search" aria-label="search" />
+                        <span class="form-control-clear" (click)="clearSearch()" *ngIf="searchValue != null && searchValue != ''" aria-label="empty search">×</span>
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-search search-submit search-button" (click)="eventTarget = 'submit'">
+                            <button type="submit" class="btn btn-search search-submit search-button" (click)="eventTarget = 'submit'" aria-label="submit">
                                 <svg class="svg-icon fill-p" xmlns="http://www.w3.org/2000/svg"
                                      xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <use xlink:href="#sym-search-icon"></use>
