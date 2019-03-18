@@ -439,8 +439,12 @@ export class AppComponent {
         if(!this.submitButton && !this.clearButton){
             if(this.filterFields.length === 1) {return 'one-filter-full col mt-1 mb-1 pl-0';}
 
-            if(fIndex + 1 !== this.filterFields.length){
-                return 'col-md-6 mb-3';
+            if(fIndex + 1 !== this.filterFields.length){ //If not the last filter
+                if(this.filterFields.length % 2){
+                    return 'col-md-6 mb-3';
+                } else {
+                    return 'col-md-6 mb-3 mb-md-0';
+                }
             } else {
                 return 'col-md-6';
             }
@@ -448,7 +452,11 @@ export class AppComponent {
             if(this.filterFields.length === 1){
                 return 'one-filter col mt-1 mb-1 pb-0 pl-0';
             } else {
-                return 'col-md-6 mb-3';
+                if(fIndex + 1 !== this.filterFields.length){
+                    return 'col-md-6 mb-3';
+                } else {
+                    return 'col-md-6 mb-3 mb-md-0';
+                }
             }
         }
     }
