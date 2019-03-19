@@ -703,7 +703,9 @@ export class AppComponent {
     changeCurrentPage( pageNumber: number ): void {
         this.currentPage = pageNumber;
         const queryArr = this.getAllQueryStringParams();
-        queryArr['Page'] = pageNumber;
+        if(pageNumber != 1){
+            queryArr['Page'] = pageNumber;
+        }
         let qs = '';
         for ( const key in queryArr ) {
             if(queryArr[key]){
@@ -718,7 +720,9 @@ export class AppComponent {
         }
         this.updatePathForFilters( qs );
         const scrollTop = $('#sort-filter-desc').offset().top;
-        window.scroll(0,scrollTop);
+        if(queryArr['Page']){
+            window.scroll(0,scrollTop);
+        }
         this.setupCurrentPage();
     }
 
