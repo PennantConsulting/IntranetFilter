@@ -68,14 +68,22 @@ export class FilterPipe implements PipeTransform {
 
             for ( const filterField in formFilters ) {
                 let itemHasFilterVal = false;
-                if(!item[filterField]){ break; } //IE bug where it comes up undefined without select boxes for filters
-                for (let i = 0; i < item[filterField].length; i++) {
-                    if (item[filterField][i] === formFilters[filterField] ) {
-                        itemHasFilterVal = true;
-                        break;
-                    } else if ( showSubs && item[filterField][i].startsWith( formFilters[filterField] ) ) {
-                        itemHasFilterVal = true;
-                        break;
+                if ( typeof item[filterField] === 'string' ){
+                    // account for multi-content type content exports with blank fields
+                    itemHasFilterVal = ( item[filterField] == formFilters[filterField] ) ||
+                        ( showSubs && item[filterField].startsWith( formFilters[filterField] ) );
+                } else if ( !item[filterField] ){
+                    //IE bug where it comes up undefined without select boxes for filters
+                    break;
+                } else if ( typeof item[filterField] == 'object' && item[filterField].length ) {
+                    for (let i = 0; i < item[filterField].length; i++) {
+                        if (item[filterField][i] === formFilters[filterField] ) {
+                            itemHasFilterVal = true;
+                            break;
+                        } else if ( showSubs && item[filterField][i].startsWith( formFilters[filterField] ) ) {
+                            itemHasFilterVal = true;
+                            break;
+                        }
                     }
                 }
                 if ( ! itemHasFilterVal ) {
