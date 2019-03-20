@@ -2,7 +2,7 @@
 	This filtering area contains options for sorting data dynamically for easy discovery.
 	Filtering options include search by text, dropdowns for filtering based on various fields, and various sorting.
 </div>
-<div class="card {{formBgColor}}" aria-describedby="sort-filter-desc">
+<div class="card fs-options {{formBgColor}}" aria-describedby="sort-filter-desc">
 	<div class="card-body">
 		<form [attr.class]="filterFields.length === 1 ? 'forms d-flex flex-wrap': 'forms'" #filtersubmit="ngForm" (ngSubmit)="updateFilter(filtersubmit.value)">
 			<div [attr.class]="filterFields.length % 2 === 0 ? 'row' : filterFields.length >= 3 ? 'row mb-3' : 'col-xs-12 col-md-6 d-flex d-lg-inline-flex flex-wrap p-0'">
@@ -39,7 +39,7 @@
                     </div>
                     <input type="hidden" name="filter-{{filter}}" class="form-control" [(ngModel)]="filterModel[filter]">
                 </div>
-                <div *ngIf="(submitButton || clearButton) && filterFields.length % 2 !== 0 || filterFields.length === 1" [attr.class]="filterFields.length === 1 ? 'col d-flex mt-2 justify-content-end buttons-flex' : 'col-md-6 d-flex align-items-center justify-content-end'">
+                <div *ngIf="(submitButton || clearButton) && filterFields.length % 2 !== 0 || filterFields.length === 1" [attr.class]="filterFields.length === 1 && (submitButton || clearButton) ? 'col d-flex mt-2 justify-content-end buttons-flex' : 'col-md-6 d-flex align-items-center justify-content-end'">
                     <!-- Submit / Reset Buttons -->
 				    <div>
                         <button *ngIf="submitButton" type="submit" class="btn btn-sm {{submitButtonColor}}">Submit</button>
