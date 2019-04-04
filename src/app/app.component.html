@@ -74,6 +74,7 @@
                 <p [attr.class]="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length ? 'd-block' : 'd-none'">
                     <span class="sr-only">Search results </span>Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.
                 </p>
+                <p class="ml-2">Page 1 of 4.</p>
             </div>
             <div *ngIf="errorMsg">
                 <p>{{errorMsg}}</p>
