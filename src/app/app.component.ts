@@ -278,24 +278,59 @@ export class AppComponent {
     }
 
     ngAfterViewInit(){
+
+            let metricsCapture = function(e, label, interaction) {
+            	if (s && 'function' === typeof s.tl) {
+	            	console.log('other-metrics-capture: ' + label + ' - ' + interaction);
+					s.useForcedLinkTracking = false;
+	                s.prop40 = interaction;
+	                s.linkTrackVars = 'prop40,prop2,prop31,channel';
+	                s.tl(true, 'o', label);
+            	}
+           		return true;
+            };
+
             window.onclick = (e)=>{
                 //window click events capture both keypress and click as click
-                if($(e.target).parent().hasClass('dropdown-menu')){
-                    e.preventDefault();
+                if ($(e.target).parent().hasClass('dropdown-menu')) {
                     $(e.target).addClass('selected');
                     $(e.target).siblings().removeClass('selected');
 
-                    if($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
+                    if ($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
+						metricsCapture(e, 'sort-menu', 'click');
                         this.updateFilter(this.filtersubmit.value);
                     } else {
-                        if(!this.submitButton){
+                        if (!this.submitButton){
+			            	let elementId = $(e.target).parent().parent().attr('id');
+			            	if (elementId) {
+			            		elementId = elementId.replace(' ', '-').toLowerCase();
+			            	}
+							metricsCapture(e, elementId, 'select');
                             this.updateFilter(this.filtersubmit.value);
                         } else {
+							metricsCapture(e, 'search-button', 'click');
                             $(e.target).parent().prev().html($(e.target).text());
                         }
                     }
+                } else if ($(e.target).hasClass('search-submit') || $(e.target).parent().hasClass('search-submit')) {
+					metricsCapture(e, 'search-submit-button', 'click');
+                } else if ($(e.target).hasClass('form-control-clear')) {
+					metricsCapture(e, 'search-clear-button', 'click');
+                } else if ($(e.target).hasClass('page-link') || $(e.target).parent().hasClass('page-link')) {
+                	let element = ('span' === $(e.target).prop('tagName').toLowerCase()) ? $(e.target).parent() : $(e.target);
+                	let ariaLabel = element.attr('aria-label');
+                	if(ariaLabel && 'previous' === ariaLabel.toLowerCase()) {
+						metricsCapture(e, 'page-link-previous', 'click');
+                	} else if(ariaLabel && 'next' === ariaLabel.toLowerCase()) {
+						metricsCapture(e, 'page-link-next', 'click');
+                	} else {
+						metricsCapture(e, 'page-link-number', 'click');
+                	}
+                } else {
+                	console.log(e);
                 }
             };
+
     }
 
     ngAfterContentChecked(){
