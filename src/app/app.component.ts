@@ -280,12 +280,14 @@ export class AppComponent {
     ngAfterViewInit(){
 
             let metricsCapture = function(e, label, interaction) {
-            	if (s && 'function' === typeof s.tl) {
-	            	console.log('other-metrics-capture: ' + label + ' - ' + interaction);
-					s.useForcedLinkTracking = false;
-	                s.prop40 = interaction;
-	                s.linkTrackVars = 'prop40,prop2,prop31,channel';
-	                s.tl(true, 'o', label);
+            	if (window.hasOwnProperty('s')) {
+            		let s = window['s'];
+            		if ('function' === typeof s.tl) {
+						s.useForcedLinkTracking = false;
+		                s.prop40 = interaction;
+		                s.linkTrackVars = 'prop40,prop2,prop31,channel';
+		                s.tl(true, 'o', label);
+            		}
             	}
            		return true;
             };
