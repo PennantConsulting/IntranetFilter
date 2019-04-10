@@ -2,8 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {NgxPaginationModule} from 'ngx-pagination';
-import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {MediadataService} from './mediadata.service';
@@ -22,8 +21,7 @@ import {KeysPipe} from './keys.pipe';
         BrowserModule,
         HttpClientModule,
         FormsModule,
-        NgxPaginationModule,
-        NgbPaginationModule
+        NgbModule
     ],
     providers: [MediadataService],
     bootstrap: [AppComponent]

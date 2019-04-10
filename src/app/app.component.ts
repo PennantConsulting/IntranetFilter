@@ -72,6 +72,7 @@ export class AppComponent {
 
     // Pagination
     currentPage: number = 1;
+    maxPages: number;
 
     // Image and text width, for horizontal layout
     imageColWidth: string;
@@ -314,6 +315,7 @@ export class AppComponent {
 							metricsCapture('search-button', 'click');
                             $(e.target).parent().prev().html($(e.target).text());
                         }
+
                     }
                 } else if ($(e.target).hasClass('search-submit') || $(e.target).parent().hasClass('search-submit')) {
 					metricsCapture('search-submit-button', 'click');
@@ -337,11 +339,14 @@ export class AppComponent {
                 	//console.log(e);
                 }
             };
-
     }
 
     ngAfterContentChecked(){
         this.filterText();
+        $('[aria-label="First"] span').html('First');
+        $('[aria-label="Previous"] span').html('Prev');
+        $('[aria-label="Next"] span').html('Next');
+        $('[aria-label="Last"] span').html('Last');
     }
 
     selectFilter(e: KeyboardEvent, filter: string, value:any){
@@ -699,6 +704,7 @@ export class AppComponent {
         if(this.filteredData){
             const end = +this.currentPage * +this.itemsPerPage;
             const start = +end - +this.itemsPerPage;
+            this.maxPages = Math.ceil(+this.filteredDataLength/+this.itemsPerPage);
             if(start > this.filteredData.length){
                 this.currentPage = 1;
                 this.currentPageData = this.filteredData;
