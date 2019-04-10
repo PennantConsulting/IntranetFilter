@@ -285,7 +285,7 @@ export class AppComponent {
             		if ('function' === typeof s.tl) {
 						s.useForcedLinkTracking = false;
 		                s.prop40 = interaction;
-		                s.linkTrackVars = 'prop40,prop2,prop31,channel';
+		                s.linkTrackVars = 'prop40,prop49,prop46,prop2,prop31,channel';
 		                s.tl(true, 'o', label);
             		}
             	}
@@ -329,7 +329,7 @@ export class AppComponent {
 						metricsCapture(e, 'page-link-number', 'click');
                 	}
                 } else {
-                	console.log(e);
+                	//console.log(e);
                 }
             };
 
