@@ -321,10 +321,14 @@ export class AppComponent {
                 } else if ($(e.target).hasClass('page-link') || $(e.target).parent().hasClass('page-link')) {
                 	let element = ('span' === $(e.target).prop('tagName').toLowerCase()) ? $(e.target).parent() : $(e.target);
                 	let ariaLabel = element.attr('aria-label');
-                	if(ariaLabel && 'previous' === ariaLabel.toLowerCase()) {
+                	if (ariaLabel && 'previous' === ariaLabel.toLowerCase()) {
 						metricsCapture(e, 'page-link-previous', 'click');
                 	} else if(ariaLabel && 'next' === ariaLabel.toLowerCase()) {
 						metricsCapture(e, 'page-link-next', 'click');
+                	} else if(ariaLabel && 'first' === ariaLabel.toLowerCase()) {
+						metricsCapture(e, 'page-link-first', 'click');
+                	} else if(ariaLabel && 'last' === ariaLabel.toLowerCase()) {
+						metricsCapture(e, 'page-link-last', 'click');
                 	} else {
 						metricsCapture(e, 'page-link-number', 'click');
                 	}
