@@ -279,7 +279,7 @@ export class AppComponent {
 
     ngAfterViewInit(){
 
-            let metricsCapture = function(e, label, interaction) {
+            let metricsCapture = function(label, interaction) {
             	if (window.hasOwnProperty('s')) {
             		let s = window['s'];
             		if ('function' === typeof s.tl) {
@@ -299,7 +299,7 @@ export class AppComponent {
                     $(e.target).siblings().removeClass('selected');
 
                     if ($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
-						metricsCapture(e, 'sort-menu', 'click');
+						metricsCapture('sort-menu', 'click');
                         this.updateFilter(this.filtersubmit.value);
                     } else {
                         if (!this.submitButton){
@@ -307,30 +307,30 @@ export class AppComponent {
 			            	if (elementId) {
 			            		elementId = elementId.replace(' ', '-').toLowerCase();
 			            	}
-							metricsCapture(e, elementId, 'select');
+							metricsCapture(elementId, 'select');
                             this.updateFilter(this.filtersubmit.value);
                         } else {
-							metricsCapture(e, 'search-button', 'click');
+							metricsCapture('search-button', 'click');
                             $(e.target).parent().prev().html($(e.target).text());
                         }
                     }
                 } else if ($(e.target).hasClass('search-submit') || $(e.target).parent().hasClass('search-submit')) {
-					metricsCapture(e, 'search-submit-button', 'click');
+					metricsCapture('search-submit-button', 'click');
                 } else if ($(e.target).hasClass('form-control-clear')) {
-					metricsCapture(e, 'search-clear-button', 'click');
+					metricsCapture('search-clear-button', 'click');
                 } else if ($(e.target).hasClass('page-link') || $(e.target).parent().hasClass('page-link')) {
                 	let element = ('span' === $(e.target).prop('tagName').toLowerCase()) ? $(e.target).parent() : $(e.target);
                 	let ariaLabel = element.attr('aria-label');
                 	if (ariaLabel && 'previous' === ariaLabel.toLowerCase()) {
-						metricsCapture(e, 'page-link-previous', 'click');
+						metricsCapture('page-link-previous', 'click');
                 	} else if(ariaLabel && 'next' === ariaLabel.toLowerCase()) {
-						metricsCapture(e, 'page-link-next', 'click');
+						metricsCapture('page-link-next', 'click');
                 	} else if(ariaLabel && 'first' === ariaLabel.toLowerCase()) {
-						metricsCapture(e, 'page-link-first', 'click');
+						metricsCapture('page-link-first', 'click');
                 	} else if(ariaLabel && 'last' === ariaLabel.toLowerCase()) {
-						metricsCapture(e, 'page-link-last', 'click');
+						metricsCapture('page-link-last', 'click');
                 	} else {
-						metricsCapture(e, 'page-link-number', 'click');
+						metricsCapture('page-link-number', 'click');
                 	}
                 } else {
                 	//console.log(e);
