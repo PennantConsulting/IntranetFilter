@@ -72,6 +72,7 @@ export class AppComponent {
 
     // Pagination
     currentPage: number = 1;
+    maxPages: number;
 
     // Image and text width, for horizontal layout
     imageColWidth: string;
@@ -278,28 +279,32 @@ export class AppComponent {
     }
 
     ngAfterViewInit(){
-            window.onclick = (e)=>{
-                //window click events capture both keypress and click as click
-                if($(e.target).parent().hasClass('dropdown-menu')){
-                    e.preventDefault();
-                    $(e.target).addClass('selected');
-                    $(e.target).siblings().removeClass('selected');
+        window.onclick = (e)=>{
+            //window click events capture both keypress and click as click
+            if($(e.target).parent().hasClass('dropdown-menu')){
+                e.preventDefault();
+                $(e.target).addClass('selected');
+                $(e.target).siblings().removeClass('selected');
 
-                    if($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
+                if($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
+                    this.updateFilter(this.filtersubmit.value);
+                } else {
+                    if(!this.submitButton){
                         this.updateFilter(this.filtersubmit.value);
                     } else {
-                        if(!this.submitButton){
-                            this.updateFilter(this.filtersubmit.value);
-                        } else {
-                            $(e.target).parent().prev().html($(e.target).text());
-                        }
+                        $(e.target).parent().prev().html($(e.target).text());
                     }
                 }
-            };
+            }
+        };
     }
 
     ngAfterContentChecked(){
         this.filterText();
+        $('[aria-label="First"] span').html('First');
+        $('[aria-label="Previous"] span').html('Prev');
+        $('[aria-label="Next"] span').html('Next');
+        $('[aria-label="Last"] span').html('Last');
     }
 
     selectFilter(e: KeyboardEvent, filter: string, value:any){
@@ -657,6 +662,7 @@ export class AppComponent {
         if(this.filteredData){
             const end = +this.currentPage * +this.itemsPerPage;
             const start = +end - +this.itemsPerPage;
+            this.maxPages = Math.ceil(+this.filteredDataLength/+this.itemsPerPage);
             if(start > this.filteredData.length){
                 this.currentPage = 1;
                 this.currentPageData = this.filteredData;
