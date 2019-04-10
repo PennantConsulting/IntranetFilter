@@ -253,7 +253,8 @@
 				</div><!-- card -->
 			</div><!-- column -->
 		</div><!-- row -->
-	</ng-container>
+    </ng-container>
+    <span class="sr-only" *ngIf="maxPages > 1">Page {{currentPage}} of {{maxPages}}</span>
 	<!--<pagination-controls (pageChange)="p = $event"></pagination-controls>-->
 	<ngb-pagination
 			*ngIf="filteredDataLength > itemsPerPage"
