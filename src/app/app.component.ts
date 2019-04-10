@@ -284,7 +284,7 @@ export class AppComponent {
             		let s = window['s'];
             		if ('function' === typeof s.tl) {
 						s.useForcedLinkTracking = false;
-		                s.prop40 = interaction;
+		                s.prop40 = label + ': ' + interaction;
 		                s.linkTrackVars = 'prop40,prop49,prop46,prop2,prop31,channel';
 		                s.tl(true, 'o', label);
             		}
@@ -305,7 +305,7 @@ export class AppComponent {
                         if (!this.submitButton){
 			            	let elementId = $(e.target).parent().parent().attr('id');
 			            	if (elementId) {
-			            		elementId = elementId.replace(' ', '-').toLowerCase();
+			            		elementId = elementId.replace(' ', '-').toLowerCase().trim();
 			            	}
 							metricsCapture(elementId, 'select');
                             this.updateFilter(this.filtersubmit.value);
