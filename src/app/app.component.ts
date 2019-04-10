@@ -295,6 +295,7 @@ export class AppComponent {
             window.onclick = (e)=>{
                 //window click events capture both keypress and click as click
                 if ($(e.target).parent().hasClass('dropdown-menu')) {
+ 					e.preventDefault();
                     $(e.target).addClass('selected');
                     $(e.target).siblings().removeClass('selected');
 
