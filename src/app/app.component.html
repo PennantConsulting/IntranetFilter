@@ -135,7 +135,7 @@
 								</ng-container>
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"><span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '"></span>
-										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
+										<ng-container *ngFor="let filterVal of item[filter]; let last = last">
 											<a href="" (click)="doFilter(filter, filterVal)" [innerHtml]="formatForView(filterVal)"></a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
@@ -216,7 +216,7 @@
 								</ng-container>
 								<ng-container *ngIf="displayFilterVals">
 									<p *ngFor="let filter of filterFields"> <span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '"></span>
-										<ng-container *ngFor="let filterVal of item[filter] | slice:0:10; let last = last">
+										<ng-container *ngFor="let filterVal of item[filter]; let last = last">
 											<a href="" (click)="doFilter(filter, filterVal)" [innerHtml]="formatForView(filterVal)"></a><ng-container *ngIf="!last">, </ng-container>
 										</ng-container>
 									</p>
