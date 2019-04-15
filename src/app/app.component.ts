@@ -279,24 +279,66 @@ export class AppComponent {
     }
 
     ngAfterViewInit(){
-        window.onclick = (e)=>{
-            //window click events capture both keypress and click as click
-            if($(e.target).parent().hasClass('dropdown-menu')){
-                e.preventDefault();
-                $(e.target).addClass('selected');
-                $(e.target).siblings().removeClass('selected');
 
-                if($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
-                    this.updateFilter(this.filtersubmit.value);
-                } else {
-                    if(!this.submitButton){
+            let metricsCapture = function(label, interaction) {
+            	if (window.hasOwnProperty('s')) {
+            		let s = window['s'];
+            		if ('function' === typeof s.tl) {
+						s.useForcedLinkTracking = false;
+		                s.prop40 = label + ': ' + interaction;
+		                s.linkTrackVars = 'prop40,prop49,prop46,prop2,prop31,channel';
+		                s.tl(true, 'o', label);
+            		}
+            	}
+           		return true;
+            };
+
+            window.onclick = (e)=>{
+                //window click events capture both keypress and click as click
+                if ($(e.target).parent().hasClass('dropdown-menu')) {
+ 					e.preventDefault();
+                    $(e.target).addClass('selected');
+                    $(e.target).siblings().removeClass('selected');
+
+                    if ($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
+						metricsCapture('sort-menu', 'click');
                         this.updateFilter(this.filtersubmit.value);
                     } else {
-                        $(e.target).parent().prev().html($(e.target).text());
+                        if (!this.submitButton){
+			            	let elementId = $(e.target).parent().parent().attr('id');
+			            	if (elementId) {
+			            		elementId = elementId.replace(' ', '-').toLowerCase().trim();
+			            	}
+							metricsCapture(elementId, 'select');
+                            this.updateFilter(this.filtersubmit.value);
+                        } else {
+							metricsCapture('search-button', 'click');
+                            $(e.target).parent().prev().html($(e.target).text());
+                        }
+
                     }
+                } else if ($(e.target).hasClass('search-submit') || $(e.target).parent().hasClass('search-submit')) {
+					metricsCapture('search-submit-button', 'click');
+                } else if ($(e.target).hasClass('form-control-clear')) {
+					metricsCapture('search-clear-button', 'click');
+                } else if ($(e.target).hasClass('page-link') || $(e.target).parent().hasClass('page-link')) {
+                	let element = ('span' === $(e.target).prop('tagName').toLowerCase()) ? $(e.target).parent() : $(e.target);
+                	let ariaLabel = element.attr('aria-label');
+                	if (ariaLabel && 'previous' === ariaLabel.toLowerCase()) {
+						metricsCapture('page-link-previous', 'click');
+                	} else if(ariaLabel && 'next' === ariaLabel.toLowerCase()) {
+						metricsCapture('page-link-next', 'click');
+                	} else if(ariaLabel && 'first' === ariaLabel.toLowerCase()) {
+						metricsCapture('page-link-first', 'click');
+                	} else if(ariaLabel && 'last' === ariaLabel.toLowerCase()) {
+						metricsCapture('page-link-last', 'click');
+                	} else {
+						metricsCapture('page-link-number', 'click');
+                	}
+                } else {
+                	//console.log(e);
                 }
-            }
-        };
+            };
     }
 
     ngAfterContentChecked(){
