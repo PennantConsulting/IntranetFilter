@@ -285,7 +285,7 @@ export class AppComponent {
             		let s = window['s'];
             		if ('function' === typeof s.tl) {
 						s.useForcedLinkTracking = false;
-		                s.prop40 = label + ': ' + interaction;
+		                s.prop40 = 'ci-' + label + ': ' + interaction;
 		                s.linkTrackVars = 'prop40,prop49,prop46,prop2,prop31,channel';
 		                s.tl(true, 'o', label);
             		}
@@ -301,7 +301,7 @@ export class AppComponent {
                     $(e.target).siblings().removeClass('selected');
 
                     if ($(e.target).parent().hasClass('sort-menu')){ //If a sort menu
-						metricsCapture('sort-menu', 'click');
+						metricsCapture('sort-filter-sort-menu', 'click');
                         this.updateFilter(this.filtersubmit.value);
                     } else {
                         if (!this.submitButton){
@@ -309,32 +309,36 @@ export class AppComponent {
 			            	if (elementId) {
 			            		elementId = elementId.replace(' ', '-').toLowerCase().trim();
 			            	}
-							metricsCapture(elementId, 'select');
+							metricsCapture('sort-filter-' + elementId, 'select');
                             this.updateFilter(this.filtersubmit.value);
                         } else {
-							metricsCapture('search-button', 'click');
+							metricsCapture('sort-filter-search-button', 'click');
                             $(e.target).parent().prev().html($(e.target).text());
                         }
 
                     }
                 } else if ($(e.target).hasClass('search-submit') || $(e.target).parent().hasClass('search-submit')) {
-					metricsCapture('search-submit-button', 'click');
+					metricsCapture('sort-filter-search-submit-button', 'click');
                 } else if ($(e.target).hasClass('form-control-clear')) {
-					metricsCapture('search-clear-button', 'click');
+					metricsCapture('sort-filter-search-clear-button', 'click');
                 } else if ($(e.target).hasClass('page-link') || $(e.target).parent().hasClass('page-link')) {
                 	let element = ('span' === $(e.target).prop('tagName').toLowerCase()) ? $(e.target).parent() : $(e.target);
                 	let ariaLabel = element.attr('aria-label');
                 	if (ariaLabel && 'previous' === ariaLabel.toLowerCase()) {
-						metricsCapture('page-link-previous', 'click');
+						metricsCapture('sort-filter-page-link-previous', 'click');
                 	} else if(ariaLabel && 'next' === ariaLabel.toLowerCase()) {
-						metricsCapture('page-link-next', 'click');
+						metricsCapture('sort-filter-page-link-next', 'click');
                 	} else if(ariaLabel && 'first' === ariaLabel.toLowerCase()) {
-						metricsCapture('page-link-first', 'click');
+						metricsCapture('sort-filter-page-link-first', 'click');
                 	} else if(ariaLabel && 'last' === ariaLabel.toLowerCase()) {
-						metricsCapture('page-link-last', 'click');
+						metricsCapture('sort-filter-page-link-last', 'click');
                 	} else {
-						metricsCapture('page-link-number', 'click');
+						metricsCapture('sort-filter-page-link-number', 'click');
                 	}
+                } else if ('submit' === $(e.target).attr('type')) {
+					metricsCapture('sort-filter-submit-button', 'click');
+                } else if ('reset' === $(e.target).attr('type')) {
+					metricsCapture('sort-filter-clear-button', 'click');
                 } else {
                 	//console.log(e);
                 }
