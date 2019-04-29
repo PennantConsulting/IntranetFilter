@@ -103,7 +103,7 @@
 					<div class="card-body">
 						<div class="row">
 							<ng-container *ngIf="'left' === imagePosition">
-								<div *ngIf="item[imageField]" class="{{imageColWidth}}">
+								<div *ngIf="item[imageField]" class="{{imageColWidth}} text-center text-md-left">
 									<img *ngIf="!makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
 									<a *ngIf="makeImagesLinks" href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
@@ -111,11 +111,11 @@
 								</div>
 							</ng-container>
 							<div class="{{textColWidth}}">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left">
+								<div *ngIf="item[titleField]" class="card-title h4 text-left mb-1">
 									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
 											<span [innerHtml]="item[titleField]"></span>
-											<svg *ngIf="item.svgID" class="x24" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<svg *ngIf="item.svgID" class="x24 ml-1 mr-1" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
 											</svg>
 											<ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
@@ -168,7 +168,7 @@
 								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#comment3" xlink:href="#comment3"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
 							</div><!-- col -->
 							<ng-container *ngIf="'right' === imagePosition">
-								<div *ngIf="item[imageField]" class="{{imageColWidth}}">
+								<div *ngIf="item[imageField]" class="{{imageColWidth}} text-center text-md-right">
 									<img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/>
 								</div>
 							</ng-container>
@@ -183,7 +183,7 @@
   <!-- RESULTS with card position top -->
 	<ng-container *ngIf="'top' === imagePosition">
 		<div class="row">
-			<div class="{{colWidth}}"  *ngFor="let item of currentPageData; let i = index; let odd = odd">
+			<div class="{{colWidth}} text-center"  *ngFor="let item of currentPageData; let i = index; let odd = odd">
 				<div class="card mb-3 {{bgColor}}">
 					<div class="card-body">
 						<div class="card">
@@ -192,11 +192,11 @@
 								<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
 							</a>
 							<div class="card-body pr-0 pl-0">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left">
+								<div *ngIf="item[titleField]" class="card-title h4 text-left mb-1">
 									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
 											<span [innerHtml]="item[titleField]"></span>
-											<svg *ngIf="item.svgID" class="x24" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<svg *ngIf="item.svgID" class="x24 ml-1 mr-1" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
 											</svg>
 											<ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
