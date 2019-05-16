@@ -116,9 +116,7 @@
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
 											</svg>
 											<ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
-											<svg *ngIf="isLinkExternal(item[urlField])" class="x16" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-												<use href="#external" xlink:href="#external"></use>
-											</svg>
+                                            <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external ml-1"></span>
 										</span>
 									</a>
 								</div>
@@ -147,9 +145,7 @@
 													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
                                                 </svg>
                                                 <span *ngIf="alt['Alternative File Format_alt']" [innerHtml]="'['+alt['Alternative File Format_alt']+']'"></span>
-                                                <svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-													<use href="#external" xlink:href="#external"></use>
-												</svg>
+                                                <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external"></span>
 											</a>
 										</li>
 									</ul>
@@ -200,9 +196,7 @@
 												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
 											</svg>
 											<ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
-											<svg *ngIf="isLinkExternal(item[urlField])" class="x16" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-												<use href="#external" xlink:href="#external"></use>
-											</svg>
+                                            <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external x16"></span>
 										</span>
 									</a>
 								</div>
@@ -231,9 +225,7 @@
 													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
                                                 </svg>
                                                 <span *ngIf="alt['Alternative File Format_alt']" [innerHtml]="'['+ alt['Alternative File Format_alt'] +']'"></span>
-                                                <svg *ngIf="isLinkExternal(alt['Alternative File Format'])" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-													<use href="#external" xlink:href="#external"></use>
-												</svg>
+                                                <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external x16"></span>
 											</a>
 										</li>
 									</ul>
