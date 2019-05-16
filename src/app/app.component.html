@@ -13,10 +13,7 @@
                         <span class="form-control-clear" (click)="clearSearch()" *ngIf="searchValue != null && searchValue != ''" aria-label="empty search">×</span>
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-search search-submit search-button" (click)="eventTarget = 'submit'" aria-label="submit">
-                                <svg class="svg-icon fill-p" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <use xlink:href="#sym-search-icon"></use>
-                                </svg>
+                                <span class="cdc-icon-search_01 fill-p"></span>
                             </button>
                         </div>
                     </div>
@@ -165,7 +162,10 @@
 										</li>
 									</ul>
 								</div>
-								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#comment3" xlink:href="#comment3"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
+								<p *ngIf="displayComments">
+                                    <span class="cdc-icon-chat_05 x24 ml-2 mr-2 fill-p"></span>
+                                    <a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a>
+                                </p>
 							</div><!-- col -->
 							<ng-container *ngIf="'right' === imagePosition">
 								<div *ngIf="item[imageField]" class="{{imageColWidth}} text-center text-md-right">
