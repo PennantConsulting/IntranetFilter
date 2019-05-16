@@ -13,7 +13,7 @@
                         <span class="form-control-clear" (click)="clearSearch()" *ngIf="searchValue != null && searchValue != ''" aria-label="empty search">×</span>
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-search search-submit search-button" (click)="eventTarget = 'submit'" aria-label="submit">
-                                <span class="cdc-icon-search_01 fill-p"></span>
+                                <span class=" cdc-icon-magnify fill-p x24"></span>
                             </button>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
 									</ul>
 								</div>
 								<p *ngIf="displayComments">
-                                    <span class="cdc-icon-chat_05 x24 ml-2 mr-2 fill-p"></span>
+                                    <span class=" cdc-icon-comment3 x24 ml-2 mr-2 fill-p"></span>
                                     <a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a>
                                 </p>
 							</div><!-- col -->
