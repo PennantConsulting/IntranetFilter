@@ -100,11 +100,13 @@
 					<div class="card-body">
 						<div class="row">
 							<ng-container *ngIf="'left' === imagePosition">
-								<div *ngIf="item[imageField]" class="{{imageColWidth}} text-center text-md-left">
-									<img *ngIf="!makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
-									<a *ngIf="makeImagesLinks" href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
-										<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
-									</a>
+								<div class="{{imageColWidth}} text-center text-md-left">
+                                    <div *ngIf="item[imageField]">
+                                        <img *ngIf="!makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
+                                        <a *ngIf="makeImagesLinks" href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
+                                            <img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
+                                        </a>
+                                    </div>
 								</div>
 							</ng-container>
 							<div class="{{textColWidth}}">
