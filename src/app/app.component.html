@@ -158,10 +158,10 @@
 										</li>
 									</ul>
 								</div>
-								<p *ngIf="displayComments">
+								<div *ngIf="displayComments">
                                     <span class=" cdc-icon-comment3 x24 ml-2 mr-2 fill-p"></span>
                                     <a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a>
-                                </p>
+                                </div>
 							</div><!-- col -->
 							<ng-container *ngIf="'right' === imagePosition">
 								<div *ngIf="item[imageField]" class="{{imageColWidth}} text-center text-md-right">
@@ -238,7 +238,10 @@
 										</li>
 									</ul>
 								</div>
-								<p *ngIf="displayComments"><svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#comment3" xlink:href="#comment3"></use></svg><a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a></p>
+								<div *ngIf="displayComments">
+                                    <svg class="x24 inline-block ml-2 mr-2 fill-p" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#comment3" xlink:href="#comment3"></use></svg>
+                                    <a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a>
+                                </div>
 							</div><!-- card-body -->
 						</div><!-- card -->
 					</div><!-- card-body -->
