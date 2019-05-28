@@ -153,8 +153,8 @@
 								<div *ngIf="item[altLanguages] && item[altLanguages].length" class="mb-10">
 									<span *ngIf="!isLabelHidden(altLanguages)" [innerHtml]="altLanguages+': '"></span>
 									<ul class="d-inline list-inline">
-										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]">
-											<a href="{{alt['Alternative Language']}}" [innerHtml]="alt['Link Text (optional)']"></a>
+										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]; let i = index">
+											<a href="{{alt['Alternative Language']}}" [innerHtml]="alt['Link Text (optional)'] ? alt['Link Text (optional)'] : 'Alternative Language '+(i+1)"></a>
 										</li>
 									</ul>
 								</div>
@@ -233,9 +233,9 @@
 								<div *ngIf="item[altLanguages] && item[altLanguages].length" class="mb-10">
 									<span *ngIf="!isLabelHidden(altLanguages)" [innerHtml]="altLanguages+': '"></span>
 									<ul class="d-inline list-inline">
-										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]">
-											<a href="{{alt['Alternative Language']}}" *ngIf="alt['Link Text (optional)']"></a>
-										</li>
+                                        <li class="list-inline-item" *ngFor="let alt of item[altLanguages]; let i = index">
+                                            <a href="{{alt['Alternative Language']}}" [innerHtml]="alt['Link Text (optional)'] ? alt['Link Text (optional)'] : 'Alternative Language '+(i+1)"></a>
+                                        </li>
 									</ul>
 								</div>
 								<div *ngIf="displayComments">
