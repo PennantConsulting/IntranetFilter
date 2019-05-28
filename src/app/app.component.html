@@ -108,7 +108,7 @@
 								</div>
 							</ng-container>
 							<div class="{{textColWidth}}">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left mb-1">
+								<div *ngIf="item[titleField]" class="card-title h4 mb-1">
 									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
 											<span [innerHtml]="item[titleField]"></span>
@@ -188,7 +188,7 @@
 								<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
 							</a>
 							<div class="card-body pr-0 pl-0">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left mb-1">
+								<div *ngIf="item[titleField]" class="card-title h4 mb-1">
 									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
 										<span>
 											<span [innerHtml]="item[titleField]"></span>
