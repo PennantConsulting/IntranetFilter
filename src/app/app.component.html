@@ -55,29 +55,29 @@
 		</form>
 	</div>
 </div>
-<div class="container-fluid mt-4 mb-2">
+<div class="container-fluid mt-2 mb-2">
     <div class="row">
         <div class="col-12 col-md-6">
             <div role="alert" id="resultCount" *ngIf="dataHouse" tabindex="-1">
-                <p [attr.class]="errorMsg ? 'd-block' : 'd-none'">
+                <span [attr.class]="errorMsg ? 'd-inline' : 'd-none'">
                     {{errorMsg}}
-                </p>
-                <p [attr.class]="dataHouse.items && dataHouse.items.length && filteredDataLength === dataHouse.items.length ? 'd-block' : 'd-none'">
+                </span>
+                <span [attr.class]="dataHouse.items && dataHouse.items.length && filteredDataLength === dataHouse.items.length ? 'd-inline' : 'd-none'">
                     Found {{filteredDataLength}} items.
-                </p>
-                <p [attr.class]="dataHouse.items && filteredDataLength <= 0 ? 'd-block' : 'd-none'">
+                </span>
+                <span [attr.class]="dataHouse.items && filteredDataLength <= 0 ? 'd-inline' : 'd-none'">
                     No results available for the selected criteria. Please adjust the filter options above.
-                </p>
-                <p [attr.class]="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length ? 'd-block' : 'd-none'">
+                </span>
+                <span [attr.class]="filteredDataLength > 0 && filteredDataLength < dataHouse.items.length ? 'd-inline' : 'd-none'">
                     <span class="sr-only">Search results </span>Found {{filteredDataLength}} items out of {{dataHouse.items.length}} total items.
-                </p>
+                </span>
             </div>
             <div *ngIf="errorMsg">
                 <p>{{errorMsg}}</p>
             </div>
         </div>
         <div class="col-12 col-md-6">
-            <div class="d-flex justify-content-md-end forms">
+            <div class="d-flex justify-content-md-end forms mt-2 mb-2">
                 <label *ngIf="sortOptions && sortOptions.length" for="Sort" class="forms-label sr-only">Sort</label>
                 <div class="dropdown" style="flex-basis:200px;" *ngIf="sortOptions && sortOptions.length">
                     <button class="btn dropdown-toggle form-control text-left td-none" id="Sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,179 +91,102 @@
         </div>
     </div>
 </div>
-<div>
-  <!-- RESULTS with card position left, right or not set -->
-	<div *ngIf="!imagePosition || 'left' === imagePosition || 'right' === imagePosition">
-		<div class="row">
-			<div class="{{colWidth}} text-left" *ngFor="let item of currentPageData; let i = index; let odd = odd">
-				<div class="card mb-3 {{bgColor}}">
-					<div class="card-body">
-						<div class="row">
-							<ng-container *ngIf="'left' === imagePosition">
-								<div class="{{imageColWidth}} text-center text-md-left">
-                                    <div *ngIf="item[imageField]">
-                                        <img *ngIf="!makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
-                                        <a *ngIf="makeImagesLinks" href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
-                                            <img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="img-fluid"/>
+<div class="conatiner-fluid">
+    <div class="row">
+        <div class="{{colWidth}} text-left" *ngFor="let item of currentPageData; let i = index; let odd = odd">
+            <div class="card mb-3 {{bgColor}}">
+                <div class="card-body">
+                    <div [class]="imagePosition == 'right' ? 'row flex-row-reverse' : 'row'">
+                        <ng-container>
+                            <div [class]="imagePosition != 'top' ? imagePosition == 'left' ? imageColWidth + ' text-center text-md-left' : imageColWidth + ' text-center text-md-right' : 'col-12'">
+                                <div *ngIf="item[imageField]">
+                                    <img *ngIf="!makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" [class]="imagePosition != 'top' ? 'img-fluid' : 'card-img-top p-0'"/>
+                                    <a *ngIf="makeImagesLinks" href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
+                                        <img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" [class]="imagePosition != 'top' ? 'img-fluid' : 'card-img-top p-0'"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div [class]="imagePosition != 'top' ? textColWidth : 'col-12 pt-md-3'">
+                            <div *ngIf="item[titleField]" class="card-title h4 text-left mb-1 mt-3 mt-md-0">
+                                <a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
+                                    <span>
+                                        <span [innerHtml]="item[titleField]"></span>
+                                        <svg *ngIf="item.svgID" class="x24 ml-1 mr-1" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
+                                        </svg>
+                                        <ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
+                                        <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external ml-1"></span>
+                                    </span>
+                                </a>
+                            </div>
+                            <p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
+                            <p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)" [innerHtml]="dateField+': '"></span><span [innerHtml]="item[dateField] | date:dateFormat"></span></p>
+                            <ng-container *ngFor="let field of additionalFields">
+                                <p *ngIf="item[field] && item[field].length">
+                                    <span *ngIf="!isLabelHidden(field)" [innerHtml]="field+': '"></span>
+                                    <span [innerHtml]="item[field]"></span>
+                                </p>
+                            </ng-container>
+                            <ng-container *ngIf="displayFilterVals">
+                                <p *ngFor="let filter of filterFields"><span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '"></span>
+                                    <ng-container *ngFor="let filterVal of item[filter]; let last = last">
+                                        <a href="" (click)="doFilter(filter, filterVal)" [innerHtml]="formatForView(filterVal)"></a><ng-container *ngIf="!last">, </ng-container>
+                                    </ng-container>
+                                </p>
+                            </ng-container>
+                            <div *ngIf="item[altFormats] && item[altFormats].length" class="mb-10">
+                                <span *ngIf="!isLabelHidden(altFormats)" [innerHtml]="altFormats+': '"></span>
+                                <ul class="d-inline list-inline">
+                                    <li class="list-inline-item" *ngFor="let alt of item[altFormats]">
+                                        <a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
+                                            <span [innerHtml]="alt['Link Text (optional)'] || alt['Alternative File Format']"></span>
+                                            <svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
+                                            </svg>
+                                            <span *ngIf="alt['Alternative File Format_alt']" [innerHtml]="'['+alt['Alternative File Format_alt']+']'"></span>
+                                            <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external"></span>
                                         </a>
-                                    </div>
-								</div>
-							</ng-container>
-							<div class="{{textColWidth}}">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left mb-1">
-									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
-										<span>
-											<span [innerHtml]="item[titleField]"></span>
-											<svg *ngIf="item.svgID" class="x24 ml-1 mr-1" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
-											</svg>
-											<ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
-                                            <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external ml-1"></span>
-										</span>
-									</a>
-								</div>
-								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)" [innerHtml]="dateField+': '"></span><span [innerHtml]="item[dateField] | date:dateFormat"></span></p>
-								<ng-container *ngFor="let field of additionalFields">
-									<p *ngIf="item[field] && item[field].length">
-										<span *ngIf="!isLabelHidden(field)" [innerHtml]="field+': '"></span>
-										<span [innerHtml]="item[field]"></span>
-									</p>
-								</ng-container>
-								<ng-container *ngIf="displayFilterVals">
-									<p *ngFor="let filter of filterFields"><span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '"></span>
-										<ng-container *ngFor="let filterVal of item[filter]; let last = last">
-											<a href="" (click)="doFilter(filter, filterVal)" [innerHtml]="formatForView(filterVal)"></a><ng-container *ngIf="!last">, </ng-container>
-										</ng-container>
-									</p>
-								</ng-container>
-								<div *ngIf="item[altFormats] && item[altFormats].length" class="mb-10">
-									<span *ngIf="!isLabelHidden(altFormats)" [innerHtml]="altFormats+': '"></span>
-									<ul class="d-inline list-inline">
-										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
-											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
-												<span [innerHtml]="alt['Link Text (optional)'] || alt['Alternative File Format']"></span>
-												<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
-                                                </svg>
-                                                <span *ngIf="alt['Alternative File Format_alt']" [innerHtml]="'['+alt['Alternative File Format_alt']+']'"></span>
-                                                <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external"></span>
-											</a>
-										</li>
-									</ul>
-								</div>
-								<div *ngIf="item[altLanguages] && item[altLanguages].length" class="mb-10">
-									<span *ngIf="!isLabelHidden(altLanguages)" [innerHtml]="altLanguages+': '"></span>
-									<ul class="d-inline list-inline">
-										<li class="list-inline-item" *ngFor="let alt of item[altLanguages]; let i = index">
-											<a href="{{alt['Alternative Language']}}" [innerHtml]="alt['Link Text (optional)'] ? alt['Link Text (optional)'] : 'Alternative Language '+(i+1)"></a>
-										</li>
-									</ul>
-								</div>
-								<div *ngIf="displayComments">
-                                    <span class=" cdc-icon-comment3 x24 ml-2 mr-2 fill-p"></span>
-                                    <a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a>
-                                </div>
-							</div><!-- col -->
-							<ng-container *ngIf="'right' === imagePosition">
-								<div *ngIf="item[imageField]" class="{{imageColWidth}} text-center text-md-right">
-									<img src="{{item[imageField]}}" alt="{{item[titleField]}}" class="img-fluid"/>
-								</div>
-							</ng-container>
-						</div><!-- row -->
-					</div><!-- card-body -->
-
-				</div><!-- card -->
-			</div><!-- column -->
-		</div><!-- row -->
-	</div>
-
-  <!-- RESULTS with card position top -->
-	<ng-container *ngIf="'top' === imagePosition">
-		<div class="row">
-			<div class="{{colWidth}} text-left"  *ngFor="let item of currentPageData; let i = index; let odd = odd">
-				<div class="card mb-3 {{bgColor}}">
-					<div class="card-body">
-						<div class="card">
-							<img *ngIf="item[imageField] && !makeImagesLinks" src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
-							<a *ngIf="makeImagesLinks && item[imageField]" href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
-								<img src="{{item[imageField]}}" alt="{{item.hasOwnProperty( imageField + '_alt' ) ? item[imageField + '_alt'] : item[titleField]}}" class="card-img-top p-0"/>
-							</a>
-							<div class="card-body pr-0 pl-0">
-								<div *ngIf="item[titleField]" class="card-title h4 text-left mb-1">
-									<a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
-										<span>
-											<span [innerHtml]="item[titleField]"></span>
-											<svg *ngIf="item.svgID" class="x24 ml-1 mr-1" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-												<use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
-											</svg>
-											<ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
-                                            <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external ml-1"></span>
-										</span>
-									</a>
-								</div>
-								<p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-								<p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)" [innerHtml]="dateField+': '"></span><span [innerHtml]="item[dateField] | date:dateFormat"></span></p>
-								<ng-container *ngFor="let field of additionalFields">
-									<p *ngIf="item[field] && item[field].length">
-										<span *ngIf="!isLabelHidden(field)" [innerHtml]="field+': '"></span>
-										<span [innerHtml]="item[field]"></span>
-									</p>
-								</ng-container>
-								<ng-container *ngIf="displayFilterVals">
-									<p *ngFor="let filter of filterFields"> <span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '"></span>
-										<ng-container *ngFor="let filterVal of item[filter]; let last = last">
-											<a href="" (click)="doFilter(filter, filterVal)" [innerHtml]="formatForView(filterVal)"></a><ng-container *ngIf="!last">, </ng-container>
-										</ng-container>
-									</p>
-								</ng-container>
-								<div *ngIf="item[altFormats] && item[altFormats].length" class="mb-10">
-									<span *ngIf="!isLabelHidden(altFormats)" [innerHtml]="altFormats+': '"></span>
-									<ul class="d-inline list-inline">
-										<li class="list-inline-item" *ngFor="let alt of item[altFormats]">
-											<a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
-												<span [innerHtml]="alt['Link Text (optional)'] || alt['Alternative File Format']"></span>
-												<svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-													<use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
-                                                </svg>
-                                                <span *ngIf="alt['Alternative File Format_alt']" [innerHtml]="'['+ alt['Alternative File Format_alt'] +']'"></span>
-                                                <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external"></span>
-											</a>
-										</li>
-									</ul>
-								</div>
-								<div *ngIf="item[altLanguages] && item[altLanguages].length" class="mb-10">
-									<span *ngIf="!isLabelHidden(altLanguages)" [innerHtml]="altLanguages+': '"></span>
-									<ul class="d-inline list-inline">
-                                        <li class="list-inline-item" *ngFor="let alt of item[altLanguages]; let i = index">
-                                            <a href="{{alt['Alternative Language']}}" [innerHtml]="alt['Link Text (optional)'] ? alt['Link Text (optional)'] : 'Alternative Language '+(i+1)"></a>
-                                        </li>
-									</ul>
-								</div>
-								<div *ngIf="displayComments">
-                                    <span class=" cdc-icon-comment3 x24 ml-2 mr-2 fill-p"></span>
-                                    <a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a>
-                                </div>
-							</div><!-- card-body -->
-						</div><!-- card -->
-					</div><!-- card-body -->
-				</div><!-- card -->
-			</div><!-- column -->
-		</div><!-- row -->
-    </ng-container>
-    <span class="sr-only" *ngIf="maxPages > 1">Page {{currentPage}} of {{maxPages}}</span>
-	<!--<pagination-controls (pageChange)="p = $event"></pagination-controls>-->
-	<ngb-pagination
-			*ngIf="filteredDataLength > itemsPerPage"
-		class="d-flex justify-content-center"
-		(pageChange)="changeCurrentPage($event)"
-		[(collectionSize)]="filteredDataLength"
-		[(page)]="currentPage"
-		[maxSize]="3"
-		[rotate]="true"
-		[ellipses]="true"
-		[(directionLinks)]="directionLinks"
-		[(boundaryLinks)]="boundaryLinks"
-		[(pageSize)]="itemsPerPage">
-    </ngb-pagination>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div *ngIf="item[altLanguages] && item[altLanguages].length" class="mb-10">
+                                <span *ngIf="!isLabelHidden(altLanguages)" [innerHtml]="altLanguages+': '"></span>
+                                <ul class="d-inline list-inline">
+                                    <li class="list-inline-item" *ngFor="let alt of item[altLanguages]; let i = index">
+                                        <a href="{{alt['Alternative Language']}}" [innerHtml]="alt['Link Text (optional)'] ? alt['Link Text (optional)'] : 'Alternative Language '+(i+1)"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div *ngIf="displayComments">
+                                <span class=" cdc-icon-comment3 x24 ml-2 mr-2 fill-p"></span>
+                                <a href="{{item[urlField]}}#{{getCommentAnchor()}}">Comments</a>
+                            </div>
+                        </div><!-- col -->
+                    </div><!-- row -->
+                </div><!-- card-body -->
+            </div><!-- card -->
+        </div><!-- column -->
+    </div><!-- row -->
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col text-center pl-0 pr-0">
+            <span class="sr-only" *ngIf="maxPages > 1">Page {{currentPage}} of {{maxPages}}</span>
+            <!--<pagination-controls (pageChange)="p = $event"></pagination-controls>-->
+            <ngb-pagination
+                    *ngIf="filteredDataLength > itemsPerPage"
+                class="d-flex justify-content-center"
+                (pageChange)="changeCurrentPage($event)"
+                [(collectionSize)]="filteredDataLength"
+                [(page)]="currentPage"
+                [maxSize]="3"
+                [rotate]="true"
+                [ellipses]="true"
+                [(directionLinks)]="directionLinks"
+                [(boundaryLinks)]="boundaryLinks"
+                [(pageSize)]="itemsPerPage">
+            </ngb-pagination>
+        </div>
+    </div>
 </div>
