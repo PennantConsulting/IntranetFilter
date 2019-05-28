@@ -761,6 +761,12 @@ export class AppComponent {
         const queryArr = this.getAllQueryStringParams();
         if(pageNumber != 1){
             queryArr['Page'] = pageNumber;
+        } else {
+            let keys = Object.keys(queryArr);
+            if(keys.indexOf('Page') > -1){
+                keys.splice(keys.indexOf('Page'), 1);
+            }
+            delete queryArr['Page'];
         }
         let qs = '';
         for ( const key in queryArr ) {
