@@ -390,7 +390,7 @@ export class AppComponent {
                 for ( let j = 0; j < dataHouse.items[i][this.altFormats].length; j++ ) {
                     let formatLink = dataHouse.items[i][this.altFormats][j]['Alternative File Format'];
                     if ( formatLink ) {
-                        dataHouse.items[i][this.altFormats][j].svgID = this.getSVGID(formatLink);
+                        dataHouse.items[i][this.altFormats][j].iconId = this.getIcon(formatLink);
                         if ( !dataHouse.items[i][this.altFormats][j]['Link Text (optional)'] ) {
                             let name = formatLink.replace(/^.*\//,'');
                             let match = formatLink.match(/\.(\w+)$/);
@@ -404,7 +404,7 @@ export class AppComponent {
             }
 
             // Add svg ID for main link
-            dataHouse.items[i].svgID = this.getSVGID( dataHouse.items[i][this.urlField] );
+            dataHouse.items[i].iconId = this.getIcon( dataHouse.items[i][this.urlField] );
 
             // // Format any additional fieldLabels
             for ( let j = 0; j < this.additionalFields.length; j++ ) {
@@ -508,23 +508,23 @@ export class AppComponent {
         }
     }
 
-    getSVGID( file ) {
-        let svgID = false;
+    getIcon( file ) {
+        let iconID = false;
         if ( !file || !file.match ) {
-            return svgID;
+            return iconID;
         }
-        let svgIDs = {
-            '#cdc-pdf'   : ['pdf'],
-            '#cdc-ppt'   : ['ppt', 'pptx', 'ppsx'],
-            '#cdc-word'  : ['doc', 'docx'],
-            '#cdc-excel' : ['xls', 'xlsx', 'csv'],
-            '#cdc-media' : ['mp4', 'wmv', 'webm', 'wav', 'ogg', 'wma', 'mov', 'rm', 'mpeg', 'ram', 'ogv', 'avi', 'qt', 'mpg'],
-            '#cdc-txt'   : ['txt', 'rtf'],
-            '#cdc-sas'   : ['sas'],
-            '#cdc-stats' : ['dta', 'sps', 'sav'],
-            '#cdc-image' : ['png', 'jpg', 'jpeg', 'bmp', 'gif'],
-            '#cdc-zip'   : ['zip'],
-            '#cdc-epub'  : ['epub'],
+        let iconIDs = {
+            'pdf'   : ['pdf'],
+            'ppt'   : ['ppt', 'pptx', 'ppsx'],
+            'word'  : ['doc', 'docx'],
+            'excel' : ['xls', 'xlsx', 'csv'],
+            'media' : ['mp4', 'wmv', 'webm', 'wav', 'ogg', 'wma', 'mov', 'rm', 'mpeg', 'ram', 'ogv', 'avi', 'qt', 'mpg'],
+            'txt'   : ['txt', 'rtf'],
+            'sas'   : ['sas'],
+            'stats' : ['dta', 'sps', 'sav'],
+            'image' : ['png', 'jpg', 'jpeg', 'bmp', 'gif'],
+            'zip'   : ['zip'],
+            'epub'  : ['epub'],
         };
         let match = file.match(/\.(\w+)$/);
         let extension = ( match && match.length ) ? match[1] : file;
@@ -533,13 +533,13 @@ export class AppComponent {
         if ( !extension ) {
             return null;
         }
-        for ( id in svgIDs ) {
-            if ( svgIDs.hasOwnProperty(id) && svgIDs[id].indexOf( extension ) > -1 ) {
-                svgID = id;
+        for ( id in iconIDs ) {
+            if ( iconIDs.hasOwnProperty(id) && iconIDs[id].indexOf( extension ) > -1 ) {
+                iconID = id;
                 break;
             }
         }
-        return svgID;
+        return iconID;
     }
 
     clearFilter() {
@@ -837,7 +837,7 @@ export class AppComponent {
             return false;
         }
         let isExternal = false;
-        let parts = url.match(/\/\/([^\/]+)\//);
+        let parts = url.match(/\/\/([^\/]+)/)
         if ( parts && parts.length > 1 ) {
             if ( !parts[1].match(/cdc\.gov$/) ) {
                 isExternal = true;

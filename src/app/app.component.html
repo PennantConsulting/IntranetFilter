@@ -112,10 +112,10 @@
                                 <a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
                                     <span>
                                         <span [innerHtml]="item[titleField]"></span>
-                                        <svg *ngIf="item.svgID" class="x24 ml-1 mr-1" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <use attr.href="{{item.svgID}}" attr.xlink:href="{{item.svgID}}"></use>
-                                        </svg>
-                                        <ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'"></span></ng-container>
+										<span *ngIf="item.iconId" class="sr-only">{{item.iconID}} icon</span>
+										<span *ngIf="item.iconId" class="fi cdc-icon-{{item.iconId}} x16 fill-{{item.iconId}}" aria-hidden="true"></span>
+
+                                        <ng-container *ngIf="item[titleField + '_alt']"><span [innerHtml]="'['+item[titleField + '_alt']+']'" class="initialism"></span></ng-container>
                                         <span *ngIf="isLinkExternal(item[urlField])" class="cdc-icon-external ml-1 fi fill-external"></span>
                                     </span>
                                 </a>
@@ -141,10 +141,11 @@
                                     <li class="list-inline-item" *ngFor="let alt of item[altFormats]">
                                         <a href="{{alt['Alternative File Format']}}" [attr.target]="isLinkExternal(alt['Alternative File Format']) ? '_blank' : null">
                                             <span [innerHtml]="alt['Link Text (optional)'] || alt['Alternative File Format']"></span>
-                                            <svg *ngIf="alt.svgID" class="x16 inline-block" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                <use attr.href="{{alt.svgID}}" attr.xlink:href="{{alt.svgID}}"></use>
-                                            </svg>
-                                            <span *ngIf="alt['Alternative File Format_alt']" [innerHtml]="'['+alt['Alternative File Format_alt']+']'"></span>
+
+											<span *ngIf="alt.iconId" class="sr-only">{{alt.iconID}} icon</span>
+											<span *ngIf="alt.iconId" class="fi cdc-icon-{{alt.iconId}} x16 fill-{{alt.iconId}}" aria-hidden="true"></span>
+
+                                            <span *ngIf="alt['Alternative File Format_alt']"  [innerHtml]="'['+alt['Alternative File Format_alt']+']'"></span>
                                             <span *ngIf="isLinkExternal(alt['Alternative File Format'])" class="cdc-icon-external"></span>
                                         </a>
                                     </li>
