@@ -94,7 +94,7 @@
 <div class="conatiner-fluid">
     <div class="row">
         <div class="{{colWidth}} text-left" *ngFor="let item of currentPageData; let i = index; let odd = odd">
-            <div class="card mb-3 {{bgColor}}">
+            <div class="card mb-3">
                 <div class="card-body">
                     <div [class]="imagePosition == 'right' ? 'row flex-row-reverse' : 'row'">
                         <ng-container>
@@ -108,6 +108,14 @@
                             </div>
                         </ng-container>
                         <div [class]="imagePosition != 'top' ? textColWidth : 'col-12 pt-md-3'">
+							<div>
+								<span *ngIf="item.cioInternal" class="badge badge-light fw-light p-2 mb-2 mr-2">
+									{{item.CIO[0]}} Internal
+								</span>
+								<span *ngIf="item.isFte" class="badge badge-light fw-light p-2 mb-2 mr-2">
+									FTE Only
+								</span>
+							</div>
                             <div *ngIf="item[titleField]" class="card-title h4 text-left mb-1 mt-3 mt-md-0">
                                 <a href="{{item[urlField]}}" [attr.target]="isLinkExternal(item[urlField]) ? '_blank' : null">
                                     <span>
@@ -120,8 +128,8 @@
                                     </span>
                                 </a>
                             </div>
-                            <p *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
-                            <p *ngIf="item[dateField]"><span *ngIf="!isLabelHidden(dateField)" [innerHtml]="dateField+': '"></span><span [innerHtml]="item[dateField] | date:dateFormat"></span></p>
+                            <p class="field-description" *ngIf="item[descriptionField]" [innerHTML]="item[descriptionField]"></p>
+                            <p class="field-date" *ngIf="item[dateField]"><span class="field-label-date"*ngIf="!isLabelHidden(dateField)" [innerHtml]="dateField+': '"></span><span [innerHtml]="item[dateField] | date:dateFormat" class="field-value-date"></span></p>
                             <ng-container *ngFor="let field of additionalFields">
                                 <p *ngIf="item[field] && item[field].length">
                                     <span *ngIf="!isLabelHidden(field)" [innerHtml]="field+': '"></span>
@@ -129,12 +137,33 @@
                                 </p>
                             </ng-container>
                             <ng-container *ngIf="displayFilterVals">
-                                <p *ngFor="let filter of filterFields"><span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '"></span>
+                                <p *ngFor="let filter of filterFields" class="filter-{{getClassName(filter)}}">
+									<span *ngIf="!isLabelHidden(filter)" [innerHtml]="filter+': '" class="filter-label-{{getClassName(filter)}}"></span>
                                     <ng-container *ngFor="let filterVal of item[filter]; let last = last">
                                         <a href="" (click)="doFilter(filter, filterVal)" [innerHtml]="formatForView(filterVal)"></a><ng-container *ngIf="!last">, </ng-container>
                                     </ng-container>
                                 </p>
                             </ng-container>
+							<p *ngIf="item.eo && item.eo.length"><b>{{item.eo[0]}}</b><p>
+							<table class="cda-event-details" *ngIf="item.event1">
+								<tr>
+									<td class="td-label">Date</td>
+									<td>{{item.event1}}</td>
+								</tr>
+								<tr *ngIf="item.event2">
+									<td class="td-label">Time</td>
+									<td>{{item.event2}}</td>
+								</tr>
+								<tr *ngIf="item.event3">
+									<td class="td-label">Location</td>
+									<td [innerHtml]="item.event3"></td>
+								</tr>
+								<tr *ngIf="item.event4">
+									<td class="td-label"></td>
+									<td [innerHtml]="item.event4"></td>
+								</tr>
+							</table>
+							<p class="field-deadline" *ngIf="item.Deadline"><span class="field-label-deadline">Deadline: </span><span [innerHtml]="item.Deadline | date:dateFormat" class="field-value-deadline"></span></p>
                             <div *ngIf="item[altFormats] && item[altFormats].length" class="mb-10">
                                 <span *ngIf="!isLabelHidden(altFormats)" [innerHtml]="altFormats+': '"></span>
                                 <ul class="d-inline list-inline">

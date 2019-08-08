@@ -92,8 +92,6 @@ export class AppComponent {
 
     ngOnInit() {
         // this.sortOptions = this.globalsService.SORT_OPTIONS;
-
-
         // Read data attributes from app-root
         const appInjectDiv = document.getElementsByTagName('sort-filter-root')[0];
         this.appSrctype = appInjectDiv.getAttribute('data-srctype') || 'flat';
@@ -377,12 +375,40 @@ export class AppComponent {
 
         for ( let i = 0; i < dataHouse.items.length; i++ ) {
 
+            let item = dataHouse.items[i];
+
             // Store formatted date with each item for search
             if ( this.dateField ) {
                 let utcDate = dataHouse.items[i][this.dateField];
                 let datePipe = new DatePipe('en-US');
                 let formattedDate = datePipe.transform( utcDate, this.dateFormat );
                 dataHouse.items[i][this.globalsService.DATE_FORMATTED] = formattedDate;
+            }
+
+            // CDA Logic
+            dataHouse.items[i].cioInternal = ( item['CIO Internal'] === '1' && item['Agency Wide'] === '0' );
+            dataHouse.items[i].isFte = ( item['Employment Status'] === 'fte' );
+            dataHouse.items[i].eo = item["Owning Employee Organization"];
+            if ( item['Event Start Date *'] ) {
+                dataHouse.items[i].event1 = datePipe.transform( item['Event Start Date *'], this.dateFormat );
+                if ( item['Event End Date *'] !== item['Event Start Date *'] ) {
+                    dataHouse.items[i].event1 += ' - ' + datePipe.transform( item['Event End Date *'], this.dateFormat  );
+                }
+            }
+            if ( item['Event Start Time'] ) {
+                dataHouse.items[i].event2 = item['Event Start Time'];
+                if ( item['Event End Time'] ) {
+                    dataHouse.items[i].event2 += ' - ' + item['Event End Time'];
+                }
+            }
+            if ( item['Event Location'] ) {
+                dataHouse.items[i].event3 = item['Event Location'];
+                if ( item['Building / Room'] ) {
+                    dataHouse.items[i].event3 += '<br/>' + item['Building / Room'];
+                }
+            }
+            if ( item['Skype URL'] ) {
+                dataHouse.items[i].event4 = 'Remote options available';
             }
 
             //Add svg IDs for alt format links
@@ -602,6 +628,10 @@ export class AppComponent {
             }
         }
         this.updatePathForFilters( qs );
+    }
+
+    getClassName( value ) {
+        return (''+value+'').toLowerCase().replace(/\s+/g,'-');
     }
 
     updateFilter(formVals:any) {
