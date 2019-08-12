@@ -373,6 +373,7 @@ export class AppComponent {
         dataHouse.items = data.items;
         dataHouse.filterKeys = [];
 
+        let datePipe = new DatePipe('en-US');
         for ( let i = 0; i < dataHouse.items.length; i++ ) {
 
             let item = dataHouse.items[i];
@@ -380,7 +381,6 @@ export class AppComponent {
             // Store formatted date with each item for search
             if ( this.dateField ) {
                 let utcDate = dataHouse.items[i][this.dateField];
-                let datePipe = new DatePipe('en-US');
                 let formattedDate = datePipe.transform( utcDate, this.dateFormat );
                 dataHouse.items[i][this.globalsService.DATE_FORMATTED] = formattedDate;
             }
